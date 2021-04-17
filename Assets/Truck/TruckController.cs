@@ -7,11 +7,6 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class TruckController : MonoBehaviour
 {
-    private float accelerateInput;
-    private float normalBrakeInput;
-    private float handBrakeInput;
-    private float steeringInput;
-
     [Header("Controller Settings")]
     [SerializeField]
     private float forwardMotorForce;
@@ -46,6 +41,16 @@ public class TruckController : MonoBehaviour
     [SerializeField] 
     private Transform rearRightWheelTransform;
 
+    private float accelerateInput;
+    private float normalBrakeInput;
+    private float handBrakeInput; // TODO
+    private float steeringInput;
+
+    private void Start()
+    {
+        GameManager.Instance.Player = this;
+    }
+
     private void FixedUpdate()
     {
         HandleMovement();
@@ -65,7 +70,7 @@ public class TruckController : MonoBehaviour
 
     public void OnSteeringInput(CallbackContext context)
     {
-        steeringInput = context.ReadValue<float>();
+        steeringInput = GameManager.Instance.CurrentControllerMode.CalculateSteeringInput(this, context);
     }
 
     private void HandleMovement()

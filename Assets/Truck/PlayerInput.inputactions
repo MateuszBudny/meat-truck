@@ -87,7 +87,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
+                    "name": "AD",
                     "id": "9c043892-25b5-4de8-8737-57076637a92e",
                     "path": "1DAxis",
                     "interactions": "",
@@ -129,6 +129,39 @@
                     "action": "Steering",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "SideArrows",
+                    "id": "910f9a20-2de5-47e3-b196-4a9d883309f6",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "0f2963f5-2582-4398-bf83-73bb8ed3f4c5",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "3abcbe3e-905b-43f4-81cc-c64a57b4b700",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

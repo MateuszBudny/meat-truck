@@ -14,8 +14,7 @@ public class TruckController : MonoBehaviour
     private float backwardMotorForce;
     [SerializeField] 
     private float brakeForce;
-    [SerializeField] 
-    private float maxSteerAngle;
+    public float maxSteerAngle;
     [SerializeField]
     private float accelerateBackwardInsteadOfBrakingVelocityThreshold = 0.2f;
     [SerializeField]
@@ -44,7 +43,7 @@ public class TruckController : MonoBehaviour
     private float accelerateInput;
     private float normalBrakeInput;
     private float handBrakeInput; // TODO
-    private float steeringInput;
+    private Vector2 rawSteeringInput;
 
     private void Start()
     {
@@ -70,7 +69,7 @@ public class TruckController : MonoBehaviour
 
     public void OnSteeringInput(CallbackContext context)
     {
-        steeringInput = GameManager.Instance.CurrentControllerMode.CalculateSteeringInput(this, context);
+        rawSteeringInput = context.ReadValue<Vector2>();
     }
 
     private void HandleMovement()
@@ -113,7 +112,7 @@ public class TruckController : MonoBehaviour
 
     private void HandleSteering()
     {
-        float currentSteerAngle = maxSteerAngle * steeringInput;
+        float currentSteerAngle = GameManager.Instance.CurrentControllerMode.CalculateSteeringAngle(this, rawSteeringInput);
         frontLeftWheelCollider.steerAngle = currentSteerAngle;
         frontRightWheelCollider.steerAngle = currentSteerAngle;
     }

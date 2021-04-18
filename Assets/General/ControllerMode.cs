@@ -14,7 +14,7 @@ public abstract class ControllerMode
         VirtualCamera = virtualCamera;
     }
 
-    public abstract float CalculateSteeringInput(TruckController vehicleController, CallbackContext context);
+    public abstract float CalculateSteeringAngle(TruckController vehicleController, Vector2 rawSteeringInput);
 
     public virtual void OnModeChangedToThis()
     {

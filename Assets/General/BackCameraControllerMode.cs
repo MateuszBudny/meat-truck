@@ -8,8 +8,8 @@ public class BackCameraControllerMode : ControllerMode
 {
     public BackCameraControllerMode(CinemachineVirtualCamera virtualCamera) : base(virtualCamera) {}
 
-    public override float CalculateSteeringInput(TruckController vehicleController, InputAction.CallbackContext context)
+    public override float CalculateSteeringAngle(TruckController vehicleController, Vector2 rawSteeringInput)
     {
-        return context.ReadValue<Vector2>().x;
+        return rawSteeringInput.x * vehicleController.maxSteerAngle;
     }
 }

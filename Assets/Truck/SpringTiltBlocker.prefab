@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7545882228318992982}
   - component: {fileID: 3528138853999184434}
   - component: {fileID: 4505285220269799098}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SpringTiltBlocker
   m_TagString: Untagged
   m_Icon: {fileID: 0}

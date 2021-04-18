@@ -34,7 +34,7 @@ public class GameManager : SingleBehaviour<GameManager>
         });
 
 #if UNITY_ANDROID
-        mobileVirtualController.SetActive(true);
+        mobileVirtualControllers.SetActive(true);
 #else
         mobileVirtualControllers.SetActive(false);
 #endif

@@ -1673,7 +1673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 443952287}
   m_Layer: 5
-  m_Name: VirtualControllers
+  m_Name: MobileVirtualControllers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9299,6 +9299,7 @@ MonoBehaviour:
     virtualCamera: {fileID: 140507164}
   - controllerModeEnum: 1
     virtualCamera: {fileID: 2001057906}
+  mobileVirtualControllers: {fileID: 443952286}
 --- !u!4 &2133932593
 Transform:
   m_ObjectHideFlags: 0

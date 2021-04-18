@@ -10,7 +10,7 @@ public class SideCameraControllerMode : ControllerMode
 
     public override float CalculateSteeringInput(TruckController vehicleController, InputAction.CallbackContext context)
     {
-        return context.ReadValue<Vector2>().x;
 
+        return context.ReadValue<Vector2>().x;
     }
 }

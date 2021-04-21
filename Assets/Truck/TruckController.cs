@@ -18,6 +18,10 @@ public class TruckController : MonoBehaviour
     [SerializeField]
     private float accelerateBackwardInsteadOfBrakingVelocityThreshold = 0.2f;
     [SerializeField]
+    private float rightForce;
+    [SerializeField]
+    private Transform rightRayPosition;
+    [SerializeField]
     private Rigidbody rigibody;
 
     [Header("Wheel Colliders")]
@@ -55,6 +59,24 @@ public class TruckController : MonoBehaviour
         HandleMovement();
         HandleSteering();
         UpdateWheels();
+        RightVehicle();
+    }
+
+    private void RightVehicle() {
+        bool isGrounded = frontLeftWheelCollider.isGrounded || frontRightWheelCollider.isGrounded || rearLeftWheelCollider.isGrounded || rearRightWheelCollider.isGrounded;
+
+        if (isGrounded) {
+            RaycastHit rh;
+            
+            if(Physics.Raycast(new Ray(rightRayPosition.position, Vector3.down), out rh)) {
+                Vector3 groundNormal = rh.normal;
+                Vector3 torqueDir = Vector3.Cross(transform.up, groundNormal);
+            
+                rigibody.AddTorque(torqueDir * rightForce, ForceMode.Acceleration);
+                Debug.Log(torqueDir * rightForce);
+            }
+        }
+
     }
 
     public void OnAccelerateInput(CallbackContext context)

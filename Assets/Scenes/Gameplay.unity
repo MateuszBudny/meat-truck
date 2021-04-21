@@ -376,7 +376,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.1213872, y: 1}
+    m_SensorSize: {x: 2.1119874, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3747,6 +3747,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 776594375}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &860911427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 860911428}
+  m_Layer: 0
+  m_Name: rightRayPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &860911428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860911427}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.519, z: -0.539}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 71430292381386866}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &862265414
 GameObject:
   m_ObjectHideFlags: 0
@@ -6914,7 +6944,7 @@ GameObject:
   - component: {fileID: 1540911280}
   - component: {fileID: 1540911279}
   - component: {fileID: 1540911278}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9013,7 +9043,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2001057904}
-  m_LocalRotation: {x: 0.16397974, y: 0.6878303, z: -0.16397968, w: 0.6878305}
+  m_LocalRotation: {x: 0.16397975, y: 0.6878303, z: -0.1639797, w: 0.6878305}
   m_LocalPosition: {x: -6.4800005, y: 1.37, z: -0.00000032305724}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9050,7 +9080,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.1213872, y: 1}
+    m_SensorSize: {x: 2.1119874, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -9454,8 +9484,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 763223723401467181, guid: aae35f85bb86fab4fb62f715603bf48c, type: 3}
       propertyPath: rightForce
-      value: 10
+      value: 125
       objectReference: {fileID: 0}
+    - target: {fileID: 763223723401467181, guid: aae35f85bb86fab4fb62f715603bf48c, type: 3}
+      propertyPath: rightRayPosition
+      value: 
+      objectReference: {fileID: 860911428}
     - target: {fileID: 967647910972709442, guid: aae35f85bb86fab4fb62f715603bf48c, type: 3}
       propertyPath: m_ConnectedAnchor.x
       value: 1.3150003
@@ -9491,6 +9525,10 @@ PrefabInstance:
     - target: {fileID: 4713448837125709384, guid: aae35f85bb86fab4fb62f715603bf48c, type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: -2.2580004
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009343817455588285, guid: aae35f85bb86fab4fb62f715603bf48c, type: 3}
+      propertyPath: m_AngularDrag
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5298380738809171971, guid: aae35f85bb86fab4fb62f715603bf48c, type: 3}
       propertyPath: m_ConnectedAnchor.x

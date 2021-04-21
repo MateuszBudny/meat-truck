@@ -22,6 +22,8 @@ public class TruckController : MonoBehaviour
     [SerializeField]
     private Transform rightRayPosition;
     [SerializeField]
+    private float offsetSize;
+    [SerializeField]
     private Rigidbody rigibody;
 
     [Header("Wheel Colliders")]
@@ -48,6 +50,7 @@ public class TruckController : MonoBehaviour
     private float normalBrakeInput;
     private float handBrakeInput; // TODO
     private Vector2 rawSteeringInput;
+    
 
     private void Start()
     {
@@ -66,14 +69,31 @@ public class TruckController : MonoBehaviour
         bool isGrounded = frontLeftWheelCollider.isGrounded || frontRightWheelCollider.isGrounded || rearLeftWheelCollider.isGrounded || rearRightWheelCollider.isGrounded;
 
         if (isGrounded) {
-            RaycastHit rh;
+
+            Vector3 smoothGroundNormal = new Vector3();
+            bool rayHit = false;
             
-            if(Physics.Raycast(new Ray(rightRayPosition.position, Vector3.down), out rh)) {
-                Vector3 groundNormal = rh.normal;
-                Vector3 torqueDir = Vector3.Cross(transform.up, groundNormal);
+            for(int i = -1; i < 2; ++i) {
+                for(int j = -1; j < 2; ++j) {
+                    RaycastHit rh;
+                    Vector3 rayOffset = (i * transform.right + j * transform.forward) * offsetSize;
+            
+                    Ray findNormalRay = new Ray(rightRayPosition.position + rayOffset, Vector3.down);
+                    
+                    //Debug.DrawRay(findNormalRay.origin,findNormalRay.direction);
+                    
+                    if(Physics.Raycast(findNormalRay, out rh)) {
+                        rayHit = true;
+                        smoothGroundNormal += rh.normal;
+                    }
+                }
+            }
+
+            if(rayHit) {
+                
+                Vector3 torqueDir = Vector3.Cross(transform.up, smoothGroundNormal.normalized);
             
                 rigibody.AddTorque(torqueDir * rightForce, ForceMode.Acceleration);
-                Debug.Log(torqueDir * rightForce);
             }
         }
 

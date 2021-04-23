@@ -24,7 +24,7 @@ public class TruckController : MonoBehaviour
     [SerializeField]
     private float offsetSize;
     [SerializeField]
-    private Rigidbody rigibody;
+    private Rigidbody rigidbody;
 
     [Header("Wheel Colliders")]
     [SerializeField] 
@@ -93,7 +93,7 @@ public class TruckController : MonoBehaviour
                 
                 Vector3 torqueDir = Vector3.Cross(transform.up, smoothGroundNormal.normalized);
             
-                rigibody.AddTorque(torqueDir * rightForce, ForceMode.Acceleration);
+                rigidbody.AddTorque(torqueDir * rightForce, ForceMode.Acceleration);
             }
         }
 
@@ -120,7 +120,7 @@ public class TruckController : MonoBehaviour
         float braking;
 
         // the truck is certainly moving forward
-        if(rigibody.velocity.x > accelerateBackwardInsteadOfBrakingVelocityThreshold)
+        if(rigidbody.velocity.x > accelerateBackwardInsteadOfBrakingVelocityThreshold)
         {
             acceleration = accelerateInput;
             braking = normalBrakeInput;

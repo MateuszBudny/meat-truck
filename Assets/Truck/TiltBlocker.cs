@@ -11,7 +11,12 @@ public abstract class TiltBlocker : MonoBehaviour
         vehicleController = GetComponent<VehicleController>();
     }
 
-    public virtual void OnTiltBlockerEnable() {}
+    public virtual void OnTiltBlockerEnable(bool showInfo = true) {
+        if(showInfo)
+        {
+            GenericMessagePopup.Instance.ShowMessage($"Tilt Blocker changed\nType: {GetType().Name}");
+        }
+    }
 
     public virtual void OnTiltBlockerDisable() {}
 

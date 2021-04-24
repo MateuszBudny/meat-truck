@@ -7,8 +7,9 @@ public class SpringTiltBlocker : TiltBlocker
     [SerializeField]
     private GameObject springTiltBlockersParent;
     
-    public override void OnTiltBlockerEnable()
+    public override void OnTiltBlockerEnable(bool showInfo = true)
     {
+        base.OnTiltBlockerEnable(showInfo);
         springTiltBlockersParent.SetActive(true);
     }
 

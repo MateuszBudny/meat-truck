@@ -53,7 +53,7 @@ public class VehicleController : MonoBehaviour
     private void Awake()
     {
         tiltBlockers = new Queue<TiltBlocker>(GetComponents<TiltBlocker>());
-        CurrentTiltBlocker.OnTiltBlockerEnable();
+        CurrentTiltBlocker.OnTiltBlockerEnable(false);
     }
 
     private void Start()
@@ -86,9 +86,12 @@ public class VehicleController : MonoBehaviour
 
     public void OnChangeTiltBlockerInput(CallbackContext context)
     {
-        CurrentTiltBlocker.OnTiltBlockerDisable();
-        tiltBlockers.Enqueue(tiltBlockers.Dequeue());
-        CurrentTiltBlocker.OnTiltBlockerEnable();
+        if (context.performed)
+        {
+            CurrentTiltBlocker.OnTiltBlockerDisable();
+            tiltBlockers.Enqueue(tiltBlockers.Dequeue());
+            CurrentTiltBlocker.OnTiltBlockerEnable();
+        }
     }
 
     private void HandleMovement()

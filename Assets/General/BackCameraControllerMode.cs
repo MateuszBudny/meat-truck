@@ -8,7 +8,7 @@ public class BackCameraControllerMode : ControllerMode
 {
     public BackCameraControllerMode(CinemachineVirtualCamera virtualCamera) : base(virtualCamera) {}
 
-    public override float CalculateSteeringAngle(TruckController vehicleController, Vector2 rawSteeringInput)
+    public override float CalculateSteeringAngle(VehicleController vehicleController, Vector2 rawSteeringInput)
     {
         return rawSteeringInput.x * vehicleController.maxSteerAngle;
     }

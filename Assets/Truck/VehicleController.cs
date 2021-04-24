@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
-public class TruckController : MonoBehaviour
+public class VehicleController : MonoBehaviour
 {
     [Header("Controller Settings")]
     [SerializeField]
@@ -17,14 +18,7 @@ public class TruckController : MonoBehaviour
     public float maxSteerAngle;
     [SerializeField]
     private float accelerateBackwardInsteadOfBrakingVelocityThreshold = 0.2f;
-    [SerializeField]
-    private float rightForce;
-    [SerializeField]
-    private Transform rightRayPosition;
-    [SerializeField]
-    private float offsetSize;
-    [SerializeField]
-    private Rigidbody rigidbody;
+    public new Rigidbody rigidbody;
 
     [Header("Wheel Colliders")]
     [SerializeField] 
@@ -46,11 +40,21 @@ public class TruckController : MonoBehaviour
     [SerializeField] 
     private Transform rearRightWheelTransform;
 
+    public bool IsGrounded => frontLeftWheelCollider.isGrounded || frontRightWheelCollider.isGrounded || rearLeftWheelCollider.isGrounded || rearRightWheelCollider.isGrounded;
+
+    private Queue<TiltBlocker> tiltBlockers;
+    private TiltBlocker CurrentTiltBlocker => tiltBlockers.Peek();
+
     private float accelerateInput;
     private float normalBrakeInput;
     private float handBrakeInput; // TODO
     private Vector2 rawSteeringInput;
-    
+
+    private void Awake()
+    {
+        tiltBlockers = new Queue<TiltBlocker>(GetComponents<TiltBlocker>());
+        CurrentTiltBlocker.OnTiltBlockerEnable();
+    }
 
     private void Start()
     {
@@ -62,41 +66,7 @@ public class TruckController : MonoBehaviour
         HandleMovement();
         HandleSteering();
         UpdateWheels();
-        RightVehicle();
-    }
-
-    private void RightVehicle() {
-        bool isGrounded = frontLeftWheelCollider.isGrounded || frontRightWheelCollider.isGrounded || rearLeftWheelCollider.isGrounded || rearRightWheelCollider.isGrounded;
-
-        if (isGrounded) {
-
-            Vector3 smoothGroundNormal = new Vector3();
-            bool rayHit = false;
-            
-            for(int i = -1; i < 2; ++i) {
-                for(int j = -1; j < 2; ++j) {
-                    RaycastHit rh;
-                    Vector3 rayOffset = (i * transform.right + j * transform.forward) * offsetSize;
-            
-                    Ray findNormalRay = new Ray(rightRayPosition.position + rayOffset, Vector3.down);
-                    
-                    //Debug.DrawRay(findNormalRay.origin,findNormalRay.direction);
-                    
-                    if(Physics.Raycast(findNormalRay, out rh)) {
-                        rayHit = true;
-                        smoothGroundNormal += rh.normal;
-                    }
-                }
-            }
-
-            if(rayHit) {
-                
-                Vector3 torqueDir = Vector3.Cross(transform.up, smoothGroundNormal.normalized);
-            
-                rigidbody.AddTorque(torqueDir * rightForce, ForceMode.Acceleration);
-            }
-        }
-
+        CurrentTiltBlocker.ControlTilt();
     }
 
     public void OnAccelerateInput(CallbackContext context)
@@ -112,6 +82,13 @@ public class TruckController : MonoBehaviour
     public void OnSteeringInput(CallbackContext context)
     {
         rawSteeringInput = context.ReadValue<Vector2>();
+    }
+
+    public void OnChangeTiltBlockerInput(CallbackContext context)
+    {
+        CurrentTiltBlocker.OnTiltBlockerDisable();
+        tiltBlockers.Enqueue(tiltBlockers.Dequeue());
+        CurrentTiltBlocker.OnTiltBlockerEnable();
     }
 
     private void HandleMovement()

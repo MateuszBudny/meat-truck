@@ -9,20 +9,20 @@ public class GameManager : SingleBehaviour<GameManager>
 {
     [SerializeField]
     private List<ControllerModeRecord> controllerModesRecords;
-    public List<ControllerMode> ControllerModes { get; private set; }
+    public Queue<ControllerMode> ControllerModes { get; private set; }
 
     [SerializeField]
     private GameObject mobileVirtualControllers;
 
-    public TruckController Player { get; set; }
-    public ControllerMode CurrentControllerMode { get; set; }
+    public VehicleController Player { get; set; }
+    public ControllerMode CurrentControllerMode => ControllerModes.Peek();
 
     public override void AdditionalOnAwake()
     {
-        ControllerModes = controllerModesRecords.Select(modeRecord => modeRecord.GetControllerMode()).ToList();
+        List<ControllerMode> tempControllerModes = new List<ControllerMode>(controllerModesRecords.Select(modeRecord => modeRecord.GetControllerMode()));
 
         // starting controller mode is that with highest VirtualCamera priority
-        CurrentControllerMode = ControllerModes.Aggregate(ControllerModes.First(), (controllerModeWithHighestPriority, controllerModeRecord) =>
+        ControllerMode firstControllerMode = tempControllerModes.Aggregate(tempControllerModes.First(), (controllerModeWithHighestPriority, controllerModeRecord) =>
         {
             if(controllerModeRecord.VirtualCamera.Priority > controllerModeWithHighestPriority.VirtualCamera.Priority)
             {
@@ -32,6 +32,11 @@ public class GameManager : SingleBehaviour<GameManager>
                 return controllerModeWithHighestPriority;
             }
         });
+
+        tempControllerModes.Remove(firstControllerMode);
+        tempControllerModes.Insert(0, firstControllerMode);
+
+        ControllerModes = new Queue<ControllerMode>(tempControllerModes);
 
 #if UNITY_ANDROID
         mobileVirtualControllers.SetActive(true);
@@ -44,10 +49,7 @@ public class GameManager : SingleBehaviour<GameManager>
     {
         if(context.performed)
         {
-            int currentIndex = ControllerModes.IndexOf(CurrentControllerMode);
-            int newIndex = currentIndex + 1 == ControllerModes.Count ? 0 : currentIndex + 1;
-            CurrentControllerMode = ControllerModes[newIndex];
-
+            ControllerModes.Enqueue(ControllerModes.Dequeue());
             CurrentControllerMode.OnModeChangedToThis();
         }
     }

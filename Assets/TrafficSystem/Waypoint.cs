@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+// Possible improvements:
+// - CustomPropertyDrawer for WaypointRecord, so there is a button to create new waypoint between two waypoints
+// - width property for Waypoints, so AIs are moving in a range of width, not pixel perfect as is now
+
 public class Waypoint : MonoBehaviour
 {
     public WaypointsHandler previousWaypoints;

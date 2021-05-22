@@ -13,40 +13,81 @@ public class WaypointEditor : Editor
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
-        if (GUILayout.Button("Create another previous Waypoint"))
+        if (GUILayout.Button("Create another previous Waypoint (key: PageDown)"))
         {
-            AddWaypointToTarget(Target.AddPreviousWaypoint);
+            AddNewPreviousWaypointToTarget();
         }
 
-        if (GUILayout.Button("Create another next Waypoint"))
+        if (GUILayout.Button("Create another next Waypoint (key: PageUp)"))
         {
-            AddWaypointToTarget(Target.AddNextWaypoint);
+            AddNewNextWaypointToTarget();
         }
 
-        if (GUILayout.Button("Delet dis Waypoint"))
+        if (GUILayout.Button("Delet dis Waypoint (key: Delete)"))
         {
-            Target.previousWaypoints.Waypoints.ForEach(previousWaypoint =>
+            DeleteThisWaypoint();
+        }
+    }
+
+    private void OnSceneGUI()
+    {
+        Event e = Event.current;
+        if (Selection.activeGameObject == Target.gameObject)
+        {
+            if (e.type == EventType.KeyDown)
             {
-                StartRecordingObjectForUndo(previousWaypoint, "Waypoints update after deletion.");
-                Target.nextWaypoints.Waypoints.ForEach(nextWaypoint =>
+                switch (Event.current.keyCode)
                 {
-                    StartRecordingObjectForUndo(nextWaypoint, "Waypoints update after deletion.");
-                    previousWaypoint.AddNextWaypoint(nextWaypoint);
-                });
+                    case KeyCode.PageDown:
+                        AddNewPreviousWaypointToTarget();
+                        e.Use();
+                        break;
+                    case KeyCode.PageUp:
+                        AddNewNextWaypointToTarget();
+                        e.Use();
+                        break;
+                    case KeyCode.Delete:
+                        DeleteThisWaypoint();
+                        e.Use();
+                        break;
+                }
+            }
+        }
+    }
 
-                previousWaypoint.nextWaypoints.Remove(Target);
-                MarkDirty(previousWaypoint);
-            });
+    private void AddNewPreviousWaypointToTarget()
+    {
+        AddWaypointToTarget(Target.AddPreviousWaypoint);
+    }
 
+    private void AddNewNextWaypointToTarget()
+    {
+        AddWaypointToTarget(Target.AddNextWaypoint);
+    }
+
+    private void DeleteThisWaypoint()
+    {
+        Target.previousWaypoints.Waypoints.ForEach(previousWaypoint =>
+        {
+            StartRecordingObjectForUndo(previousWaypoint, "Waypoints update after deletion.");
             Target.nextWaypoints.Waypoints.ForEach(nextWaypoint =>
             {
                 StartRecordingObjectForUndo(nextWaypoint, "Waypoints update after deletion.");
-                nextWaypoint.previousWaypoints.Remove(Target);
-                MarkDirty(nextWaypoint);
+                previousWaypoint.AddNextWaypoint(nextWaypoint);
             });
 
-            DestroyAndMarkAsDestroyed(Target.gameObject);
-        }
+            previousWaypoint.nextWaypoints.Remove(Target);
+            MarkDirty(previousWaypoint);
+        });
+
+        Target.nextWaypoints.Waypoints.ForEach(nextWaypoint =>
+        {
+            StartRecordingObjectForUndo(nextWaypoint, "Waypoints update after deletion.");
+            nextWaypoint.previousWaypoints.Remove(Target);
+            MarkDirty(nextWaypoint);
+        });
+
+        DestroyAndMarkAsDestroyed(Target.gameObject);
     }
 
     private void AddWaypointToTarget(Action<Waypoint> addWaypointToTargetAction)

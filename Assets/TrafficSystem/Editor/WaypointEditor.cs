@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -14,32 +15,48 @@ public class WaypointEditor : Editor
         DrawDefaultInspector();
         if (GUILayout.Button("Create another previous Waypoint"))
         {
-            Target.AddPreviousWaypoint(InstantiateNewWaypoint());
+            AddWaypointToTarget(Target.AddPreviousWaypoint);
         }
 
         if (GUILayout.Button("Create another next Waypoint"))
         {
-            Target.AddNextWaypoint(InstantiateNewWaypoint());
+            AddWaypointToTarget(Target.AddNextWaypoint);
         }
 
         if (GUILayout.Button("Delet dis Waypoint"))
         {
             Target.previousWaypoints.Waypoints.ForEach(previousWaypoint =>
             {
-                previousWaypoint.nextWaypoints.Remove(Target);
+                StartRecordingObjectForUndo(previousWaypoint, "Waypoints update after deletion.");
                 Target.nextWaypoints.Waypoints.ForEach(nextWaypoint =>
                 {
+                    StartRecordingObjectForUndo(nextWaypoint, "Waypoints update after deletion.");
                     previousWaypoint.AddNextWaypoint(nextWaypoint);
-                    nextWaypoint.previousWaypoints.Remove(Target);
-                    MarkDirty(previousWaypoint, "Waypoints update after deletion.");
-                    MarkDirty(nextWaypoint, "Waypoints update after deletion.");
                 });
+
+                previousWaypoint.nextWaypoints.Remove(Target);
+                MarkDirty(previousWaypoint);
             });
 
-            // TODO: doesn't remove Target reference from previousWaypoints, when there are no nextWaypoints.
+            Target.nextWaypoints.Waypoints.ForEach(nextWaypoint =>
+            {
+                StartRecordingObjectForUndo(nextWaypoint, "Waypoints update after deletion.");
+                nextWaypoint.previousWaypoints.Remove(Target);
+                MarkDirty(nextWaypoint);
+            });
 
-            DestroyAndMarkAsDestroyed(Target.gameObject); // TODO: not everything is saved to undo in this case
+            DestroyAndMarkAsDestroyed(Target.gameObject);
         }
+    }
+
+    private void AddWaypointToTarget(Action<Waypoint> addWaypointToTargetAction)
+    {
+        StartRecordingObjectForUndo(Target, "Waypoints update after adding new Waypoint.");
+        Waypoint newWaypoint = InstantiateNewWaypoint();
+        addWaypointToTargetAction(newWaypoint);
+
+        MarkDirty(Target);
+        MarkDirty(newWaypoint);
     }
 
     private Waypoint InstantiateNewWaypoint()
@@ -48,28 +65,32 @@ public class WaypointEditor : Editor
         newWaypoint.name = Target.name;
         newWaypoint.transform.position = Target.transform.position;
         Selection.activeGameObject = newWaypoint.gameObject;
-        MarkDirty(Target, "Waypoints update after adding new Waypoint.");
-        MarkCreation(newWaypoint.gameObject, "Waypoints update after adding new Waypoint.");
+        RegisterCreationForUndo(newWaypoint.gameObject, "Waypoints update after adding new Waypoint.");
 
         return newWaypoint;
     }
 
-    private void MarkDirty(Object gameObject, string undoName)
+    private void StartRecordingObjectForUndo(UnityEngine.Object obj, string undoName)
     {
-        Undo.RecordObject(gameObject, undoName);
-        PrefabUtility.RecordPrefabInstancePropertyModifications(gameObject);
+        Undo.RecordObject(obj, undoName);
+    }
+
+    private void MarkDirty(UnityEngine.Object obj)
+    {
+        
+        PrefabUtility.RecordPrefabInstancePropertyModifications(obj);
         CollapseUndo();
     }
 
-    private void MarkCreation(Object gameObject, string undoName)
+    private void RegisterCreationForUndo(UnityEngine.Object obj, string undoName)
     {
-        Undo.RegisterCreatedObjectUndo(gameObject, undoName);
+        Undo.RegisterCreatedObjectUndo(obj, undoName);
         CollapseUndo();
     }
 
-    private void DestroyAndMarkAsDestroyed(Object gameObject)
+    private void DestroyAndMarkAsDestroyed(UnityEngine.Object obj)
     {
-        Undo.DestroyObjectImmediate(gameObject);
+        Undo.DestroyObjectImmediate(obj);
         CollapseUndo();
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Waypoint : MonoBehaviour
@@ -23,6 +24,11 @@ public class Waypoint : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, 0.2f);
-        nextWaypoints.Waypoints.ForEach(nextWaypoint => DrawArrow.ForGizmoTwoPoints(transform.position, nextWaypoint.transform.position, Color.green));
+        nextWaypoints.Waypoints.ForEach(nextWaypoint =>
+        {
+            bool doesNextWaypointHaveThisWaypointAsPreviousWaypoint = nextWaypoint.previousWaypoints.Waypoints.Any(previousWaypointOfNextWaypoint => previousWaypointOfNextWaypoint == this);
+            Color lineWithArrowGizmoColor = doesNextWaypointHaveThisWaypointAsPreviousWaypoint ? Color.green : Color.red;
+            DrawArrow.ForGizmoTwoPoints(transform.position, nextWaypoint.transform.position, lineWithArrowGizmoColor);
+        });
     }
 }

@@ -42,13 +42,9 @@ public class VehicleController : MonoBehaviour
 
     public bool IsGrounded => frontLeftWheelCollider.isGrounded || frontRightWheelCollider.isGrounded || rearLeftWheelCollider.isGrounded || rearRightWheelCollider.isGrounded;
 
+    private VehicleInput vehicleInput;
     private Queue<TiltBlocker> tiltBlockers;
     private TiltBlocker CurrentTiltBlocker => tiltBlockers.Peek();
-
-    private float accelerateInput;
-    private float normalBrakeInput;
-    private float handBrakeInput; // TODO
-    private Vector2 rawSteeringInput;
 
     private void Awake()
     {
@@ -59,6 +55,7 @@ public class VehicleController : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.Player = this;
+        vehicleInput = GetComponent<VehicleInput>();
     }
 
     private void FixedUpdate()
@@ -66,33 +63,10 @@ public class VehicleController : MonoBehaviour
         HandleMovement();
         HandleSteering();
         UpdateWheels();
+        HandleChangeTiltBlockerInput();
         CurrentTiltBlocker.ControlTilt();
     }
 
-    public void OnAccelerateInput(CallbackContext context)
-    {
-        accelerateInput = context.ReadValue<float>();
-    }
-
-    public void OnNormalBrakeInput(CallbackContext context)
-    {
-        normalBrakeInput = context.ReadValue<float>();
-    }
-
-    public void OnSteeringInput(CallbackContext context)
-    {
-        rawSteeringInput = context.ReadValue<Vector2>();
-    }
-
-    public void OnChangeTiltBlockerInput(CallbackContext context)
-    {
-        if (context.performed)
-        {
-            CurrentTiltBlocker.OnTiltBlockerDisable();
-            tiltBlockers.Enqueue(tiltBlockers.Dequeue());
-            CurrentTiltBlocker.OnTiltBlockerEnable();
-        }
-    }
 
     private void HandleMovement()
     {
@@ -102,12 +76,12 @@ public class VehicleController : MonoBehaviour
         // the truck is certainly moving forward
         if(rigidbody.velocity.x > accelerateBackwardInsteadOfBrakingVelocityThreshold)
         {
-            acceleration = accelerateInput;
-            braking = normalBrakeInput;
+            acceleration = vehicleInput.AccelerateInput;
+            braking = vehicleInput.NormalBrakeInput;
         }
         else // the truck is probably stopped or moving backward
         {
-            acceleration = accelerateInput - normalBrakeInput;
+            acceleration = vehicleInput.AccelerateInput - vehicleInput.NormalBrakeInput;
             braking = 0f;
         }
 
@@ -134,7 +108,7 @@ public class VehicleController : MonoBehaviour
 
     private void HandleSteering()
     {
-        float currentSteerAngle = GameManager.Instance.CurrentControllerMode.CalculateSteeringAngle(this, rawSteeringInput);
+        float currentSteerAngle = GameManager.Instance.CurrentControllerMode.CalculateSteeringAngle(this, vehicleInput.RawSteeringInput);
         frontLeftWheelCollider.steerAngle = currentSteerAngle;
         frontRightWheelCollider.steerAngle = currentSteerAngle;
     }
@@ -154,5 +128,15 @@ public class VehicleController : MonoBehaviour
         wheelCollider.GetWorldPose(out pos, out rot);
         wheelTransform.rotation = rot;
         wheelTransform.position = pos;
+    }
+    private void HandleChangeTiltBlockerInput()
+    {
+        if (vehicleInput.ChangeTiltBlockerInput)
+        {
+            vehicleInput.ChangeTiltBlockerInput = false;
+            CurrentTiltBlocker.OnTiltBlockerDisable();
+            tiltBlockers.Enqueue(tiltBlockers.Dequeue());
+            CurrentTiltBlocker.OnTiltBlockerEnable();
+        }
     }
 }

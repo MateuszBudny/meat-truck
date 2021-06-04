@@ -41,7 +41,7 @@ public class WaypointsHandler
             return currentWeightsSum >= randomWeight;
         });
 
-        return randomWeightedRecord.waypoint;
+        return randomWeightedRecord?.waypoint;
     }
 
     public void SortWaypointsByWeightDescending()

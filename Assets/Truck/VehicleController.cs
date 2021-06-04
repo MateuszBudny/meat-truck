@@ -10,14 +10,12 @@ public class VehicleController : MonoBehaviour
 {
     [Header("Controller Settings")]
     [SerializeField]
-    private float forwardMotorForce;
+    private float maxForwardMotorForce = 1000;
     [SerializeField]
-    private float backwardMotorForce;
+    private float maxBackwardMotorForce = 400;
     [SerializeField] 
-    private float brakeForce;
-    public float maxSteerAngle;
-    [SerializeField]
-    private float accelerateBackwardInsteadOfBrakingVelocityThreshold = 0.2f;
+    private float maxBrakeForce = 3000;
+    public float maxSteerAngle = 30;
     public new Rigidbody rigidbody;
 
     [Header("Wheel Colliders")]
@@ -50,12 +48,12 @@ public class VehicleController : MonoBehaviour
     {
         tiltBlockers = new Queue<TiltBlocker>(GetComponents<TiltBlocker>());
         CurrentTiltBlocker.OnTiltBlockerEnable(false);
+        vehicleInput = GetComponent<VehicleInput>();
     }
 
     private void Start()
     {
         GameManager.Instance.Player = this;
-        vehicleInput = GetComponent<VehicleInput>();
     }
 
     private void FixedUpdate()
@@ -70,36 +68,23 @@ public class VehicleController : MonoBehaviour
 
     private void HandleMovement()
     {
-        float acceleration;
-        float braking;
-
-        // the truck is certainly moving forward
-        if(rigidbody.velocity.x > accelerateBackwardInsteadOfBrakingVelocityThreshold)
-        {
-            acceleration = vehicleInput.AccelerateInput;
-            braking = vehicleInput.NormalBrakeInput;
-        }
-        else // the truck is probably stopped or moving backward
-        {
-            acceleration = vehicleInput.AccelerateInput - vehicleInput.NormalBrakeInput;
-            braking = 0f;
-        }
-
-        ApplyAcceleration(acceleration);
-        ApplyBraking(braking);
+        ApplyAcceleration(vehicleInput.GetCurrentAcceleration());
+        ApplyBraking(vehicleInput.GetCurrentBraking());
     }
 
     private void ApplyAcceleration(float acceleration)
     {
-        float currentMotorForce = acceleration > 0 ? forwardMotorForce : backwardMotorForce;
+        acceleration = Mathf.Clamp(acceleration, -1f, 1f);
+        float currentMotorForce = acceleration > 0 ? maxForwardMotorForce : maxBackwardMotorForce;
         float currentAccelerationForce = acceleration * currentMotorForce;
-        frontLeftWheelCollider.motorTorque = -currentAccelerationForce;
-        frontRightWheelCollider.motorTorque = -currentAccelerationForce;
+        frontLeftWheelCollider.motorTorque = currentAccelerationForce;
+        frontRightWheelCollider.motorTorque = currentAccelerationForce;
     }
 
     private void ApplyBraking(float braking)
     {
-        float currentbrakeForce = braking * brakeForce;
+        braking = Mathf.Clamp(braking, 0f, 1f);
+        float currentbrakeForce = braking * maxBrakeForce;
         frontRightWheelCollider.brakeTorque = currentbrakeForce;
         frontLeftWheelCollider.brakeTorque = currentbrakeForce;
         rearLeftWheelCollider.brakeTorque = currentbrakeForce;
@@ -108,7 +93,8 @@ public class VehicleController : MonoBehaviour
 
     private void HandleSteering()
     {
-        float currentSteerAngle = GameManager.Instance.CurrentControllerMode.CalculateSteeringAngle(this, vehicleInput.RawSteeringInput);
+        float currentSteerAngle = vehicleInput.GetCurrentSteeringAngle();
+        currentSteerAngle = Mathf.Clamp(currentSteerAngle, -maxSteerAngle, maxSteerAngle);
         frontLeftWheelCollider.steerAngle = currentSteerAngle;
         frontRightWheelCollider.steerAngle = currentSteerAngle;
     }
@@ -129,6 +115,7 @@ public class VehicleController : MonoBehaviour
         wheelTransform.rotation = rot;
         wheelTransform.position = pos;
     }
+
     private void HandleChangeTiltBlockerInput()
     {
         if (vehicleInput.ChangeTiltBlockerInput)

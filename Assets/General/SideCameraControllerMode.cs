@@ -13,9 +13,10 @@ public class SideCameraControllerMode : ControllerMode
         if(rawSteeringInput == Vector2.zero)
         {
             return 0f;
-        } else
+        }
+        else
         {
-            float vehicleAngleRelativeToCamera = vehicleController.transform.rotation.eulerAngles.y - (VirtualCamera.transform.rotation.eulerAngles.y + 180f); // +180 degrees, because when the camera is facing the vehicle, it has -180 degrees of Z rotation.
+            float vehicleAngleRelativeToCamera = vehicleController.transform.rotation.eulerAngles.y - VirtualCamera.transform.rotation.eulerAngles.y;
             float rawSteeringAngle = Vector2.SignedAngle(rawSteeringInput, Vector2.up);
             float steeringAngleRelativeToVehicleAndCamera = rawSteeringAngle - vehicleAngleRelativeToCamera;
             float steeringAngleBetweenMinus180And180 = MathUtils.RecalculateAngleToBetweenMinus180And180(steeringAngleRelativeToVehicleAndCamera);

@@ -5,14 +5,19 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class VehiclePlayerInput : VehicleInput
 {
+    [SerializeField]
+    private float goingForwardVelocityThreshold = 0.05f;
+
+    private bool IsVehicleGoingForward => transform.InverseTransformDirection(rigidbody.velocity).z > goingForwardVelocityThreshold;
+
     public void OnAccelerateInput(CallbackContext context)
     {
-        AccelerateInput = context.ReadValue<float>();
+        RawAccelerateInput = context.ReadValue<float>();
     }
 
     public void OnNormalBrakeInput(CallbackContext context)
     {
-        NormalBrakeInput = context.ReadValue<float>();
+        RawNormalBrakeInput = context.ReadValue<float>();
     }
 
     public void OnSteeringInput(CallbackContext context)
@@ -26,5 +31,34 @@ public class VehiclePlayerInput : VehicleInput
         {
             ChangeTiltBlockerInput = true;
         }
+    }
+
+    public override float GetCurrentAcceleration()
+    {
+        if (IsVehicleGoingForward)
+        {
+            return RawAccelerateInput;
+        }
+        else
+        {
+            return RawAccelerateInput - RawNormalBrakeInput;
+        }
+    }
+
+    public override float GetCurrentBraking()
+    {
+        if (IsVehicleGoingForward)
+        {
+            return RawNormalBrakeInput;
+        }
+        else
+        {
+            return 0f;
+        }
+    }
+
+    public override float GetCurrentSteeringAngle()
+    {
+        return GameManager.Instance.CurrentControllerMode.CalculateSteeringAngle(VehicleController, RawSteeringInput);
     }
 }

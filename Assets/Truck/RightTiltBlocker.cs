@@ -10,6 +10,8 @@ public class RightTiltBlocker : TiltBlocker
     private Transform rightRayPosition;
     [SerializeField]
     private float offsetSize;
+    [SerializeField]
+    private bool showDebugGizmo = false;
 
     public override void ControlTilt()
     {
@@ -27,7 +29,10 @@ public class RightTiltBlocker : TiltBlocker
 
                     Ray findNormalRay = new Ray(rightRayPosition.position + rayOffset, Vector3.down);
 
-                    Debug.DrawRay(findNormalRay.origin, findNormalRay.direction);
+                    if(showDebugGizmo)
+                    {
+                        Debug.DrawRay(findNormalRay.origin, findNormalRay.direction);
+                    }
 
                     if (Physics.Raycast(findNormalRay, out rh))
                     {

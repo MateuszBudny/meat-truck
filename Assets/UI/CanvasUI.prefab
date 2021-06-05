@@ -484,7 +484,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1467728781042528605, guid: c13dc87b291751a4fb43f3bbc820c343, type: 3}
       propertyPath: m_ControlPath
-      value: <Gamepad>/buttonNorth
+      value: <Gamepad>/start
       objectReference: {fileID: 0}
     - target: {fileID: 1810408607259770985, guid: c13dc87b291751a4fb43f3bbc820c343, type: 3}
       propertyPath: m_Pivot.x
@@ -709,7 +709,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1467728781042528605, guid: c13dc87b291751a4fb43f3bbc820c343, type: 3}
       propertyPath: m_ControlPath
-      value: <Gamepad>/leftTrigger
+      value: <Gamepad>/buttonNorth
       objectReference: {fileID: 0}
     - target: {fileID: 1810408607259770985, guid: c13dc87b291751a4fb43f3bbc820c343, type: 3}
       propertyPath: m_Pivot.x

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
 
 public class GameManager : SingleBehaviour<GameManager>
@@ -51,6 +52,22 @@ public class GameManager : SingleBehaviour<GameManager>
         {
             ControllerModes.Enqueue(ControllerModes.Dequeue());
             CurrentControllerMode.OnModeChangedToThis();
+        }
+    }
+
+    public void OnRestartInput(CallbackContext context)
+    {
+        if(context.performed)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+
+    public void OnQuitInput(CallbackContext context)
+    {
+        if(context.performed)
+        {
+            Application.Quit();
         }
     }
 }

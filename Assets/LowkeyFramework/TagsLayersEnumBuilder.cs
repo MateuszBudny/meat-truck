@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Text;
 
+// modified version of https://gist.github.com/Namek/ecafa24a6ae3d730baf1 by Namek
 public class TagsLayersEnumBuilder : EditorWindow
 {
 	[MenuItem("Tools/Rebuild Tags and Layers Enums")]
@@ -27,7 +28,7 @@ public class TagsLayersEnumBuilder : EditorWindow
 		StringBuilder sb = new StringBuilder();
 
 		sb.Append("//This class is auto-generated, do not modify (TagsLayersEnumBuilder.cs)\n");
-		sb.Append("public abstract class Tags {\n");
+		sb.Append("public enum Tags {\n");
 
 		var srcArr = UnityEditorInternal.InternalEditorUtility.tags;
 		var tags = new String[srcArr.Length];
@@ -38,7 +39,7 @@ public class TagsLayersEnumBuilder : EditorWindow
 		{
 			string tagName = tags[i];
 
-			sb.Append("\tpublic const string " + tagName + " = \"" + tagName + "\";\n");
+			sb.Append($"\t{tagName},\n");
 		}
 
 		sb.Append("}\n");
@@ -54,39 +55,32 @@ public class TagsLayersEnumBuilder : EditorWindow
 		StringBuilder sb = new StringBuilder();
 
 		sb.Append("//This class is auto-generated, do not modify (use Tools/TagsLayersEnumBuilder)\n");
-		sb.Append("public abstract class Layers {\n");
+		sb.Append("using System;\n\n");
+		sb.Append("[Flags]\n");
+		sb.Append("public enum Layers {\n");
+		sb.Append("\tNone = 0,\n");
 
 		var layers = UnityEditorInternal.InternalEditorUtility.layers;
 
 		for (int i = 0, n = layers.Length; i < n; ++i)
 		{
 			string layerName = layers[i];
-
-			sb.Append("\tpublic const string " + GetVariableName(layerName) + " = \"" + layerName + "\";\n");
-		}
-
-		sb.Append("\n");
-
-		for (int i = 0, n = layers.Length; i < n; ++i)
-		{
-			string layerName = layers[i];
-			int layerNumber = LayerMask.NameToLayer(layerName);
-			string layerMask = layerNumber == 0 ? "1" : ("1 << " + layerNumber);
-
-			sb.Append("\tpublic const int " + GetVariableName(layerName) + "Mask" + " = " + layerMask + ";\n");
-		}
-
-		sb.Append("\n");
-
-		for (int i = 0, n = layers.Length; i < n; ++i)
-		{
-			string layerName = layers[i];
 			int layerNumber = LayerMask.NameToLayer(layerName);
 
-			sb.Append("\tpublic const int " + GetVariableName(layerName) + "Number" + " = " + layerNumber + ";\n");
+			sb.Append($"\t{layerName.Replace(" ", "")} = {(layerNumber == 0 ? "1" : ("1 << " + layerNumber))},\n");
 		}
 
 		sb.Append("}\n");
+
+		//for (int i = 0, n = layers.Length; i < n; ++i)
+		//{
+		//	string layerName = layers[i];
+		//	int layerNumber = LayerMask.NameToLayer(layerName);
+
+		//	sb.Append("\tpublic const int " + GetVariableName(layerName) + "Number" + " = " + layerNumber + ";\n");
+		//}
+
+		//sb.Append("}\n");
 
 #if !UNITY_WEBPLAYER
 		SaveTextToFile(sb.ToString(), filePath);

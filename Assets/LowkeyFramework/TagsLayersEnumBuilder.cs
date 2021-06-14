@@ -16,11 +16,11 @@ public class TagsLayersEnumBuilder : EditorWindow
 		string relativeEnumsPath = $"Assets/{localEnumsFolderPath}";
 		string globalEnumsPath = $"{Application.dataPath}/{localEnumsFolderPath}";
 
-		rebuildTagsFile(globalEnumsPath + "Tags.cs");
-		rebuildLayersFile(globalEnumsPath + "Layers.cs");
+		rebuildTagsFile(globalEnumsPath + "TagsEnum.cs");
+		rebuildLayersFile(globalEnumsPath + "LayersEnum.cs");
 
-		AssetDatabase.ImportAsset(relativeEnumsPath + "Tags.cs", ImportAssetOptions.ForceUpdate);
-		AssetDatabase.ImportAsset(relativeEnumsPath + "Layers.cs", ImportAssetOptions.ForceUpdate);
+		AssetDatabase.ImportAsset(relativeEnumsPath + "TagsEnum.cs", ImportAssetOptions.ForceUpdate);
+		AssetDatabase.ImportAsset(relativeEnumsPath + "LayersEnum.cs", ImportAssetOptions.ForceUpdate);
 	}
 
 	static void rebuildTagsFile(string filePath)

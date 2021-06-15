@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a2994469ef01844b8f1f78eb8d01a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingWaypoint: {fileID: 0}
 --- !u!1001 &2069226783192491501
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62,6 +63,10 @@ PrefabInstance:
     - target: {fileID: 7230328002017467345, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_Name
       value: NpcHotDogTruck
+      objectReference: {fileID: 0}
+    - target: {fileID: 7230328002017467345, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
+      propertyPath: m_TagString
+      value: NpcVehicle
       objectReference: {fileID: 0}
     - target: {fileID: 7231357677239558547, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_RootOrder

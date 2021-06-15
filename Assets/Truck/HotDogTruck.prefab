@@ -268,7 +268,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightForce: 100
   rightRayPosition: {fileID: 2373608001779523360}
-  offsetSize: 0.5
+  rightRayMaxDistance: 0.5
+  rightAreaSize: 0.5
+  rightToLayers: 8
   showDebugGizmo: 0
 --- !u!114 &2900234700177736367
 MonoBehaviour:

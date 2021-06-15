@@ -17,7 +17,7 @@ public class VehicleNpcInput : VehicleInput
 
     private void OnTriggerEnter(Collider collider)
     {
-        if(collider.CompareTag("Waypoint"))
+        if(collider.CompareTag(Tags.Waypoint.ToString()))
         {
             if(collider.gameObject == currentWaypoint.gameObject)
             {

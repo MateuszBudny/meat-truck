@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 210ea7f919af1d547bb3cf83926f28ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  accelerateBackwardInsteadOfBrakingVelocityThreshold: 0.05
+  goingForwardVelocityThreshold: 0.05
 --- !u!114 &7499024061375423835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +118,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 860acc03-b8b5-4a5e-bef7-27cba29a8959
     m_ActionName: Driving/ChangeTiltBlocker[/Keyboard/x,/XInputControllerWindows/buttonWest]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d1cb459a-c4fc-45c9-bc4b-0075e2ba6d12
+    m_ActionName: Driving/Restart[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 87dbb08e-aa6c-49e0-8787-990678120f9d
+    m_ActionName: Driving/Quit[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepads
   m_DefaultActionMap: Driving
@@ -177,6 +185,10 @@ PrefabInstance:
     - target: {fileID: 7230328002017467345, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_Name
       value: PlayerHotDogTruck
+      objectReference: {fileID: 0}
+    - target: {fileID: 7230328002017467345, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7231357677239558547, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_RootOrder

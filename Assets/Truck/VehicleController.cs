@@ -6,9 +6,22 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
+// most important shortkeys
+// tier0:
+// alt+enter: tip
+// ctrl+t: searching by fields/classes names
+// right click + znajdü wszystkie odwo≥ania: znajduje wszystkie odwo≥ania xd
+// ctrl+left click on field: jump into field declaration
+
+// tier1:
+// ctrl+l: copy and delete line 
+// alt+arrow up/down: selected line up/down
+
 public class VehicleController : MonoBehaviour
 {
     [Header("Controller Settings")]
+    [SerializeField]
+    private GameObject centerOfMass;
     [SerializeField]
     private float maxForwardMotorForce = 1000;
     [SerializeField]
@@ -46,6 +59,7 @@ public class VehicleController : MonoBehaviour
 
     private void Awake()
     {
+        rigidbody.centerOfMass = centerOfMass.transform.localPosition;
         tiltBlockers = new Queue<TiltBlocker>(GetComponents<TiltBlocker>());
         CurrentTiltBlocker.OnTiltBlockerEnable(false);
         vehicleInput = GetComponent<VehicleInput>();

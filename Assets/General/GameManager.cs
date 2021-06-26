@@ -18,8 +18,10 @@ public class GameManager : SingleBehaviour<GameManager>
     public VehicleController Player { get; set; }
     public ControllerMode CurrentControllerMode => ControllerModes.Peek();
 
-    public override void AdditionalOnAwake()
+    protected override void Awake()
     {
+        base.Awake();
+
         List<ControllerMode> tempControllerModes = new List<ControllerMode>(controllerModesRecords.Select(modeRecord => modeRecord.GetControllerMode()));
 
         // starting controller mode is that with highest VirtualCamera priority

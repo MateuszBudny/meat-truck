@@ -182,13 +182,17 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -2.2580004
       objectReference: {fileID: 0}
+    - target: {fileID: 7211009343482105452, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
+      propertyPath: m_TagString
+      value: PlayerVehicle
+      objectReference: {fileID: 0}
     - target: {fileID: 7230328002017467345, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_Name
       value: PlayerHotDogTruck
       objectReference: {fileID: 0}
     - target: {fileID: 7230328002017467345, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: PlayerVehicle
       objectReference: {fileID: 0}
     - target: {fileID: 7231357677239558547, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_RootOrder

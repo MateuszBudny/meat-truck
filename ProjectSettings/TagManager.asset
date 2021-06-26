@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - NpcVehicle
   - Waypoint
+  - NpcHuman
+  - PlayerVehicle
   layers:
   - Default
   - TransparentFX
@@ -15,8 +17,8 @@ TagManager:
   - Water
   - UI
   - TiltBlocker
-  - 
-  - 
+  - Vehicle
+  - NpcHumanControllerCollider
   - 
   - 
   - 

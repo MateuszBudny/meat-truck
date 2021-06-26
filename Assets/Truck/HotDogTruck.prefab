@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2373608001779523360}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RightRayPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4585456517642950463}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3915183672771698887}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CenterOfMassPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,6 +94,50 @@ Transform:
   m_Father: {fileID: 7231357677239558547}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7211009343482105452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2095526068309140514}
+  - component: {fileID: 6051668098096089816}
+  m_Layer: 0
+  m_Name: TriggerColliderDefaultLayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2095526068309140514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7211009343482105452}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7231357677239558547}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6051668098096089816
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7211009343482105452}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1, y: 1.3, z: 2.3}
+  m_Center: {x: -9.528802e-10, y: 0.33387348, z: -0.5899966}
 --- !u!1 &7230327999795583771
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +149,7 @@ GameObject:
   - component: {fileID: 7231357676162983371}
   - component: {fileID: 7215322773619077241}
   - component: {fileID: 7207293085586428863}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TruckRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +235,7 @@ GameObject:
   - component: {fileID: 8482853338173331270}
   - component: {fileID: 8547126681826167077}
   - component: {fileID: 2900234700177736367}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HotDogTruck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,6 +258,7 @@ Transform:
   - {fileID: 8419017890970325284}
   - {fileID: 2373608001779523360}
   - {fileID: 3915183672771698887}
+  - {fileID: 2095526068309140514}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -300,7 +345,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightForce: 15
   rightRayPosition: {fileID: 2373608001779523360}
-  offsetSize: 0.5
+  rightRayMaxDistance: 1
+  rightAreaSize: 0.5
+  rightToLayers: 8
+  defaultNormal: {x: 0, y: 1, z: 0}
+  maxAngleToRight: 30
+  maxAngleExceededBehaviour: 0
   showDebugGizmo: 0
 --- !u!114 &2900234700177736367
 MonoBehaviour:
@@ -324,7 +374,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8419017890970325284}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SpringTiltBlockers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -432,6 +482,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FrontSpringTiltBlocker
       objectReference: {fileID: 0}
+    - target: {fileID: 9212395570434782929, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
 --- !u!4 &7632878600070826512 stripped
@@ -518,6 +572,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftSpringTiltBlocker
       objectReference: {fileID: 0}
+    - target: {fileID: 9212395570434782929, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
 --- !u!4 &4969036651739739548 stripped
@@ -536,9 +594,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 5.924913
       objectReference: {fileID: 0}
+    - target: {fileID: 1298760685964026508, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625213878175041595, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2698615968919814107, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
       propertyPath: m_Name
       value: RearLeftWheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2698615968919814107, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2701826146466365023, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
       propertyPath: m_RootOrder
@@ -584,6 +654,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6766662598738275421, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
 --- !u!146 &7617759997453948352 stripped
@@ -591,14 +665,14 @@ WheelCollider:
   m_CorrespondingSourceObject: {fileID: 4915817392764544439, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
   m_PrefabInstance: {fileID: 3283059827525726327}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &4184125476989122579 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1702143467542513764, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
-  m_PrefabInstance: {fileID: 3283059827525726327}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &644319399296880168 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2701826146466365023, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
+  m_PrefabInstance: {fileID: 3283059827525726327}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4184125476989122579 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1702143467542513764, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
   m_PrefabInstance: {fileID: 3283059827525726327}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3397207222123581788
@@ -679,6 +753,10 @@ PrefabInstance:
     - target: {fileID: 9212395570434782929, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
       propertyPath: m_Name
       value: LeftSpringTiltBlocker2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9212395570434782929, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
@@ -766,6 +844,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RighttSpringTiltBlocker2
       objectReference: {fileID: 0}
+    - target: {fileID: 9212395570434782929, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
 --- !u!4 &3315677511757151227 stripped
@@ -852,6 +934,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RighttSpringTiltBlocker2
       objectReference: {fileID: 0}
+    - target: {fileID: 9212395570434782929, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
 --- !u!4 &2602140383310605867 stripped
@@ -866,6 +952,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4585456517642950463}
     m_Modifications:
+    - target: {fileID: 361803452588473286, guid: 0acf83fe4f0108841927afc184861800, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5398547582963954967, guid: 0acf83fe4f0108841927afc184861800, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5647666711857749920, guid: 0acf83fe4f0108841927afc184861800, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 9048770734003956164, guid: 0acf83fe4f0108841927afc184861800, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -914,6 +1012,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FrontRightWheel
       objectReference: {fileID: 0}
+    - target: {fileID: 9051682711962757184, guid: 0acf83fe4f0108841927afc184861800, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0acf83fe4f0108841927afc184861800, type: 3}
 --- !u!4 &3634240073634822545 stripped
@@ -921,14 +1023,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9048770734003956164, guid: 0acf83fe4f0108841927afc184861800, type: 3}
   m_PrefabInstance: {fileID: 5763722544204976213}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &40111215277297578 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5724739153516781567, guid: 0acf83fe4f0108841927afc184861800, type: 3}
-  m_PrefabInstance: {fileID: 5763722544204976213}
-  m_PrefabAsset: {fileID: 0}
 --- !u!146 &5992539962479321721 stripped
 WheelCollider:
   m_CorrespondingSourceObject: {fileID: 2077597887303660076, guid: 0acf83fe4f0108841927afc184861800, type: 3}
+  m_PrefabInstance: {fileID: 5763722544204976213}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &40111215277297578 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5724739153516781567, guid: 0acf83fe4f0108841927afc184861800, type: 3}
   m_PrefabInstance: {fileID: 5763722544204976213}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6352643342468268664
@@ -938,9 +1040,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4585456517642950463}
     m_Modifications:
+    - target: {fileID: 1298760685964026508, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625213878175041595, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2698615968919814107, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
       propertyPath: m_Name
       value: RearRightWheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2698615968919814107, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2701826146466365023, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
       propertyPath: m_RootOrder
@@ -985,6 +1099,10 @@ PrefabInstance:
     - target: {fileID: 2701826146466365023, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6766662598738275421, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
@@ -1082,6 +1200,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BackSpringTiltBlocker
       objectReference: {fileID: 0}
+    - target: {fileID: 9212395570434782929, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
 --- !u!4 &1007200340273810519 stripped
@@ -1168,6 +1290,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftSpringTiltBlocker1
       objectReference: {fileID: 0}
+    - target: {fileID: 9212395570434782929, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
 --- !u!4 &366026135299506716 stripped
@@ -1182,6 +1308,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4585456517642950463}
     m_Modifications:
+    - target: {fileID: 361803452588473286, guid: 0acf83fe4f0108841927afc184861800, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5398547582963954967, guid: 0acf83fe4f0108841927afc184861800, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5647666711857749920, guid: 0acf83fe4f0108841927afc184861800, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6868204802770019108, guid: 0acf83fe4f0108841927afc184861800, type: 3}
       propertyPath: m_LocalScale.z
       value: 5.924913
@@ -1233,6 +1371,10 @@ PrefabInstance:
     - target: {fileID: 9051682711962757184, guid: 0acf83fe4f0108841927afc184861800, type: 3}
       propertyPath: m_Name
       value: FrontLeftWheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051682711962757184, guid: 0acf83fe4f0108841927afc184861800, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0acf83fe4f0108841927afc184861800, type: 3}
@@ -1329,6 +1471,10 @@ PrefabInstance:
     - target: {fileID: 9212395570434782929, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
       propertyPath: m_Name
       value: RighttSpringTiltBlocker
+      objectReference: {fileID: 0}
+    - target: {fileID: 9212395570434782929, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84355cc19f9bdbd4a877c12af3a0ec87, type: 3}

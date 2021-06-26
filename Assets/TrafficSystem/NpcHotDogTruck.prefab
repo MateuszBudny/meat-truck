@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -1.417
       objectReference: {fileID: 0}
+    - target: {fileID: 2775787347641318932, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7a09f0a5ab6a4a04e8a1b6e4bd65368a, type: 2}
     - target: {fileID: 4157907742915552683, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: 1.3120004
@@ -60,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4b8ea25881aee6c4fad5a858bafe8e4e, type: 2}
+    - target: {fileID: 7211009343482105452, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
+      propertyPath: m_TagString
+      value: NpcVehicle
+      objectReference: {fileID: 0}
     - target: {fileID: 7230328002017467345, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_Name
       value: NpcHotDogTruck
@@ -112,6 +120,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7619305602652453794, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7a09f0a5ab6a4a04e8a1b6e4bd65368a, type: 2}
     - target: {fileID: 8377290491554267536, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: -0.43200088

@@ -11,4 +11,6 @@ public enum Layers {
 	Water = 1 << 4,
 	UI = 1 << 5,
 	TiltBlocker = 1 << 6,
+	Vehicle = 1 << 7,
+	NpcHumanControllerCollider = 1 << 8,
 }

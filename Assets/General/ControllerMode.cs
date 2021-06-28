@@ -19,7 +19,7 @@ public abstract class ControllerMode
 
     public virtual void OnModeChangedToThis()
     {
-        GameManager.Instance.ControllerModes.ToList().ForEach(controllerMode => controllerMode.VirtualCamera.Priority = 0);
+        GameplayManager.Instance.ControllerModes.ToList().ForEach(controllerMode => controllerMode.VirtualCamera.Priority = 0);
         VirtualCamera.Priority++;
         GenericMessagePopup.Instance.ShowMessage($"Controller Mode changed \nCamera: {VirtualCamera.gameObject.name}\nControls: {GetType().Name}");
     }

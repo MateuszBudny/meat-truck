@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
 
-public class GameManager : SingleBehaviour<GameManager>
+public class GameplayManager : SingleBehaviour<GameplayManager>
 {
     [SerializeField]
     private List<ControllerModeRecord> controllerModesRecords;

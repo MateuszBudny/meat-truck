@@ -59,6 +59,6 @@ public class VehiclePlayerInput : VehicleInput
 
     public override float GetCurrentSteeringAngle()
     {
-        return GameManager.Instance.CurrentControllerMode.CalculateSteeringAngle(VehicleController, RawSteeringInput);
+        return GameplayManager.Instance.CurrentControllerMode.CalculateSteeringAngle(VehicleController, RawSteeringInput);
     }
 }

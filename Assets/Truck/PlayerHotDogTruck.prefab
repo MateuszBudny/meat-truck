@@ -150,6 +150,10 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -1.4170003
       objectReference: {fileID: 0}
+    - target: {fileID: 1610869999151179913, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
+      propertyPath: maxForwardMotorForce
+      value: 1200
+      objectReference: {fileID: 0}
     - target: {fileID: 4157907742915552683, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_ConnectedAnchor.x
       value: 0.041000128

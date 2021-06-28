@@ -104,6 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2095526068309140514}
   - component: {fileID: 6051668098096089816}
+  - component: {fileID: 624231504959095230}
   m_Layer: 0
   m_Name: TriggerColliderDefaultLayer
   m_TagString: Untagged
@@ -136,8 +137,24 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1, y: 1.3, z: 2.3}
-  m_Center: {x: -9.528802e-10, y: 0.33387348, z: -0.5899966}
+  m_Size: {x: 1.1, y: 1.48, z: 2.3}
+  m_Center: {x: -9.528802e-10, y: 0.19, z: -0.5899966}
+--- !u!54 &624231504959095230
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7211009343482105452}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7230327999795583771
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,8 +166,9 @@ GameObject:
   - component: {fileID: 7231357676162983371}
   - component: {fileID: 7215322773619077241}
   - component: {fileID: 7207293085586428863}
+  - component: {fileID: 2071124888329104836}
   m_Layer: 7
-  m_Name: TruckRenderer
+  m_Name: TruckRendererAndCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -220,6 +238,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2071124888329104836
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7230327999795583771}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 2147483647
+  m_Mesh: {fileID: 4300000, guid: 4c0a0852731fd2f48a8e9455f3654f5e, type: 3}
 --- !u!1 &7230328002017467345
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,14 +697,14 @@ WheelCollider:
   m_CorrespondingSourceObject: {fileID: 4915817392764544439, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
   m_PrefabInstance: {fileID: 3283059827525726327}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &644319399296880168 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2701826146466365023, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
-  m_PrefabInstance: {fileID: 3283059827525726327}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4184125476989122579 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1702143467542513764, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
+  m_PrefabInstance: {fileID: 3283059827525726327}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &644319399296880168 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2701826146466365023, guid: a8ff1cba0d3bcfa40852e9e7f2586140, type: 3}
   m_PrefabInstance: {fileID: 3283059827525726327}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3397207222123581788
@@ -1018,11 +1050,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0acf83fe4f0108841927afc184861800, type: 3}
---- !u!4 &3634240073634822545 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9048770734003956164, guid: 0acf83fe4f0108841927afc184861800, type: 3}
-  m_PrefabInstance: {fileID: 5763722544204976213}
-  m_PrefabAsset: {fileID: 0}
 --- !u!146 &5992539962479321721 stripped
 WheelCollider:
   m_CorrespondingSourceObject: {fileID: 2077597887303660076, guid: 0acf83fe4f0108841927afc184861800, type: 3}
@@ -1031,6 +1058,11 @@ WheelCollider:
 --- !u!4 &40111215277297578 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5724739153516781567, guid: 0acf83fe4f0108841927afc184861800, type: 3}
+  m_PrefabInstance: {fileID: 5763722544204976213}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3634240073634822545 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9048770734003956164, guid: 0acf83fe4f0108841927afc184861800, type: 3}
   m_PrefabInstance: {fileID: 5763722544204976213}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6352643342468268664

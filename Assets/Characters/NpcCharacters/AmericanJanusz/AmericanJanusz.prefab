@@ -616,7 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3155799465599407156}
-  walkSpeed: 0.5
+  walkSpeed: 0.85
   rotationSpeed: 1
   rigidbodySolverIterations: 12
   rigidbodySolverVelocityIterations: 12

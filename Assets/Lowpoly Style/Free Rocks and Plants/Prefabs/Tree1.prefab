@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3327966}
   - component: {fileID: 2352006}
   - component: {fileID: 64000011347240406}
+  - component: {fileID: 6998060346293775145}
+  - component: {fileID: 6269033096612361924}
   m_Layer: 0
   m_Name: Tree1
   m_TagString: Untagged
@@ -92,8 +94,36 @@ MeshCollider:
   m_GameObject: {fileID: 131956}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: b32c15c9cb370f8439aed5b64269fce9, type: 3}
+--- !u!136 &6998060346293775145
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131956}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.52
+  m_Height: 3.35
+  m_Direction: 1
+  m_Center: {x: -0.12, y: 1.16, z: 0.07}
+--- !u!136 &6269033096612361924
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131956}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.74
+  m_Height: 7.49
+  m_Direction: 1
+  m_Center: {x: 0.01, y: 5.07, z: -0.07}

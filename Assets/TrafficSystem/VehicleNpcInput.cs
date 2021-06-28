@@ -2,33 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(WaypointsTracker))]
 public class VehicleNpcInput : VehicleInput
 {
-    [SerializeField]
-    private Waypoint startingWaypoint;
+    private WaypointsTracker tracker;
 
-    private Waypoint currentWaypoint;
-
-    private void Awake()
+    protected override void Awake()
     {
-        BaseAwake();
-        currentWaypoint = startingWaypoint;
-    }
-
-    private void OnTriggerEnter(Collider collider)
-    {
-        if(collider.CompareTag(Tags.Waypoint.ToString()))
-        {
-            if(collider.gameObject == currentWaypoint.gameObject)
-            {
-                currentWaypoint = currentWaypoint.nextWaypoints.GetRandomWeightedWaypoint();
-            }
-        }
+        base.Awake();
+        tracker = GetComponent<WaypointsTracker>();
     }
 
     public override float GetCurrentAcceleration()
     {
-        if(currentWaypoint != null)
+        if(tracker.CurrentWaypoint != null)
         {
             return 1f;
         }
@@ -40,7 +27,7 @@ public class VehicleNpcInput : VehicleInput
 
     public override float GetCurrentBraking()
     {
-        if(currentWaypoint != null)
+        if(tracker.CurrentWaypoint != null)
         {
             return 0f;
         }
@@ -52,9 +39,9 @@ public class VehicleNpcInput : VehicleInput
 
     public override float GetCurrentSteeringAngle()
     {
-        if(currentWaypoint != null)
+        if(tracker.CurrentWaypoint != null)
         {
-            Vector3 waypointDirection = currentWaypoint.transform.position - transform.position;
+            Vector3 waypointDirection = tracker.CurrentWaypoint.transform.position - transform.position;
             Vector3 vehicleForward = transform.forward;
             float angleToSteer = Vector3.SignedAngle(waypointDirection, vehicleForward, Vector3.down);
             float clampedAngleToSteer = Mathf.Clamp(angleToSteer, -VehicleController.maxSteerAngle, VehicleController.maxSteerAngle);

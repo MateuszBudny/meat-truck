@@ -17,6 +17,7 @@ using static UnityEngine.InputSystem.InputAction;
 // ctrl+l: copy and delete line 
 // alt+arrow up/down: selected line up/down
 
+[RequireComponent(typeof(VehicleInput))]
 public class VehicleController : MonoBehaviour
 {
     [Header("Controller Settings")]
@@ -61,7 +62,10 @@ public class VehicleController : MonoBehaviour
     {
         rigidbody.centerOfMass = centerOfMass.transform.localPosition;
         tiltBlockers = new Queue<TiltBlocker>(GetComponents<TiltBlocker>());
-        CurrentTiltBlocker.OnTiltBlockerEnable(false);
+        if(CurrentTiltBlocker)
+        {
+            CurrentTiltBlocker.OnTiltBlockerEnable(false);
+        }
         vehicleInput = GetComponent<VehicleInput>();
     }
 
@@ -76,7 +80,11 @@ public class VehicleController : MonoBehaviour
         HandleSteering();
         UpdateWheels();
         HandleChangeTiltBlockerInput();
-        CurrentTiltBlocker.ControlTilt();
+        
+        if(CurrentTiltBlocker)
+        {
+            CurrentTiltBlocker.ControlTilt();
+        }
     }
 
 
@@ -135,9 +143,15 @@ public class VehicleController : MonoBehaviour
         if (vehicleInput.ChangeTiltBlockerInput)
         {
             vehicleInput.ChangeTiltBlockerInput = false;
-            CurrentTiltBlocker.OnTiltBlockerDisable();
+            if(CurrentTiltBlocker)
+            {
+                CurrentTiltBlocker.OnTiltBlockerDisable();
+            }
             tiltBlockers.Enqueue(tiltBlockers.Dequeue());
-            CurrentTiltBlocker.OnTiltBlockerEnable();
+            if(CurrentTiltBlocker)
+            {
+                CurrentTiltBlocker.OnTiltBlockerEnable();
+            }
         }
     }
 }

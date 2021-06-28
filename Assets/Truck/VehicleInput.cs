@@ -14,12 +14,7 @@ public abstract class VehicleInput : MonoBehaviour
 
     protected new Rigidbody rigidbody;
 
-    private void Awake()
-    {
-        BaseAwake();
-    }
-
-    protected void BaseAwake()
+    protected virtual void Awake()
     {
         VehicleController = GetComponent<VehicleController>();
         rigidbody = GetComponent<Rigidbody>();

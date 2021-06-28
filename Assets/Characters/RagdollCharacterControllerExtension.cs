@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
-public class NpcCharacterControllerExtension : MonoBehaviour
+[RequireComponent(typeof(CharacterController), typeof(CharacterInput))]
+public class RagdollCharacterControllerExtension : MonoBehaviour
 {
     [SerializeField]
     private Animator animator;
     [SerializeField]
     private float walkSpeed = 0.5f;
+    [SerializeField]
+    private float rotationSpeed = 5f;
 
     [Header("Ragdoll Rigidbodies Properties")]
     [SerializeField]
@@ -19,13 +21,17 @@ public class NpcCharacterControllerExtension : MonoBehaviour
     [SerializeField]
     private int rigidbodyMaxAngularSpeed = 30;
     
-    private CharacterController controller;
+    public CharacterController CoreController { get; private set; }
+
+    private CharacterInput characterInput;
     private List<Collider> ragdollColliders = new List<Collider>();
     private List<Rigidbody> ragdollRigidbodies;
 
     private void Awake()
     {
-        controller = GetComponent<CharacterController>();
+        CoreController = GetComponent<CharacterController>();
+        characterInput = GetComponent<CharacterInput>();
+
         GetComponentsInChildren<Collider>().ToList().ForEach(collider =>
             {
                 if(!(collider is CharacterController))
@@ -46,9 +52,15 @@ public class NpcCharacterControllerExtension : MonoBehaviour
 
     private void Update()
     {
-        if (controller.enabled)
+        if (CoreController.enabled)
         {
-            controller.SimpleMove(transform.forward * walkSpeed);
+            Vector3 desiredMovement = new Vector3(
+                characterInput.GetDesiredMovement().x,
+                0f,
+                characterInput.GetDesiredMovement().y);
+            CoreController.SimpleMove(desiredMovement * walkSpeed);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, characterInput.GetDesiredRotation(), rotationSpeed * Time.deltaTime);
         }
     }
 
@@ -63,7 +75,7 @@ public class NpcCharacterControllerExtension : MonoBehaviour
     public void SetAsAnimated()
     {
         animator.enabled = true;
-        controller.enabled = true;
+        CoreController.enabled = true;
         ragdollColliders.ForEach(ragdollCollider => ragdollCollider.enabled = false);
         ragdollRigidbodies.ForEach(ragdollRigidbody => ragdollRigidbody.isKinematic = true);
     }
@@ -71,7 +83,7 @@ public class NpcCharacterControllerExtension : MonoBehaviour
     public void SetAsRagdoll()
     {
         animator.enabled = false;
-        controller.enabled = false;
+        CoreController.enabled = false;
         ragdollColliders.ForEach(ragdollCollider => ragdollCollider.enabled = true);
         ragdollRigidbodies.ForEach(ragdollRigidbody => ragdollRigidbody.isKinematic = false);
     }

@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a2994469ef01844b8f1f78eb8d01a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingWaypoint: {fileID: 0}
 --- !u!114 &6708030801615263323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26,7 +25,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingWaypoint: {fileID: 0}
-  CurrentWaypoint: {fileID: 0}
 --- !u!1001 &2069226783192491501
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69,6 +67,10 @@ PrefabInstance:
     - target: {fileID: 6145961456446582183, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: -0.43199944
+      objectReference: {fileID: 0}
+    - target: {fileID: 6433873641829494297, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
+      propertyPath: m_Mass
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 6747798426577576940, guid: 189ffc1cc2f4f4141843e476380169e2, type: 3}
       propertyPath: m_ConnectedAnchor.z

@@ -375,7 +375,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d352f564cf8b7641bffe39062fb4de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightForce: 15
+  rightForceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.44196612
+      value: 0.008995026
+      inSlope: 0.03258474
+      outSlope: 0.052197594
+      tangentMode: 1
+      weightedMode: 2
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: 45
+      value: 40
+      inSlope: 2.0049205
+      outSlope: 2.0049205
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.17662178
+      outWeight: 0.02524934
+    - serializedVersion: 3
+      time: 180
+      value: 200
+      inSlope: 2.531451
+      outSlope: 0.87089866
+      tangentMode: 1
+      weightedMode: 1
+      inWeight: 0.2209007
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 0
+    m_RotationOrder: 4
   rightRayPosition: {fileID: 2373608001779523360}
   rightRayMaxDistance: 1
   rightAreaSize: 0.5

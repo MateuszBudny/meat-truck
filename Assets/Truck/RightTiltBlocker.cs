@@ -5,7 +5,7 @@ using UnityEngine;
 public class RightTiltBlocker : TiltBlocker
 {
     [SerializeField]
-    private float rightForce;
+    private AnimationCurve rightForceCurve;
     [SerializeField]
     private Transform rightRayPosition;
     [SerializeField]
@@ -45,7 +45,7 @@ public class RightTiltBlocker : TiltBlocker
 
                     Ray findNormalRay = new Ray(rightRayPosition.position + rayOffset, -transform.up);
 
-                    if(showDebugGizmo)
+                    if (showDebugGizmo)
                     {
                         Debug.DrawRay(findNormalRay.origin, findNormalRay.direction * rightRayMaxDistance);
                     }
@@ -79,7 +79,8 @@ public class RightTiltBlocker : TiltBlocker
             }
 
             Vector3 torqueDir = Vector3.Cross(transform.up, smoothGroundNormal.normalized);
-            vehicleController.rigidbody.AddTorque(torqueDir * rightForce, ForceMode.Acceleration);
+            float torqueAngle = Vector3.Angle(smoothGroundNormal.normalized, transform.up);
+            vehicleController.rigidbody.AddTorque(torqueDir * rightForceCurve.Evaluate(torqueAngle), ForceMode.Acceleration);
         }
     }
 }

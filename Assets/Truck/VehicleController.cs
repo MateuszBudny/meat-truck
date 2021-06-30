@@ -32,27 +32,17 @@ public class VehicleController : MonoBehaviour
     public float maxSteerAngle = 30;
     public new Rigidbody rigidbody;
 
-    [Header("Wheel Colliders")]
+    [Header("Wheels")]
     [SerializeField] 
-    private WheelCollider frontLeftWheelCollider;
+    private Wheel frontLeftWheel;
     [SerializeField] 
-    private WheelCollider frontRightWheelCollider;
+    private Wheel frontRightWheel;
     [SerializeField] 
-    private WheelCollider rearLeftWheelCollider;
+    private Wheel rearLeftWheel;
     [SerializeField] 
-    private WheelCollider rearRightWheelCollider;
+    private Wheel rearRightWheel;
 
-    [Header("Wheel Transforms")]
-    [SerializeField] 
-    private Transform frontLeftWheelTransform;
-    [SerializeField] 
-    private Transform frontRightWheeTransform;
-    [SerializeField] 
-    private Transform rearLeftWheelTransform;
-    [SerializeField] 
-    private Transform rearRightWheelTransform;
-
-    public bool IsGrounded => frontLeftWheelCollider.isGrounded || frontRightWheelCollider.isGrounded || rearLeftWheelCollider.isGrounded || rearRightWheelCollider.isGrounded;
+    public bool IsGrounded => frontLeftWheel.IsGrounded || frontRightWheel.IsGrounded || rearLeftWheel.IsGrounded || rearRightWheel.IsGrounded;
 
     private VehicleInput vehicleInput;
     private Queue<TiltBlocker> tiltBlockers;
@@ -78,7 +68,7 @@ public class VehicleController : MonoBehaviour
     {
         HandleMovement();
         HandleSteering();
-        UpdateWheels();
+        UpdateWheelsVisual();
         HandleChangeTiltBlockerInput();
         
         if(CurrentTiltBlocker)
@@ -99,43 +89,34 @@ public class VehicleController : MonoBehaviour
         acceleration = Mathf.Clamp(acceleration, -1f, 1f);
         float currentMotorForce = acceleration > 0 ? maxForwardMotorForce : maxBackwardMotorForce;
         float currentAccelerationForce = acceleration * currentMotorForce;
-        frontLeftWheelCollider.motorTorque = currentAccelerationForce;
-        frontRightWheelCollider.motorTorque = currentAccelerationForce;
+        frontLeftWheel.ApplyAcceleration(currentAccelerationForce);
+        frontRightWheel.ApplyAcceleration(currentAccelerationForce);
     }
 
     private void ApplyBraking(float braking)
     {
         braking = Mathf.Clamp(braking, 0f, 1f);
         float currentbrakeForce = braking * maxBrakeForce;
-        frontRightWheelCollider.brakeTorque = currentbrakeForce;
-        frontLeftWheelCollider.brakeTorque = currentbrakeForce;
-        rearLeftWheelCollider.brakeTorque = currentbrakeForce;
-        rearRightWheelCollider.brakeTorque = currentbrakeForce;
+        frontRightWheel.ApplyBraking(currentbrakeForce);
+        frontLeftWheel.ApplyBraking(currentbrakeForce);
+        rearLeftWheel.ApplyBraking(currentbrakeForce);
+        rearRightWheel.ApplyBraking(currentbrakeForce);
     }
 
     private void HandleSteering()
     {
         float currentSteerAngle = vehicleInput.GetCurrentSteeringAngle();
         currentSteerAngle = Mathf.Clamp(currentSteerAngle, -maxSteerAngle, maxSteerAngle);
-        frontLeftWheelCollider.steerAngle = currentSteerAngle;
-        frontRightWheelCollider.steerAngle = currentSteerAngle;
+        frontLeftWheel.ApplySteering(currentSteerAngle);
+        frontRightWheel.ApplySteering(currentSteerAngle);
     }
 
-    private void UpdateWheels()
+    private void UpdateWheelsVisual()
     {
-        UpdateSingleWheel(frontLeftWheelCollider, frontLeftWheelTransform);
-        UpdateSingleWheel(frontRightWheelCollider, frontRightWheeTransform);
-        UpdateSingleWheel(rearRightWheelCollider, rearRightWheelTransform);
-        UpdateSingleWheel(rearLeftWheelCollider, rearLeftWheelTransform);
-    }
-
-    private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
-    {
-        Vector3 pos;
-        Quaternion rot; 
-        wheelCollider.GetWorldPose(out pos, out rot);
-        wheelTransform.rotation = rot;
-        wheelTransform.position = pos;
+        frontLeftWheel.UpdateVisual();
+        frontRightWheel.UpdateVisual();
+        rearRightWheel.UpdateVisual();
+        rearLeftWheel.UpdateVisual();
     }
 
     private void HandleChangeTiltBlockerInput()

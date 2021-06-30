@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController), typeof(CharacterInput))]
+[RequireComponent(typeof(CharacterController), typeof(Character))]
 public class RagdollCharacterControllerExtension : MonoBehaviour
 {
     [SerializeField]
@@ -23,14 +23,14 @@ public class RagdollCharacterControllerExtension : MonoBehaviour
     
     public CharacterController CoreController { get; private set; }
 
-    private CharacterInput characterInput;
+    private Character character;
     private List<Collider> ragdollColliders = new List<Collider>();
     private List<Rigidbody> ragdollRigidbodies;
 
     private void Awake()
     {
         CoreController = GetComponent<CharacterController>();
-        characterInput = GetComponent<CharacterInput>();
+        character = GetComponent<Character>();
 
         GetComponentsInChildren<Collider>().ToList().ForEach(collider =>
             {
@@ -55,20 +55,12 @@ public class RagdollCharacterControllerExtension : MonoBehaviour
         if (CoreController.enabled)
         {
             Vector3 desiredMovement = new Vector3(
-                characterInput.GetDesiredMovement().x,
+                character.GetDesiredMovement().x,
                 0f,
-                characterInput.GetDesiredMovement().y);
+                character.GetDesiredMovement().y);
             CoreController.SimpleMove(desiredMovement * walkSpeed);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, characterInput.GetDesiredRotation(), rotationSpeed * Time.deltaTime);
-        }
-    }
-
-    private void OnTriggerEnter(Collider collider)
-    {
-        if (collider.CompareTag(Tags.PlayerVehicle.ToString()) || collider.CompareTag(Tags.NpcVehicle.ToString()))
-        {
-            SetAsRagdoll();
+            transform.rotation = Quaternion.Slerp(transform.rotation, character.GetDesiredRotation(), rotationSpeed * Time.deltaTime);
         }
     }
 

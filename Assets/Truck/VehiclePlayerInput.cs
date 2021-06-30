@@ -33,6 +33,15 @@ public class VehiclePlayerInput : VehicleInput
         }
     }
 
+    public void OnGathering(CallbackContext context)
+    {
+        if(context.started)
+        {
+            // action on gathering. imo npcs who are in range need to be constantly added or removed from list of npcs in range
+            // maybe this whole action shouldn't be in VehiclePlayerInput, but in some new PlayerVehicle class?
+        }
+    }
+
     public override float GetCurrentAcceleration()
     {
         if (IsVehicleGoingForward)

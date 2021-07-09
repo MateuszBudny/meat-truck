@@ -11,7 +11,7 @@ public class DeadNpcCharacterState : NpcCharacterState
         return false;
     }
 
-    public override Vector2 GetDesiredMovement() => Vector2.zero;
+    public override Vector2 GetMovement() => Vector2.zero;
 
-    public override Quaternion GetDesiredRotation() => Quaternion.identity;
+    public override Quaternion GetRotation() => Quaternion.identity;
 }

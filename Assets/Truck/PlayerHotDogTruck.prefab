@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1774009088715730717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8690328073625413237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25a2c09857c4e3d448c63a0f6c0a004b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1814516575773958639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goingForwardVelocityThreshold: 0.05
+  gatheringTrigger: {fileID: 7608011929663310546}
 --- !u!114 &7499024061375423835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +164,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3395970985411896863
 Transform:
   m_ObjectHideFlags: 0

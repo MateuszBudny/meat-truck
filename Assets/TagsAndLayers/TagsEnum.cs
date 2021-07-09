@@ -6,6 +6,7 @@ public enum Tags {
 	Ground,
 	MainCamera,
 	NpcHuman,
+	NpcHumanToGather,
 	NpcVehicle,
 	Player,
 	PlayerVehicle,

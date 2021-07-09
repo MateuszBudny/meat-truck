@@ -18,11 +18,11 @@ public class AliveNpcCharacterState : NpcCharacterState
         }
     }
 
-    public override Vector2 GetDesiredMovement()
+    public override Vector2 GetMovement()
     {
         if (character.Tracker.CurrentWaypoint)
         {
-            return new Vector2(character.transform.forward.x, character.transform.forward.z);
+            return new Vector2(character.transform.forward.x, character.transform.forward.z) * character.walkSpeed;
         }
         else
         {
@@ -30,7 +30,12 @@ public class AliveNpcCharacterState : NpcCharacterState
         }
     }
 
-    public override Quaternion GetDesiredRotation()
+    public override Quaternion GetRotation()
+    {
+       return Quaternion.Slerp(character.transform.rotation, GetDesiredRotation(), character.rotationSpeed * Time.deltaTime);
+    }
+
+    private Quaternion GetDesiredRotation()
     {
         if (character.Tracker.CurrentWaypoint)
         {

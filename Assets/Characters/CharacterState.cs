@@ -11,9 +11,9 @@ public abstract class CharacterState
         this.character = character;
     }
 
-    public abstract Vector2 GetDesiredMovement();
+    public abstract Vector2 GetMovement();
 
-    public abstract Quaternion GetDesiredRotation();
+    public abstract Quaternion GetRotation();
 
     /// <summary>
     /// Returns if the current state can be changed to the new state.

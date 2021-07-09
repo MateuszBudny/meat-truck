@@ -9,6 +9,7 @@ TagManager:
   - Waypoint
   - NpcHuman
   - PlayerVehicle
+  - NpcHumanToGather
   layers:
   - Default
   - TransparentFX

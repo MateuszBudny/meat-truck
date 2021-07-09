@@ -77,7 +77,6 @@ public class VehicleController : MonoBehaviour
         }
     }
 
-
     private void HandleMovement()
     {
         ApplyAcceleration(vehicleInput.GetCurrentAcceleration());

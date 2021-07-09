@@ -8,10 +8,6 @@ public class RagdollCharacterControllerExtension : MonoBehaviour
 {
     [SerializeField]
     private Animator animator;
-    [SerializeField]
-    private float walkSpeed = 0.5f;
-    [SerializeField]
-    private float rotationSpeed = 5f;
 
     [Header("Ragdoll Rigidbodies Properties")]
     [SerializeField]
@@ -23,14 +19,12 @@ public class RagdollCharacterControllerExtension : MonoBehaviour
     
     public CharacterController CoreController { get; private set; }
 
-    private Character character;
     private List<Collider> ragdollColliders = new List<Collider>();
     private List<Rigidbody> ragdollRigidbodies;
 
     private void Awake()
     {
         CoreController = GetComponent<CharacterController>();
-        character = GetComponent<Character>();
 
         GetComponentsInChildren<Collider>().ToList().ForEach(collider =>
             {
@@ -50,17 +44,11 @@ public class RagdollCharacterControllerExtension : MonoBehaviour
         SetAsAnimated();
     }
 
-    private void Update()
+    public void SimpleMove(Vector3 speed)
     {
         if (CoreController.enabled)
         {
-            Vector3 desiredMovement = new Vector3(
-                character.GetDesiredMovement().x,
-                0f,
-                character.GetDesiredMovement().y);
-            CoreController.SimpleMove(desiredMovement * walkSpeed);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, character.GetDesiredRotation(), rotationSpeed * Time.deltaTime);
+            CoreController.SimpleMove(speed);
         }
     }
 

@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
-public class VehiclePlayerInput : VehicleInput
+[RequireComponent(typeof(VehicleController))]
+public class PlayerVehicle : Vehicle
 {
     [SerializeField]
     private float goingForwardVelocityThreshold = 0.05f;
     [SerializeField]
     private GameObject gatheringTrigger;
+
+    public PlayerVehicleState State { get => vehicleGenericState as PlayerVehicleState; private set => vehicleGenericState = value; }
+
+    private float RawAccelerateInput { get; set; }
+    private float RawNormalBrakeInput { get; set; }
+    //public float HandBrakeInput { get; protected set; } // TODO
+    private Vector2 RawSteeringInput { get; set; }
 
     private bool IsVehicleGoingForward => transform.InverseTransformDirection(rigidbody.velocity).z > goingForwardVelocityThreshold;
 
@@ -47,7 +55,7 @@ public class VehiclePlayerInput : VehicleInput
     {
         if(context.started)
         {
-            ChangeTiltBlockerInput = true;
+            ChangeTiltBlockerInput();
         }
     }
 
@@ -57,9 +65,6 @@ public class VehiclePlayerInput : VehicleInput
     {
         if(context.started)
         {
-            // action on gathering. imo npcs who are in range need to be constantly added or removed from list of npcs in range
-            // or better. just activate the trigger collider when it is needed, it should work, just like explosions (maybe continuous collision detection?).
-            // if for some reason it won't work, then you can animate the trigger collider, so it will be quickly expanding from 0 radius to max. this way it should catch everything, that is needed.
             gatheringTrigger.SetActive(true);
         }
 

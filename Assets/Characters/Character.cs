@@ -7,6 +7,8 @@ public abstract class Character : MonoBehaviour
     public float walkSpeed = 0.85f;
     public float rotationSpeed = 1f;
 
+    protected CharacterState characterGenericState;
+
     /// <summary>
     /// In world space.
     /// </summary>
@@ -18,9 +20,4 @@ public abstract class Character : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     public abstract Quaternion GetRotation();
-
-    public virtual Quaternion Getcostam()
-    {
-        return Quaternion.identity;
-    }
 }

@@ -15,7 +15,7 @@ public class GameplayManager : SingleBehaviour<GameplayManager>
     [SerializeField]
     private GameObject mobileVirtualControllers;
 
-    public VehicleController Player { get; set; }
+    public VehicleController PlayerVehicleController { get; set; }
     public ControllerMode CurrentControllerMode => ControllerModes.Peek();
 
     protected override void Awake()

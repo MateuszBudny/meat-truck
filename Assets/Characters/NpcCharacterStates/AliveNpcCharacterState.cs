@@ -11,7 +11,7 @@ public class AliveNpcCharacterState : NpcCharacterState
         switch(newState)
         {
             case DeadNpcCharacterState _:
-                character.SetAsRagdoll();
+                NpcCharacter.SetAsRagdoll();
                 return true;
             default:
                 return false;
@@ -20,7 +20,7 @@ public class AliveNpcCharacterState : NpcCharacterState
 
     public override Vector2 GetMovement()
     {
-        if (character.Tracker.CurrentWaypoint)
+        if (NpcCharacter.Tracker.CurrentWaypoint)
         {
             return new Vector2(character.transform.forward.x, character.transform.forward.z) * character.walkSpeed;
         }
@@ -37,9 +37,9 @@ public class AliveNpcCharacterState : NpcCharacterState
 
     private Quaternion GetDesiredRotation()
     {
-        if (character.Tracker.CurrentWaypoint)
+        if (NpcCharacter.Tracker.CurrentWaypoint)
         {
-            Vector3 waypointDirection = character.Tracker.CurrentWaypoint.transform.position - character.transform.position;
+            Vector3 waypointDirection = NpcCharacter.Tracker.CurrentWaypoint.transform.position - character.transform.position;
             return Quaternion.LookRotation(new Vector3(
                 waypointDirection.x,
                 0f,
@@ -48,6 +48,14 @@ public class AliveNpcCharacterState : NpcCharacterState
         else
         {
             return character.transform.rotation;
+        }
+    }
+
+    public override void OnTriggerEnter(Collider collider)
+    {
+        if (collider.CompareTag(Tags.PlayerVehicle.ToString()) || collider.CompareTag(Tags.NpcVehicle.ToString()))
+        {
+            NpcCharacter.ChangeState(new DeadNpcCharacterState(NpcCharacter));
         }
     }
 }

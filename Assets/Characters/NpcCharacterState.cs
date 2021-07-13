@@ -4,5 +4,10 @@ using UnityEngine;
 
 public abstract class NpcCharacterState : CharacterState
 {
-    public NpcCharacterState(NpcCharacter character) : base(character) {}
+    protected NpcCharacter NpcCharacter => character as NpcCharacter;
+
+    public NpcCharacterState(NpcCharacter character)
+    {
+        this.character = character;
+    }
 }

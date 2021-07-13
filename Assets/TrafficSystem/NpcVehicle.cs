@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(WaypointsTracker))]
-public class VehicleNpcInput : VehicleInput
+[RequireComponent(typeof(VehicleController), typeof(WaypointsTracker))]
+public class NpcVehicle : Vehicle
 {
     private WaypointsTracker tracker;
 

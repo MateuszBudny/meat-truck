@@ -4,20 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.InputAction;
 
 // most important shortkeys
 // tier0:
 // alt+enter: tip
 // ctrl+t: searching by fields/classes names
-// right click + znajdŸ wszystkie odwo³ania: znajduje wszystkie odwo³ania xd
+// right click + znajdz wszystkie odwolania: znajduje wszystkie odwolania xd
 // ctrl+left click on field: jump into field declaration
 
 // tier1:
 // ctrl+l: copy and delete line 
 // alt+arrow up/down: selected line up/down
 
-[RequireComponent(typeof(VehicleInput))]
+[RequireComponent(typeof(Vehicle))]
 public class VehicleController : MonoBehaviour
 {
     [Header("Controller Settings")]
@@ -44,7 +43,6 @@ public class VehicleController : MonoBehaviour
 
     public bool IsGrounded => frontLeftWheel.IsGrounded || frontRightWheel.IsGrounded || rearLeftWheel.IsGrounded || rearRightWheel.IsGrounded;
 
-    private VehicleInput vehicleInput;
     private Queue<TiltBlocker> tiltBlockers;
     private TiltBlocker CurrentTiltBlocker => tiltBlockers.Peek();
 
@@ -56,20 +54,16 @@ public class VehicleController : MonoBehaviour
         {
             CurrentTiltBlocker.OnTiltBlockerEnable(false);
         }
-        vehicleInput = GetComponent<VehicleInput>();
     }
 
     private void Start()
     {
-        GameplayManager.Instance.Player = this;
+        GameplayManager.Instance.PlayerVehicleController = this;
     }
 
     private void FixedUpdate()
     {
-        HandleMovement();
-        HandleSteering();
         UpdateWheelsVisual();
-        HandleChangeTiltBlockerInput();
         
         if(CurrentTiltBlocker)
         {
@@ -77,13 +71,7 @@ public class VehicleController : MonoBehaviour
         }
     }
 
-    private void HandleMovement()
-    {
-        ApplyAcceleration(vehicleInput.GetCurrentAcceleration());
-        ApplyBraking(vehicleInput.GetCurrentBraking());
-    }
-
-    private void ApplyAcceleration(float acceleration)
+    public void ApplyAcceleration(float acceleration)
     {
         acceleration = Mathf.Clamp(acceleration, -1f, 1f);
         float currentMotorForce = acceleration > 0 ? maxForwardMotorForce : maxBackwardMotorForce;
@@ -92,7 +80,7 @@ public class VehicleController : MonoBehaviour
         frontRightWheel.ApplyAcceleration(currentAccelerationForce);
     }
 
-    private void ApplyBraking(float braking)
+    public void ApplyBraking(float braking)
     {
         braking = Mathf.Clamp(braking, 0f, 1f);
         float currentbrakeForce = braking * maxBrakeForce;
@@ -102,12 +90,24 @@ public class VehicleController : MonoBehaviour
         rearRightWheel.ApplyBraking(currentbrakeForce);
     }
 
-    private void HandleSteering()
+    public void HandleSteering(float steerAngle)
     {
-        float currentSteerAngle = vehicleInput.GetCurrentSteeringAngle();
-        currentSteerAngle = Mathf.Clamp(currentSteerAngle, -maxSteerAngle, maxSteerAngle);
-        frontLeftWheel.ApplySteering(currentSteerAngle);
-        frontRightWheel.ApplySteering(currentSteerAngle);
+        float clampedSteerAngle = Mathf.Clamp(steerAngle, -maxSteerAngle, maxSteerAngle);
+        frontLeftWheel.ApplySteering(clampedSteerAngle);
+        frontRightWheel.ApplySteering(clampedSteerAngle);
+    }
+
+    public void HandleChangeTiltBlockerInput()
+    {
+        if(CurrentTiltBlocker)
+        {
+            CurrentTiltBlocker.OnTiltBlockerDisable();
+        }
+        tiltBlockers.Enqueue(tiltBlockers.Dequeue());
+        if(CurrentTiltBlocker)
+        {
+            CurrentTiltBlocker.OnTiltBlockerEnable();
+        }
     }
 
     private void UpdateWheelsVisual()
@@ -116,22 +116,5 @@ public class VehicleController : MonoBehaviour
         frontRightWheel.UpdateVisual();
         rearRightWheel.UpdateVisual();
         rearLeftWheel.UpdateVisual();
-    }
-
-    private void HandleChangeTiltBlockerInput()
-    {
-        if (vehicleInput.ChangeTiltBlockerInput)
-        {
-            vehicleInput.ChangeTiltBlockerInput = false;
-            if(CurrentTiltBlocker)
-            {
-                CurrentTiltBlocker.OnTiltBlockerDisable();
-            }
-            tiltBlockers.Enqueue(tiltBlockers.Dequeue());
-            if(CurrentTiltBlocker)
-            {
-                CurrentTiltBlocker.OnTiltBlockerEnable();
-            }
-        }
     }
 }

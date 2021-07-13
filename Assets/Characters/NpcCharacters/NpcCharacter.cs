@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(WaypointsTracker))]
 public class NpcCharacter : Character
 {
-    public NpcCharacterState State { get; private set; }
+    public NpcCharacterState State { get => characterGenericState as NpcCharacterState; private set => characterGenericState = value; }
     public RagdollCharacterControllerExtension Controller { get; private set; }
     public WaypointsTracker Tracker { get; private set; }
 
@@ -30,16 +30,17 @@ public class NpcCharacter : Character
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.CompareTag(Tags.PlayerVehicle.ToString()) || collider.CompareTag(Tags.NpcVehicle.ToString()))
-        {
-            ChangeState(new DeadNpcCharacterState(this));
-        }
+        State.OnTriggerEnter(collider);
     }
 
     public override Vector2 GetMovement() => State.GetMovement();
 
     public override Quaternion GetRotation() => State.GetRotation();
 
+    /// <summary>
+    /// Use this to change state. (do not use state's inner ChangeState() method directly!)
+    /// </summary>
+    /// <param name="newState"></param>
     public void ChangeState(NpcCharacterState newState)
     {
         if (State.ChangeState(newState))

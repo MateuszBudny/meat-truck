@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VehicleState : MonoBehaviour
+public abstract class VehicleState
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    protected Vehicle vehicle;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    /// <summary>
+    /// Returns if the current state can be changed to the new state. Do not use directly!
+    /// </summary>
+    /// <param name="newState"></param>
+    /// <returns></returns>
+    public abstract bool ChangeState(VehicleState newState);
+
+    public abstract float GetCurrentAcceleration();
+
+    public abstract float GetCurrentBraking();
+
+    public abstract float GetCurrentSteeringAngle();
 }

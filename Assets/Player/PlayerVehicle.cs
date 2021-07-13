@@ -13,14 +13,20 @@ public class PlayerVehicle : Vehicle
 
     public PlayerVehicleState State { get => vehicleGenericState as PlayerVehicleState; private set => vehicleGenericState = value; }
 
-    private float RawAccelerateInput { get; set; }
-    private float RawNormalBrakeInput { get; set; }
+    public float RawAccelerateInput { get; set; }
+    public float RawNormalBrakeInput { get; set; }
     //public float HandBrakeInput { get; protected set; } // TODO
-    private Vector2 RawSteeringInput { get; set; }
+    public Vector2 RawSteeringInput { get; set; }
 
     private bool IsVehicleGoingForward => transform.InverseTransformDirection(rigidbody.velocity).z > goingForwardVelocityThreshold;
 
-    private void OnTriggerEnter(Collider collider)
+    protected override void Awake()
+    {
+        base.Awake();
+        State = new ForwardLowVelocityPlayerVehicleState(this);
+    }
+
+        private void OnTriggerEnter(Collider collider)
     {
         if(collider.CompareTag(Tags.NpcHumanToGather.ToString()) && gatheringTrigger.activeSelf)
         {
@@ -59,8 +65,6 @@ public class PlayerVehicle : Vehicle
         }
     }
 
-    // maybe this whole action shouldn't be in VehiclePlayerInput, but in some new PlayerVehicle class?
-    // yea, refactor this into VehiclePlayerInput (or PlayerVehicleInput), PlayerVehicle and VehicleController. for npc it will be NpcVehicle and VehicleController.
     public void OnGathering(CallbackContext context)
     {
         if(context.started)
@@ -76,30 +80,28 @@ public class PlayerVehicle : Vehicle
 
     public override float GetCurrentAcceleration()
     {
-        if (IsVehicleGoingForward)
-        {
-            return RawAccelerateInput;
-        }
-        else
-        {
-            return RawAccelerateInput - RawNormalBrakeInput;
-        }
+        return State.GetCurrentAcceleration();
     }
 
     public override float GetCurrentBraking()
     {
-        if (IsVehicleGoingForward)
-        {
-            return RawNormalBrakeInput;
-        }
-        else
-        {
-            return 0f;
-        }
+        return State.GetCurrentBraking();
     }
 
     public override float GetCurrentSteeringAngle()
     {
-        return GameplayManager.Instance.CurrentControllerMode.CalculateSteeringAngle(VehicleController, RawSteeringInput);
+        return State.GetCurrentSteeringAngle();
+    }
+
+    /// <summary>
+    /// Use this to change state. (do not use state's inner ChangeState() method directly!)
+    /// </summary>
+    /// <param name="newState"></param>
+    public void ChangeState(PlayerVehicleState newState)
+    {
+        if (State.ChangeState(newState))
+        {
+            State = newState;
+        }
     }
 }

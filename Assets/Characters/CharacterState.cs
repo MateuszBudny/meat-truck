@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CharacterState
+public abstract class CharacterState 
 {
     protected Character character;
 

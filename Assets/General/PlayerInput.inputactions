@@ -336,6 +336,33 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "MeatProcessing",
+            "id": "99f4a691-4b91-4cf3-9775-a841bb38be24",
+            "actions": [
+                {
+                    "name": "CorpseJump",
+                    "type": "Button",
+                    "id": "35404064-450c-4752-b676-49e8a73c8b2b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "57c53252-8bfb-4561-b3b4-35ed14cf0ab5",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "CorpseJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(WaypointsTracker))]
 public class NpcCharacter : Character
-{
+{  
     public NpcCharacterState State { get => characterGenericState as NpcCharacterState; private set => characterGenericState = value; }
     public RagdollCharacterControllerExtension Controller { get; private set; }
     public WaypointsTracker Tracker { get; private set; }

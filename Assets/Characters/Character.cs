@@ -6,6 +6,7 @@ public abstract class Character : MonoBehaviour
 {
     public float walkSpeed = 0.85f;
     public float rotationSpeed = 1f;
+    public Rigidbody mainRigidbody;
 
     protected CharacterState characterGenericState;
 

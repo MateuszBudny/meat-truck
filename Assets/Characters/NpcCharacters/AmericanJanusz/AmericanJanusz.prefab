@@ -559,10 +559,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2468199903739522361}
+  - component: {fileID: 1320904446827655870}
   - component: {fileID: 8991205558448751518}
   - component: {fileID: 6257709294450531912}
   - component: {fileID: 7496463112446998923}
-  - component: {fileID: 1320904446827655870}
   m_Layer: 8
   m_Name: AmericanJanusz
   m_TagString: NpcHuman
@@ -578,13 +578,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5001736940374171689}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.9718131, y: -0.027267933, z: 12.193347}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 851594645657974288}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1320904446827655870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5001736940374171689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf26e4dca797b843ab2252cde1bb0ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 0.85
+  rotationSpeed: 1
+  mainRigidbody: {fileID: 3347628409217931699}
 --- !u!143 &8991205558448751518
 CharacterController:
   m_ObjectHideFlags: 0
@@ -632,20 +647,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingWaypoint: {fileID: 0}
---- !u!114 &1320904446827655870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5001736940374171689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbf26e4dca797b843ab2252cde1bb0ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkSpeed: 0.85
-  rotationSpeed: 1
 --- !u!54 &3347628409217931699
 Rigidbody:
   m_ObjectHideFlags: 0

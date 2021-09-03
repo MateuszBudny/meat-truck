@@ -5,17 +5,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// most important shortkeys
-// tier0:
-// alt+enter: tip
-// ctrl+t: searching by fields/classes names
-// right click + znajdz wszystkie odwolania: znajduje wszystkie odwolania xd
-// ctrl+left click on field: jump into field declaration
-
-// tier1:
-// ctrl+l: copy and delete line 
-// alt+arrow up/down: selected line up/down
-
 [RequireComponent(typeof(Vehicle))]
 public class VehicleController : MonoBehaviour
 {

@@ -18,23 +18,59 @@ public class MeatProcessingManager : MonoBehaviour
 {
     public GameObject corpse;
     public GameObject corpseSpawnPoint;
+    public GameObject meatPrefab;
     public Vector3 throwForceMin = new Vector3(-100f, 300f, -200f);
     public Vector3 throwForceMax = new Vector3(-1000f, 1000f, 200f);
 
+    private MeatProcessingStep meatProcessingStep = MeatProcessingStep.CorpseThrowing;
+    private GameObject corpseInstance;
+    private GameObject meatInstance;
+
     public void OnCorpseJumpClick(CallbackContext context)
     {
-        if (context.started)
+        if (meatProcessingStep == MeatProcessingStep.CorpseThrowing)
         {
-            GameObject corpseInstance = Instantiate(corpse, corpseSpawnPoint.transform);
-            Vector3 throwForce = new Vector3(
-                Random.Range(throwForceMin.x, throwForceMax.x),
-                Random.Range(throwForceMin.y, throwForceMax.y),
-                Random.Range(throwForceMin.z, throwForceMax.z));
 
-            NpcCharacter corpseInstanceCharacter = corpseInstance.GetComponent<NpcCharacter>();
-            corpseInstanceCharacter.SetAsRagdoll();
-            corpseInstanceCharacter.mainRigidbody.AddForce(throwForce);
+            if (context.started)
+            {
+                corpseInstance = Instantiate(corpse, corpseSpawnPoint.transform);
+                Vector3 throwForce = new Vector3(
+                    Random.Range(throwForceMin.x, throwForceMax.x),
+                    Random.Range(throwForceMin.y, throwForceMax.y),
+                    Random.Range(throwForceMin.z, throwForceMax.z));
+
+                Debug.Log(throwForce);
+
+                NpcCharacter corpseInstanceCharacter = corpseInstance.GetComponent<NpcCharacter>();
+                corpseInstanceCharacter.SetAsRagdoll();
+                corpseInstanceCharacter.mainRigidbody.AddForce(throwForce);
+                meatProcessingStep++;
+                StartCoroutine(NonThrowingTime());
+            }
         }
+        if (meatProcessingStep == MeatProcessingStep.MeatAcquire)
+        {
+            if (context.started)
+            {
+                Vector3 corpsePosition = corpseInstance.GetComponent<NpcCharacter>().mainRigidbody.transform.position;
+                Destroy(corpseInstance);
+                meatInstance = Instantiate(meatPrefab, corpsePosition, meatPrefab.transform.rotation);
+                meatProcessingStep = MeatProcessingStep.CorpseThrowing;
+            }
+
+        }
+    }
+
+    private IEnumerator NonThrowingTime()
+    {
+        yield return new WaitForSecondsRealtime(3);
+        meatProcessingStep++;
     }
 }
 
+public enum MeatProcessingStep
+{
+    CorpseThrowing = 0,
+    CorpseFlying = 1,
+    MeatAcquire = 2,
+}

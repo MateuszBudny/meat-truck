@@ -348,6 +348,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "LightButton",
+                    "type": "Button",
+                    "id": "316f7395-a80e-4127-9c35-111f37815494",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -359,6 +367,39 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "CorpseJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "399a733f-4176-4449-b83e-9c9ed14d7a45",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepads",
+                    "action": "CorpseJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "66ee6a90-1b11-4171-aed9-9f555ebe09d1",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "LightButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "80b99a6f-6f6c-462f-b05d-a35d11f48bf6",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepads",
+                    "action": "LightButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

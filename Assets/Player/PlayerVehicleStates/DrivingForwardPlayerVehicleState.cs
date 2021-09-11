@@ -4,18 +4,7 @@ using UnityEngine;
 
 public class DrivingForwardPlayerVehicleState : PlayerVehicleState
 {
-    public DrivingForwardPlayerVehicleState(PlayerVehicle vehicle) : base(vehicle) {}
-
-    public override bool ChangeState(VehicleState newState)
-    {
-        switch(newState)
-        {
-            case ForwardLowVelocityPlayerVehicleState _:
-                return true;
-            default:
-                return false;
-        }
-    }
+    public DrivingForwardPlayerVehicleState(PlayerVehicle playerVehicle) : base(playerVehicle) {}
 
     public override float GetCurrentAcceleration()
     {

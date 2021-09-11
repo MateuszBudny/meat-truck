@@ -6,8 +6,8 @@ public abstract class PlayerVehicleState : VehicleState
 {
     protected PlayerVehicle PlayerVehicle => vehicle as PlayerVehicle;
 
-    public PlayerVehicleState(PlayerVehicle vehicle)
+    public PlayerVehicleState(PlayerVehicle playerVehicle)
     {
-        this.vehicle = vehicle;
+        vehicle = playerVehicle;
     }
 }

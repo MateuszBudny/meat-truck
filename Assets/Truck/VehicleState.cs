@@ -6,12 +6,9 @@ public abstract class VehicleState
 {
     protected Vehicle vehicle;
 
-    /// <summary>
-    /// Returns if the current state can be changed to the new state. Do not use directly!
-    /// </summary>
-    /// <param name="newState"></param>
-    /// <returns></returns>
-    public abstract bool ChangeState(VehicleState newState);
+    public virtual void OnStateEnter(VehicleState previousState) {}
+
+    public virtual void OnStateExit(VehicleState nextState) {}
 
     public abstract float GetCurrentAcceleration();
 

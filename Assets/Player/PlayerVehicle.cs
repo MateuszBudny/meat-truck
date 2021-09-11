@@ -93,15 +93,11 @@ public class PlayerVehicle : Vehicle
         return State.GetCurrentSteeringAngle();
     }
 
-    /// <summary>
-    /// Use this to change state. (do not use state's inner ChangeState() method directly!)
-    /// </summary>
-    /// <param name="newState"></param>
     public void ChangeState(PlayerVehicleState newState)
     {
-        if (State.ChangeState(newState))
-        {
-            State = newState;
-        }
+        PlayerVehicleState previousState = State;
+        State.OnStateExit(newState);
+        State = newState;
+        State.OnStateEnter(previousState);
     }
 }

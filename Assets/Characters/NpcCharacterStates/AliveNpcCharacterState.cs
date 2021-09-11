@@ -4,19 +4,7 @@ using UnityEngine;
 
 public class AliveNpcCharacterState : NpcCharacterState
 {
-    public AliveNpcCharacterState(NpcCharacter character) : base(character) {}
-
-    public override bool ChangeState(CharacterState newState)
-    {
-        switch(newState)
-        {
-            case DeadNpcCharacterState _:
-                NpcCharacter.SetAsRagdoll();
-                return true;
-            default:
-                return false;
-        }
-    }
+    public AliveNpcCharacterState(NpcCharacter npcCharacter) : base(npcCharacter) {}
 
     public override Vector2 GetMovement()
     {

@@ -6,8 +6,8 @@ public abstract class NpcCharacterState : CharacterState
 {
     protected NpcCharacter NpcCharacter => character as NpcCharacter;
 
-    public NpcCharacterState(NpcCharacter character)
+    public NpcCharacterState(NpcCharacter npcCharacter)
     {
-        this.character = character;
+        character = npcCharacter;
     }
 }

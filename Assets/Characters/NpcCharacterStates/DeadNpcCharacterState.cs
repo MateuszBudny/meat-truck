@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class DeadNpcCharacterState : NpcCharacterState
 {
-    public DeadNpcCharacterState(NpcCharacter character) : base(character) {}
+    public DeadNpcCharacterState(NpcCharacter npcCharacter) : base(npcCharacter) {}
 
-    public override bool ChangeState(CharacterState newState)
+    public override void OnStateEnter(CharacterState previousState)
     {
-        return false;
+        NpcCharacter.Controller.SetAsRagdoll();
     }
 
     public override Vector2 GetMovement() => Vector2.zero;

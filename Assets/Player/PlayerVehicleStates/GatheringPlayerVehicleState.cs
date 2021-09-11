@@ -4,10 +4,5 @@ using UnityEngine;
 
 public class GatheringPlayerVehicleState : DrivingBackwardPlayerVehicleState
 {
-    public GatheringPlayerVehicleState(PlayerVehicle vehicle) : base(vehicle) { }
-
-    public override bool ChangeState(VehicleState newState)
-    {
-        return true;
-    }
+    public GatheringPlayerVehicleState(PlayerVehicle playerVehicle) : base(playerVehicle) {}
 }

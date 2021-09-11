@@ -43,11 +43,11 @@ public class NpcCharacter : Character
     /// <param name="newState"></param>
     public void ChangeState(NpcCharacterState newState)
     {
-        if (State.ChangeState(newState))
-        {
-            State = newState;
-        }
+        NpcCharacterState previousState = State;
+        State.OnStateExit(newState);
+        State = newState;
+        State.OnStateEnter(previousState);
     }
 
-    public void SetAsRagdoll() => Controller.SetAsRagdoll();
+    public void SetAsRagdoll() => ChangeState(new DeadNpcCharacterState(this));
 }

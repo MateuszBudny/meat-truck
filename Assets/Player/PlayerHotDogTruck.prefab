@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 210ea7f919af1d547bb3cf83926f28ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goingForwardVelocityThreshold: 0.05
+  deliberateMovementVelocityThreshold: 1
   gatheringTrigger: {fileID: 7608011929663310546}
 --- !u!114 &7499024061375423835
 MonoBehaviour:

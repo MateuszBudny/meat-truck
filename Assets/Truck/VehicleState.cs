@@ -10,6 +10,8 @@ public abstract class VehicleState
 
     public virtual void OnStateExit(VehicleState nextState) {}
 
+    public virtual void Update() {}
+
     public abstract float GetCurrentAcceleration();
 
     public abstract float GetCurrentBraking();

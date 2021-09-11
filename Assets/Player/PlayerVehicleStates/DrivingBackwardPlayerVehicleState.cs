@@ -6,6 +6,14 @@ public class DrivingBackwardPlayerVehicleState : DrivingForwardPlayerVehicleStat
 {
     public DrivingBackwardPlayerVehicleState(PlayerVehicle playerVehicle) : base(playerVehicle) { }
 
+    public override void Update()
+    {
+        if(!PlayerVehicle.IsDeliberatelyGoingBackward)
+        {
+            PlayerVehicle.ChangeState(new LowVelocityPlayerVehicleState(PlayerVehicle));
+        }
+    }
+
     public override float GetCurrentAcceleration()
     {
         return PlayerVehicle.RawAccelerateInput - PlayerVehicle.RawNormalBrakeInput;

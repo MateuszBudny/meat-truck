@@ -7,23 +7,24 @@ using static UnityEngine.InputSystem.InputAction;
 public class PlayerVehicle : Vehicle
 {
     [SerializeField]
-    private float goingForwardVelocityThreshold = 0.05f;
+    private float deliberateMovementVelocityThreshold = 0.05f;
     [SerializeField]
     private GameObject gatheringTrigger;
 
     public PlayerVehicleState State { get => vehicleGenericState as PlayerVehicleState; private set => vehicleGenericState = value; }
+    public float CurrentSpeed => transform.InverseTransformDirection(rigidbody.velocity).z;
+    public bool IsDeliberatelyGoingForward => CurrentSpeed > deliberateMovementVelocityThreshold;
+    public bool IsDeliberatelyGoingBackward => CurrentSpeed < -deliberateMovementVelocityThreshold;
 
     public float RawAccelerateInput { get; set; }
     public float RawNormalBrakeInput { get; set; }
     //public float HandBrakeInput { get; protected set; } // TODO
     public Vector2 RawSteeringInput { get; set; }
 
-    private bool IsVehicleGoingForward => transform.InverseTransformDirection(rigidbody.velocity).z > goingForwardVelocityThreshold;
-
     protected override void Awake()
     {
         base.Awake();
-        State = new ForwardLowVelocityPlayerVehicleState(this);
+        State = new LowVelocityPlayerVehicleState(this);
     }
 
         private void OnTriggerEnter(Collider collider)
@@ -40,6 +41,11 @@ public class PlayerVehicle : Vehicle
                 Destroy(npcCharacterCollided.gameObject);
             }
         }
+    }
+
+    private void Update()
+    {
+        State.Update();
     }
 
     public void OnAccelerateInput(CallbackContext context)

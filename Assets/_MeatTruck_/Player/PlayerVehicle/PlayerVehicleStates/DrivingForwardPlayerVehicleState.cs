@@ -10,7 +10,7 @@ public class DrivingForwardPlayerVehicleState : PlayerVehicleState
     {
         if(!PlayerVehicle.IsDeliberatelyGoingForward)
         {
-            PlayerVehicle.ChangeState(new LowVelocityPlayerVehicleState(PlayerVehicle));
+            PlayerVehicle.ChangeState(new DrivingLowVelocityPlayerVehicleState(PlayerVehicle));
         }
     }
 

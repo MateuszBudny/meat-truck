@@ -12,6 +12,8 @@ public abstract class VehicleState
 
     public virtual void Update() {}
 
+    public virtual void OnTriggerEnter(Collider collider) {}
+
     public abstract float GetCurrentAcceleration();
 
     public abstract float GetCurrentBraking();

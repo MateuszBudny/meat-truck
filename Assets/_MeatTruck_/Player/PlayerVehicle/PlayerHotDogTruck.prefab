@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deliberateMovementVelocityThreshold: 1
-  gatheringTrigger: {fileID: 7608011929663310546}
+  gathering: {fileID: 0}
 --- !u!114 &7499024061375423835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +156,19 @@ MonoBehaviour:
   m_DefaultActionMap: Driving
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &5977176858047709223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8690328073625413237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1ec931607501dc48931713de91fdcd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gatheringTrigger: {fileID: 7608011929663310546}
 --- !u!1 &7608011929663310546
 GameObject:
   m_ObjectHideFlags: 0

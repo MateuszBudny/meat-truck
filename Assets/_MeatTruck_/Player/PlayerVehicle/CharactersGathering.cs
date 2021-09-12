@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class CharactersGathering : MonoBehaviour
 {
-    
+    public GameObject gatheringTrigger;
 }

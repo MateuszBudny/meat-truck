@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/PLAYGROUND.unity
+    path: Assets/_MeatTruck_/Scenes/PLAYGROUND.unity
     guid: 3fe3ca06514ff36498f4a97afa0f1a67
   m_configObjects: {}

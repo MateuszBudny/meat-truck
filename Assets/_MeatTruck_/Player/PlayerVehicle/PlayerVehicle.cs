@@ -8,6 +8,7 @@ public class PlayerVehicle : Vehicle
 {
     [SerializeField]
     private float deliberateMovementVelocityThreshold = 0.05f;
+    public float characterGatheringDuration = 3f;
 
     public float CurrentSpeed => transform.InverseTransformDirection(rigidbody.velocity).z;
     public bool IsDeliberatelyGoingForward => CurrentSpeed > deliberateMovementVelocityThreshold;

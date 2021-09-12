@@ -4,9 +4,22 @@ using UnityEngine;
 
 public class PlayerVehicleEffects : EffectsAbstract<PlayerVehicleEffect>
 {
+    [SerializeField]
+    private ParticleSystem gatheringSmoke;
+    [SerializeField]
+    private ParticleSystem gatheringFinishedSuccessfully;
+
     public override void Play(PlayerVehicleEffect effect)
     {
-        throw new System.NotImplementedException();
+        switch(effect)
+        {
+            case PlayerVehicleEffect.GatheringSmoke:
+                gatheringSmoke.Play(true);
+                break;
+            case PlayerVehicleEffect.GatheringFinishedSuccessfully:
+                gatheringFinishedSuccessfully.Play(true);
+                break;
+        }
     }
 
     public override void PlayForLimitedTime(PlayerVehicleEffect effect, float duration, ParticleSystemStopBehavior stopBehaviour)
@@ -16,11 +29,20 @@ public class PlayerVehicleEffects : EffectsAbstract<PlayerVehicleEffect>
 
     public override void Stop(PlayerVehicleEffect effect, ParticleSystemStopBehavior stopBehavior)
     {
-        throw new System.NotImplementedException();
+        switch (effect)
+        {
+            case PlayerVehicleEffect.GatheringSmoke:
+                gatheringSmoke.Stop(true, stopBehavior);
+                break;
+            case PlayerVehicleEffect.GatheringFinishedSuccessfully:
+                gatheringFinishedSuccessfully.Stop(true, stopBehavior);
+                break;
+        }
     }
 }
 
 public enum PlayerVehicleEffect
 {
-
+    GatheringSmoke,
+    GatheringFinishedSuccessfully,
 }

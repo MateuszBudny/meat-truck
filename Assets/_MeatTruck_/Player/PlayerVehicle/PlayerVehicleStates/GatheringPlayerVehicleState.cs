@@ -7,6 +7,7 @@ using static UnityEngine.InputSystem.InputAction;
 public class GatheringPlayerVehicleState : DrivingLowVelocityPlayerVehicleState
 {
     private NpcCharacter npcCharacterBeingGathered;
+    private Coroutine gatheringCoroutine;
 
     public GatheringPlayerVehicleState(PlayerVehicle playerVehicle, NpcCharacter npcCharacterBeingGathered) : base(playerVehicle) 
     {
@@ -15,12 +16,12 @@ public class GatheringPlayerVehicleState : DrivingLowVelocityPlayerVehicleState
 
     public override void OnStateEnter(VehicleState previousState)
     {
-        OnStartGathering();
+        StartGathering();
     }
 
     public override void OnStateExit(VehicleState nextState)
     {
-        OnStopGathering();
+        ForceStopGathering();
     }
 
     public override void OnGathering(CallbackContext context)
@@ -31,14 +32,28 @@ public class GatheringPlayerVehicleState : DrivingLowVelocityPlayerVehicleState
         }
     }
 
-    private void OnStartGathering()
+    private void StartGathering()
     {
-        Object.Destroy(npcCharacterBeingGathered.gameObject);
-
+        gatheringCoroutine = PlayerVehicle.StartCoroutine(StartGatheringEnumerator());
     }
 
-    private void OnStopGathering()
+    private IEnumerator StartGatheringEnumerator()
     {
+        PlayerVehicle.PlayerVehicleEffects.Play(PlayerVehicleEffect.GatheringSmoke);
+        yield return new WaitForSecondsRealtime(PlayerVehicle.characterGatheringDuration);
 
+        GatheringFinished();
+    }
+
+    private void GatheringFinished()
+    {
+        Object.Destroy(npcCharacterBeingGathered.gameObject);
+        PlayerVehicle.PlayerVehicleEffects.Play(PlayerVehicleEffect.GatheringFinishedSuccessfully);
+    }
+
+    private void ForceStopGathering()
+    {
+        PlayerVehicle.PlayerVehicleEffects.Stop(PlayerVehicleEffect.GatheringSmoke, ParticleSystemStopBehavior.StopEmitting);
+        PlayerVehicle.StopCoroutine(gatheringCoroutine);
     }
 }

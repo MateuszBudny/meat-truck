@@ -35,6 +35,8 @@ public class VehicleController : MonoBehaviour
     private Queue<TiltBlocker> tiltBlockers;
     private TiltBlocker CurrentTiltBlocker => tiltBlockers.Peek();
 
+    public VehicleEffects VehicleEffects { get; private set; }
+
     private void Awake()
     {
         rigidbody.centerOfMass = centerOfMass.transform.localPosition;
@@ -43,6 +45,7 @@ public class VehicleController : MonoBehaviour
         {
             CurrentTiltBlocker.OnTiltBlockerEnable(false);
         }
+        VehicleEffects = GetComponent<VehicleEffects>();
     }
 
     private void Start()

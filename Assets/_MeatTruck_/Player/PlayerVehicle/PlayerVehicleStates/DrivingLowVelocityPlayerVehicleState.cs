@@ -15,6 +15,15 @@ public class DrivingLowVelocityPlayerVehicleState : DrivingBackwardPlayerVehicle
 
     public override void Update()
     {
+        if (GetCurrentAcceleration() > PlayerVehicle.VehicleController.VehicleEffects.tiresMinAccelerationToTriggerSmoke)
+        {
+            PlayerVehicle.VehicleController.VehicleEffects.PlayForLimitedTime(VehicleEffect.TiresSmoke, PlayerVehicle.VehicleController.VehicleEffects.tiresSmokeDuration, ParticleSystemStopBehavior.StopEmitting);
+        }
+        else
+        {
+            PlayerVehicle.VehicleController.VehicleEffects.Stop(VehicleEffect.TiresSmoke, ParticleSystemStopBehavior.StopEmitting);
+        }
+
         if (PlayerVehicle.IsDeliberatelyGoingForward)
         {
             PlayerVehicle.ChangeState(new DrivingForwardPlayerVehicleState(PlayerVehicle));

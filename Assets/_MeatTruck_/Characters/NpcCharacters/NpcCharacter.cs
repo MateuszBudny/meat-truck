@@ -37,10 +37,6 @@ public class NpcCharacter : Character
 
     public override Quaternion GetRotation() => State.GetRotation();
 
-    /// <summary>
-    /// Use this to change state. (do not use state's inner ChangeState() method directly!)
-    /// </summary>
-    /// <param name="newState"></param>
     public void ChangeState(NpcCharacterState newState)
     {
         NpcCharacterState previousState = State;

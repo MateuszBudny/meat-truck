@@ -9,12 +9,13 @@ public class PlayerVehicle : Vehicle
     [SerializeField]
     private float deliberateMovementVelocityThreshold = 0.05f;
 
-    public PlayerVehicleState State { get => vehicleGenericState as PlayerVehicleState; private set => vehicleGenericState = value; }
-    public CharactersGathering Gathering { get; private set; }
     public float CurrentSpeed => transform.InverseTransformDirection(rigidbody.velocity).z;
     public bool IsDeliberatelyGoingForward => CurrentSpeed > deliberateMovementVelocityThreshold;
     public bool IsDeliberatelyGoingBackward => CurrentSpeed < -deliberateMovementVelocityThreshold;
 
+    public PlayerVehicleState State { get => vehicleGenericState as PlayerVehicleState; private set => vehicleGenericState = value; }
+    public CharactersGathering Gathering { get; private set; }
+    public PlayerVehicleEffects PlayerVehicleEffects { get; private set; }
     public float RawAccelerateInput { get; set; }
     public float RawNormalBrakeInput { get; set; }
     //public float HandBrakeInput { get; protected set; } // TODO
@@ -25,11 +26,11 @@ public class PlayerVehicle : Vehicle
         base.Awake();
         State = new DrivingLowVelocityPlayerVehicleState(this);
         Gathering = GetComponent<CharactersGathering>();
+        PlayerVehicleEffects = GetComponent<PlayerVehicleEffects>();
     }
 
     private void Update()
     {
-        Debug.Log(State);
         State.Update();
     }
 

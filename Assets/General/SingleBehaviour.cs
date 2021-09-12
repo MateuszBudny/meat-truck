@@ -10,11 +10,21 @@ public class SingleBehaviour<T> : MonoBehaviour where T : SingleBehaviour<T>
     {
         if(Instance == null)
         {
-            Instance = this as T;
+            OnFirstInstance();   
         }
         else
         {
-            Debug.LogError($"More than one SingleBehaviour of the same class is present on scene. Additional SingleBehaviour's GameObject name: {name}");
+            OnAnotherInstance();
         }
+    }
+
+    protected virtual void OnFirstInstance()
+    {
+        Instance = this as T;
+    }
+
+    protected virtual void OnAnotherInstance()
+    {
+        Debug.LogError($"More than one SingleBehaviour of the same class is present on scene. Additional SingleBehaviour's GameObject name: {name}");
     }
 }

@@ -47,7 +47,7 @@ public class VehicleController : MonoBehaviour
 
     private void Start()
     {
-        GameplayManager.Instance.PlayerVehicleController = this;
+        DrivingGameplayManager.Instance.PlayerVehicleController = this;
     }
 
     private void FixedUpdate()

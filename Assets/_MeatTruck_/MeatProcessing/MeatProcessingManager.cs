@@ -19,6 +19,7 @@ public class MeatProcessingManager : MonoBehaviour
     public GameObject corpse;
     public GameObject corpseSpawnPoint;
     public GameObject meatPrefab;
+    public float nonThrowingDuration = 1;
     public Vector3 throwForceMin = new Vector3(-100f, 300f, -200f);
     public Vector3 throwForceMax = new Vector3(-1000f, 1000f, 200f);
 
@@ -63,7 +64,7 @@ public class MeatProcessingManager : MonoBehaviour
 
     private IEnumerator NonThrowingTime()
     {
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(nonThrowingDuration);
         meatProcessingStep++;
     }
 }

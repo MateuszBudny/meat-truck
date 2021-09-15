@@ -356,6 +356,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "SelectLeftPoster",
+                    "type": "Button",
+                    "id": "665fb499-1da2-4525-9521-a513b9fe7fff",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SelectRightPoster",
+                    "type": "Button",
+                    "id": "9b554b9d-e447-4ce4-9a4c-e77df2806e86",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -400,6 +416,50 @@
                     "processors": "",
                     "groups": "Gamepads",
                     "action": "LightButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "deb5c74b-fcbb-4672-907d-769d475a2f89",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectLeftPoster",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1393d670-5683-4516-bc47-38075461bf18",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepads",
+                    "action": "SelectLeftPoster",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "794ba5ce-55af-4fd2-9535-fcb6c65d79ac",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "SelectRightPoster",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c9010ce6-2eff-4b79-8521-0bc3a48eec52",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepads",
+                    "action": "SelectRightPoster",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

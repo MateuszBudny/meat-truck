@@ -22,10 +22,11 @@ public class MeatProcessingManager : MonoBehaviour
     public float nonThrowingDuration = 1;
     public Vector3 throwForceMin = new Vector3(-100f, 300f, -200f);
     public Vector3 throwForceMax = new Vector3(-1000f, 1000f, 200f);
+    public List<MeatPoster> meatPosters;
 
     private MeatProcessingStep meatProcessingStep = MeatProcessingStep.CorpseThrowing;
     private GameObject corpseInstance;
-    private GameObject meatInstance;
+    private int currentPosterIndex = 0;
 
     public void OnCorpseJumpClick(CallbackContext context)
     {
@@ -55,10 +56,50 @@ public class MeatProcessingManager : MonoBehaviour
             {
                 Vector3 corpsePosition = corpseInstance.GetComponent<NpcCharacter>().mainRigidbody.transform.position;
                 Destroy(corpseInstance);
-                meatInstance = Instantiate(meatPrefab, corpsePosition, meatPrefab.transform.rotation);
+                Instantiate(meatPrefab, corpsePosition, meatPrefab.transform.rotation);
                 meatProcessingStep = MeatProcessingStep.CorpseThrowing;
+                meatPosters[currentPosterIndex].SetPosterAsSelected(false);
             }
+        }
+    }
 
+    public void OnSelectLeftPosterClick(CallbackContext context)
+    {
+        if(meatProcessingStep == MeatProcessingStep.MeatAcquire)
+        {
+            if(context.started)
+            {
+                meatPosters[currentPosterIndex].SetPosterAsSelected(false);
+                if(currentPosterIndex == 0)
+                {
+                    currentPosterIndex = meatPosters.Count - 1;
+                }
+                else
+                {
+                    currentPosterIndex--;
+                }
+                meatPosters[currentPosterIndex].SetPosterAsSelected(true);
+            }
+        }
+    }
+
+    public void OnSelectRightPosterClick(CallbackContext context)
+    {
+        if(meatProcessingStep == MeatProcessingStep.MeatAcquire)
+        {
+            if (context.started)
+            {
+                meatPosters[currentPosterIndex].SetPosterAsSelected(false);
+                if (currentPosterIndex == meatPosters.Count - 1)
+                {
+                    currentPosterIndex = 0;
+                }
+                else
+                {
+                    currentPosterIndex++;
+                }
+                meatPosters[currentPosterIndex].SetPosterAsSelected(true);
+            }
         }
     }
 
@@ -66,6 +107,7 @@ public class MeatProcessingManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(nonThrowingDuration);
         meatProcessingStep++;
+        meatPosters[currentPosterIndex].SetPosterAsSelected(true);
     }
 }
 

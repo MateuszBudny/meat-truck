@@ -435,7 +435,7 @@ PrefabInstance:
       objectReference: {fileID: 1945136479}
     - target: {fileID: 8558819430095017860, guid: 917ec09f1b28b4944af5d394a4e6afe4, type: 3}
       propertyPath: m_VersionIndex
-      value: 450
+      value: 468
       objectReference: {fileID: 0}
     - target: {fileID: 8558819430095017861, guid: 917ec09f1b28b4944af5d394a4e6afe4, type: 3}
       propertyPath: m_RootOrder
@@ -451,7 +451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8558819430095017861, guid: 917ec09f1b28b4944af5d394a4e6afe4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.0594995
+      value: 3.054
       objectReference: {fileID: 0}
     - target: {fileID: 8558819430095017861, guid: 917ec09f1b28b4944af5d394a4e6afe4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -495,6 +495,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 917ec09f1b28b4944af5d394a4e6afe4, type: 3}
+--- !u!114 &650113163 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 501521062504355177, guid: 917ec09f1b28b4944af5d394a4e6afe4, type: 3}
+  m_PrefabInstance: {fileID: 650113162}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca607174273dd274b9c85a67af6ad779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &749781257
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,6 +542,10 @@ MonoBehaviour:
   nonThrowingDuration: 1
   throwForceMin: {x: -16000, y: 7000, z: -2000}
   throwForceMax: {x: -26000, y: 9000, z: 2000}
+  meatPosters:
+  - {fileID: 650113163}
+  - {fileID: 1105777970}
+  - {fileID: 1656977227}
 --- !u!4 &749781259
 Transform:
   m_ObjectHideFlags: 0
@@ -622,6 +637,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 316f7395-a80e-4127-9c35-111f37815494
     m_ActionName: MeatProcessing/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 749781258}
+        m_TargetAssemblyTypeName: MeatProcessingManager, Assembly-CSharp
+        m_MethodName: OnSelectLeftPosterClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 665fb499-1da2-4525-9521-a513b9fe7fff
+    m_ActionName: MeatProcessing/SelectLeftPoster[/Keyboard/a]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 749781258}
+        m_TargetAssemblyTypeName: MeatProcessingManager, Assembly-CSharp
+        m_MethodName: OnSelectRightPosterClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9b554b9d-e447-4ce4-9a4c-e77df2806e86
+    m_ActionName: MeatProcessing/SelectRightPoster[/Keyboard/d]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepads
   m_DefaultActionMap: MeatProcessing
@@ -1065,7 +1112,7 @@ PrefabInstance:
       objectReference: {fileID: 1146802021}
     - target: {fileID: 1698385267078450660, guid: 4e225901a9193844a82449f14a2033c0, type: 3}
       propertyPath: m_VersionIndex
-      value: 476
+      value: 494
       objectReference: {fileID: 0}
     - target: {fileID: 1698385267078450660, guid: 4e225901a9193844a82449f14a2033c0, type: 3}
       propertyPath: m_Tangents.Array.data[0].x
@@ -1573,7 +1620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1698385267078450661, guid: 4e225901a9193844a82449f14a2033c0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.499
+      value: -0.477
       objectReference: {fileID: 0}
     - target: {fileID: 1698385267078450661, guid: 4e225901a9193844a82449f14a2033c0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1581,7 +1628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1698385267078450661, guid: 4e225901a9193844a82449f14a2033c0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.0594995
+      value: 3.054
       objectReference: {fileID: 0}
     - target: {fileID: 1698385267078450661, guid: 4e225901a9193844a82449f14a2033c0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1625,6 +1672,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e225901a9193844a82449f14a2033c0, type: 3}
+--- !u!114 &1105777970 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7467859018485288713, guid: 4e225901a9193844a82449f14a2033c0, type: 3}
+  m_PrefabInstance: {fileID: 1105777969}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca607174273dd274b9c85a67af6ad779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1146802021
 Mesh:
   m_ObjectHideFlags: 0
@@ -2119,7 +2177,7 @@ PrefabInstance:
       objectReference: {fileID: 1057845932}
     - target: {fileID: 2076184236142924116, guid: 31f13130344655746a9162b650d63279, type: 3}
       propertyPath: m_VersionIndex
-      value: 502
+      value: 520
       objectReference: {fileID: 0}
     - target: {fileID: 2076184236142924116, guid: 31f13130344655746a9162b650d63279, type: 3}
       propertyPath: m_Tangents.Array.data[0].x
@@ -2707,7 +2765,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2076184236142924117, guid: 31f13130344655746a9162b650d63279, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.0594995
+      value: 3.054
       objectReference: {fileID: 0}
     - target: {fileID: 2076184236142924117, guid: 31f13130344655746a9162b650d63279, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2751,6 +2809,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31f13130344655746a9162b650d63279, type: 3}
+--- !u!114 &1656977227 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7846076231209718713, guid: 31f13130344655746a9162b650d63279, type: 3}
+  m_PrefabInstance: {fileID: 1656977226}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca607174273dd274b9c85a67af6ad779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1713690367
 GameObject:
   m_ObjectHideFlags: 0

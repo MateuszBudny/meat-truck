@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff864955aa4e1a49864dce45e73c21c, type: 3}
+  m_Name: SteakData
+  m_EditorClassIdentifier: 
+  meatName: Steak
+  meatDescription: Precious end cut with bone from only one side
+  meatValue: 10
+  meatFreshness: 3
+  meatObject: {fileID: 5533905832917308247, guid: d03ad75155fd5ea42b7faa6991cea299, type: 3}

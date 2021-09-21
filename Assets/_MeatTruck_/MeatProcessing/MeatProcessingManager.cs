@@ -56,7 +56,10 @@ public class MeatProcessingManager : MonoBehaviour
             {
                 Vector3 corpsePosition = corpseInstance.GetComponent<NpcCharacter>().mainRigidbody.transform.position;
                 Destroy(corpseInstance);
-                Instantiate(meatPrefab, corpsePosition, meatPrefab.transform.rotation);
+                for (int i = 0; i < 5; i++)
+                {
+                    Instantiate(meatPosters[currentPosterIndex].meat, corpsePosition, meatPrefab.transform.rotation);
+                }
                 meatProcessingStep = MeatProcessingStep.CorpseThrowing;
                 meatPosters[currentPosterIndex].SetPosterAsSelected(false);
             }
@@ -65,12 +68,12 @@ public class MeatProcessingManager : MonoBehaviour
 
     public void OnSelectLeftPosterClick(CallbackContext context)
     {
-        if(meatProcessingStep == MeatProcessingStep.MeatAcquire)
+        if (meatProcessingStep == MeatProcessingStep.MeatAcquire)
         {
-            if(context.started)
+            if (context.started)
             {
                 meatPosters[currentPosterIndex].SetPosterAsSelected(false);
-                if(currentPosterIndex == 0)
+                if (currentPosterIndex == 0)
                 {
                     currentPosterIndex = meatPosters.Count - 1;
                 }
@@ -85,7 +88,7 @@ public class MeatProcessingManager : MonoBehaviour
 
     public void OnSelectRightPosterClick(CallbackContext context)
     {
-        if(meatProcessingStep == MeatProcessingStep.MeatAcquire)
+        if (meatProcessingStep == MeatProcessingStep.MeatAcquire)
         {
             if (context.started)
             {

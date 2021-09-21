@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 23370536939774252}
   - component: {fileID: 2799368260947777684}
   - component: {fileID: 7262134090030566636}
+  - component: {fileID: 1254932418244671282}
   m_Layer: 0
   m_Name: Drumstick
   m_TagString: Untagged
@@ -118,6 +119,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: f18d7e3411076c64d8406cd22ce183c4, type: 3}
+--- !u!114 &1254932418244671282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103729609193184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f389d43dcc28a7a49b5fa04712c53573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c658b46fde490eb44883e3e5e877a894, type: 2}
 --- !u!1 &1183062911300714
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 501521062504355177, guid: 917ec09f1b28b4944af5d394a4e6afe4, type: 3}
+      propertyPath: meat
+      value: 
+      objectReference: {fileID: 2648172857824959056, guid: 8060cf8a88a11a24a91b6494333116cd, type: 3}
     - target: {fileID: 8558819430095017860, guid: 917ec09f1b28b4944af5d394a4e6afe4, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -73,7 +77,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e8c8f4c97017b9d4c8e3c0fe66809265, type: 2}
     - target: {fileID: 8558819430095017871, guid: 917ec09f1b28b4944af5d394a4e6afe4, type: 3}
       propertyPath: m_Name
-      value: DrumstickMeatPoster
+      value: PackedHamMeatPoster
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 917ec09f1b28b4944af5d394a4e6afe4, type: 3}

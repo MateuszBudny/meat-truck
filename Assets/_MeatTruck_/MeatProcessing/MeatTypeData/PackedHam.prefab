@@ -258,6 +258,7 @@ GameObject:
   - component: {fileID: 2821513704350452974}
   - component: {fileID: 4195633285069927560}
   - component: {fileID: 7149307893716140282}
+  - component: {fileID: 2648172857824959056}
   m_Layer: 0
   m_Name: PackedHam
   m_TagString: Untagged
@@ -311,3 +312,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.3435308, y: 0.08113536, z: 0.57995117}
   m_Center: {x: 0.00084377825, y: 0.1316502, z: 0.0076234937}
+--- !u!114 &2648172857824959056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6653460918614756770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f389d43dcc28a7a49b5fa04712c53573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 7715cabd123a35d458af1ff3dc04aeed, type: 2}

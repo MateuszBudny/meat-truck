@@ -324,4 +324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f389d43dcc28a7a49b5fa04712c53573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 7715cabd123a35d458af1ff3dc04aeed, type: 2}
+  meat:
+    data: {fileID: 11400000, guid: 7715cabd123a35d458af1ff3dc04aeed, type: 2}
+    currentFreshness: 0

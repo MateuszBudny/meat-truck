@@ -18,7 +18,6 @@ public class MeatProcessingManager : MonoBehaviour
 {
     public GameObject corpse;
     public GameObject corpseSpawnPoint;
-    public GameObject meatPrefab;
     public float nonThrowingDuration = 1;
     public Vector3 throwForceMin = new Vector3(-100f, 300f, -200f);
     public Vector3 throwForceMax = new Vector3(-1000f, 1000f, 200f);
@@ -54,12 +53,8 @@ public class MeatProcessingManager : MonoBehaviour
         {
             if (context.started)
             {
-                Vector3 corpsePosition = corpseInstance.GetComponent<NpcCharacter>().mainRigidbody.transform.position;
+                meatPosters[currentPosterIndex].SpawnMeat(corpseInstance);
                 Destroy(corpseInstance);
-                for (int i = 0; i < 5; i++)
-                {
-                    Instantiate(meatPosters[currentPosterIndex].meat, corpsePosition, meatPrefab.transform.rotation);
-                }
                 meatProcessingStep = MeatProcessingStep.CorpseThrowing;
                 meatPosters[currentPosterIndex].SetPosterAsSelected(false);
             }

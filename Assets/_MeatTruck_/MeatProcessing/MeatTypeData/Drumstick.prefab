@@ -131,7 +131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f389d43dcc28a7a49b5fa04712c53573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: c658b46fde490eb44883e3e5e877a894, type: 2}
+  meat:
+    data: {fileID: 11400000, guid: c658b46fde490eb44883e3e5e877a894, type: 2}
+    currentFreshness: 0
 --- !u!1 &1183062911300714
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,8 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Meat : MonoBehaviour
+[Serializable]
+public class Meat
 {
-        public MeatData data;
+    public MeatData data;
+    [HideInInspector]
+    public float currentFreshness;
+
+    public Meat(MeatData data)
+    {
+        this.data = data;
+    }
 }

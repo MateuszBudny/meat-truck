@@ -6,12 +6,15 @@ using UnityEngine;
 [Serializable]
 public class Meat
 {
-    public MeatData data;
-    [HideInInspector]
-    public float currentFreshness;
+    [SerializeField]
+    private MeatData data;
+    public float CurrentFreshness { get; set; }
+
+    public MeatData Data { get => data; set => data = value; }
 
     public Meat(MeatData data)
     {
-        this.data = data;
+        this.Data = data;
+        CurrentFreshness = data.meatFreshness;
     }
 }

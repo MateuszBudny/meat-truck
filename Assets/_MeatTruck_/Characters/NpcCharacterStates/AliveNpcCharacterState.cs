@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class AliveNpcCharacterState : NpcCharacterState
 {
-    public AliveNpcCharacterState(NpcCharacter npcCharacter) : base(npcCharacter) {}
+    public AliveNpcCharacterState(NpcCharacterBehaviour npcCharacter) : base(npcCharacter) {}
 
     public override Vector2 GetMovement()
     {
         if (NpcCharacter.Tracker.CurrentWaypoint)
         {
-            return new Vector2(character.transform.forward.x, character.transform.forward.z) * character.walkSpeed;
+            return new Vector2(characterBehaviour.transform.forward.x, characterBehaviour.transform.forward.z) * characterBehaviour.walkSpeed;
         }
         else
         {
@@ -20,14 +20,14 @@ public class AliveNpcCharacterState : NpcCharacterState
 
     public override Quaternion GetRotation()
     {
-       return Quaternion.Slerp(character.transform.rotation, GetDesiredRotation(), character.rotationSpeed * Time.deltaTime);
+       return Quaternion.Slerp(characterBehaviour.transform.rotation, GetDesiredRotation(), characterBehaviour.rotationSpeed * Time.deltaTime);
     }
 
     private Quaternion GetDesiredRotation()
     {
         if (NpcCharacter.Tracker.CurrentWaypoint)
         {
-            Vector3 waypointDirection = NpcCharacter.Tracker.CurrentWaypoint.transform.position - character.transform.position;
+            Vector3 waypointDirection = NpcCharacter.Tracker.CurrentWaypoint.transform.position - characterBehaviour.transform.position;
             return Quaternion.LookRotation(new Vector3(
                 waypointDirection.x,
                 0f,
@@ -35,7 +35,7 @@ public class AliveNpcCharacterState : NpcCharacterState
         }
         else
         {
-            return character.transform.rotation;
+            return characterBehaviour.transform.rotation;
         }
     }
 

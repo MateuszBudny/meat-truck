@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class CharacterState
 {
-    protected Character character;
+    protected CharacterBehaviour characterBehaviour;
 
     public abstract Vector2 GetMovement();
 

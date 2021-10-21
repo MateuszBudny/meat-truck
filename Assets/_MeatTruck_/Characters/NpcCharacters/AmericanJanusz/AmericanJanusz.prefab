@@ -600,6 +600,8 @@ MonoBehaviour:
   walkSpeed: 0.85
   rotationSpeed: 1
   mainRigidbody: {fileID: 3347628409217931699}
+  npcCharacter:
+    prefab: {fileID: 1320904446827655870}
 --- !u!143 &8991205558448751518
 CharacterController:
   m_ObjectHideFlags: 0

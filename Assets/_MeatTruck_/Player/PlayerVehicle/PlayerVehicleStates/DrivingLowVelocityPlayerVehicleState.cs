@@ -51,7 +51,7 @@ public class DrivingLowVelocityPlayerVehicleState : DrivingBackwardPlayerVehicle
     {
         if (collider.CompareTag(Tags.NpcHumanToGather.ToString()) && PlayerVehicle.Gathering.gatheringTrigger.activeSelf)
         {
-            NpcCharacter npcCharacterCollided = collider.transform.parent.transform.parent.GetComponent<NpcCharacter>();
+            NpcCharacterBehaviour npcCharacterCollided = collider.transform.parent.transform.parent.GetComponent<NpcCharacterBehaviour>();
             if (npcCharacterCollided.IsGatherable)
             {
                 // TODO:

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class GameManager : DontDestroySingleBehaviour<GameManager>
 {
-   public Player Player { get; private set; }
+    public Player Player { get; private set; } = new Player();
 }

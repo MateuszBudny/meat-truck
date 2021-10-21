@@ -6,10 +6,10 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class GatheringPlayerVehicleState : DrivingLowVelocityPlayerVehicleState
 {
-    private NpcCharacter npcCharacterBeingGathered;
+    private NpcCharacterBehaviour npcCharacterBeingGathered;
     private Coroutine gatheringCoroutine;
 
-    public GatheringPlayerVehicleState(PlayerVehicle playerVehicle, NpcCharacter npcCharacterBeingGathered) : base(playerVehicle) 
+    public GatheringPlayerVehicleState(PlayerVehicle playerVehicle, NpcCharacterBehaviour npcCharacterBeingGathered) : base(playerVehicle) 
     {
         this.npcCharacterBeingGathered = npcCharacterBeingGathered;
     }
@@ -47,6 +47,7 @@ public class GatheringPlayerVehicleState : DrivingLowVelocityPlayerVehicleState
 
     private void GatheringFinished()
     {
+        GameManager.Instance.Player.Inventory.Corpses.Add(npcCharacterBeingGathered.npcCharacter);
         Object.Destroy(npcCharacterBeingGathered.gameObject);
         PlayerVehicle.PlayerVehicleEffects.Play(PlayerVehicleEffect.GatheringFinishedSuccessfully);
     }

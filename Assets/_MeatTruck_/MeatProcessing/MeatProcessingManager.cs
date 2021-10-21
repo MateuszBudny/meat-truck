@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
 
 // most important shortkeys
@@ -24,8 +25,10 @@ public class MeatProcessingManager : MonoBehaviour
     public List<MeatPoster> meatPosters;
 
     private MeatProcessingStep meatProcessingStep = MeatProcessingStep.CorpseThrowing;
-    private GameObject corpseInstance;
+    private NpcCharacterBehaviour corpseInstance;
     private int currentPosterIndex = 0;
+
+    private Inventory PlayerInventory => GameManager.Instance.Player.Inventory;
 
     public void OnCorpseJumpClick(CallbackContext context)
     {
@@ -34,7 +37,12 @@ public class MeatProcessingManager : MonoBehaviour
 
             if (context.started)
             {
-                corpseInstance = Instantiate(corpse, corpseSpawnPoint.transform);
+                if (PlayerInventory.Corpses.Count == 0 )
+                {
+                    SceneManager.LoadScene("PLAYGROUND");
+                }
+                corpseInstance = Instantiate(PlayerInventory.Corpses[PlayerInventory.Corpses.Count-1].NpcPrefab, corpseSpawnPoint.transform);
+                PlayerInventory.Corpses.RemoveAt(PlayerInventory.Corpses.Count - 1);
                 Vector3 throwForce = new Vector3(
                     Random.Range(throwForceMin.x, throwForceMax.x),
                     Random.Range(throwForceMin.y, throwForceMax.y),
@@ -42,9 +50,8 @@ public class MeatProcessingManager : MonoBehaviour
 
                 Debug.Log(throwForce);
 
-                NpcCharacter corpseInstanceCharacter = corpseInstance.GetComponent<NpcCharacter>();
-                corpseInstanceCharacter.SetAsRagdoll();
-                corpseInstanceCharacter.mainRigidbody.AddForce(throwForce);
+                corpseInstance.SetAsRagdoll();
+                corpseInstance.mainRigidbody.AddForce(throwForce);
                 meatProcessingStep++;
                 StartCoroutine(NonThrowingTime());
             }

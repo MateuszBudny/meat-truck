@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DeadNpcCharacterState : NpcCharacterState
 {
-    public DeadNpcCharacterState(NpcCharacter npcCharacter) : base(npcCharacter) {}
+    public DeadNpcCharacterState(NpcCharacterBehaviour npcCharacter) : base(npcCharacter) {}
 
     public override void OnStateEnter(CharacterState previousState)
     {

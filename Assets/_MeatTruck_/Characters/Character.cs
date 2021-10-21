@@ -1,24 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Character : MonoBehaviour
+public abstract class Character
 {
-    public float walkSpeed = 0.85f;
-    public float rotationSpeed = 1f;
-    public Rigidbody mainRigidbody;
+    public CharacterBehaviour prefab;
 
-    protected CharacterState characterGenericState;
-
-    /// <summary>
-    /// In world space.
-    /// </summary>
-    /// <returns></returns>
-    public abstract Vector2 GetMovement();
-
-    /// <summary>
-    /// In world space.
-    /// </summary>
-    /// <returns></returns>
-    public abstract Quaternion GetRotation();
+    public Character(CharacterBehaviour prefab)
+    {
+        this.prefab = prefab;
+    }
 }

@@ -40,8 +40,9 @@ public class MeatProcessingManager : MonoBehaviour
                 if (PlayerInventory.Corpses.Count == 0 )
                 {
                     SceneManager.LoadScene("PLAYGROUND");
+                    return;
                 }
-                corpseInstance = Instantiate(PlayerInventory.Corpses[PlayerInventory.Corpses.Count-1].NpcPrefab, corpseSpawnPoint.transform);
+                corpseInstance = Instantiate(PlayerInventory.Corpses[PlayerInventory.Corpses.Count-1].data.behaviour, corpseSpawnPoint.transform);
                 PlayerInventory.Corpses.RemoveAt(PlayerInventory.Corpses.Count - 1);
                 Vector3 throwForce = new Vector3(
                     Random.Range(throwForceMin.x, throwForceMax.x),
@@ -61,7 +62,7 @@ public class MeatProcessingManager : MonoBehaviour
             if (context.started)
             {
                 meatPosters[currentPosterIndex].SpawnMeat(corpseInstance);
-                Destroy(corpseInstance);
+                Destroy(corpseInstance.gameObject);
                 meatProcessingStep = MeatProcessingStep.CorpseThrowing;
                 meatPosters[currentPosterIndex].SetPosterAsSelected(false);
             }

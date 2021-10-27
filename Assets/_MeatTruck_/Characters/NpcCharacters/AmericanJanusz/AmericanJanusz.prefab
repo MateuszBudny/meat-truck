@@ -601,7 +601,7 @@ MonoBehaviour:
   rotationSpeed: 1
   mainRigidbody: {fileID: 3347628409217931699}
   npcCharacter:
-    prefab: {fileID: 1320904446827655870}
+    data: {fileID: 11400000, guid: 9397b8e493cdffe4aa60efbcec084cfb, type: 2}
 --- !u!143 &8991205558448751518
 CharacterController:
   m_ObjectHideFlags: 0

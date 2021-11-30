@@ -44,10 +44,11 @@ public class RagdollCharacterControllerExtension : MonoBehaviour
         SetAsAnimated();
     }
 
-    public void SimpleMove(Vector3 speed)
+    public void SimpleMove(Vector3 speed, Quaternion rotation)
     {
         if (CoreController.enabled)
         {
+            transform.rotation = rotation;
             CoreController.SimpleMove(speed);
         }
     }

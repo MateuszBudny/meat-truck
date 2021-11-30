@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,8 +49,14 @@ public class GatheringPlayerVehicleState : DrivingLowVelocityPlayerVehicleState
     private void GatheringFinished()
     {
         GameManager.Instance.Player.Inventory.Corpses.Add(npcCharacterBeingGathered.npcCharacter);
-        Object.Destroy(npcCharacterBeingGathered.gameObject);
-        PlayerVehicle.PlayerVehicleEffects.Play(PlayerVehicleEffect.GatheringFinishedSuccessfully);
+        npcCharacterBeingGathered.CollidersHandler.CollidersSetEnabled(false);
+        npcCharacterBeingGathered.mainRigidbody.transform.DOJump(PlayerVehicle.VehicleController.CenterOfMass.transform.position, 3f, 1, 1f)
+            .OnComplete(() => 
+            {
+                Object.Destroy(npcCharacterBeingGathered.gameObject);
+                PlayerVehicle.PlayerVehicleEffects.Play(PlayerVehicleEffect.GatheringFinishedSuccessfully);
+            })
+            .Play();
     }
 
     private void ForceStopGathering()

@@ -68,6 +68,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "OpenShop",
+                    "type": "Button",
+                    "id": "73dae0ed-f1a6-481c-87df-2161b536d698",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -316,7 +324,7 @@
                 {
                     "name": "",
                     "id": "f0db0f3f-3164-4c1d-a2c8-a0563531288f",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -332,6 +340,28 @@
                     "processors": "",
                     "groups": "Gamepads",
                     "action": "Gathering",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "79777236-f952-4d9a-a277-a1498d95ce75",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenShop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "084ef63b-cf89-4f50-b773-bfebcdac4cb5",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepads",
+                    "action": "OpenShop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -460,6 +490,44 @@
                     "processors": "",
                     "groups": "Gamepads",
                     "action": "SelectRightPoster",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "MeatSelling",
+            "id": "c8a2780e-d0ff-4d30-a549-ef5b6e9e9365",
+            "actions": [
+                {
+                    "name": "ReturnToDriving",
+                    "type": "Button",
+                    "id": "5bc2e113-e1d9-454d-b2ca-d99466b94183",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6ea69bbd-99b1-46b9-a822-f04cbb989a67",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReturnToDriving",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1f60b587-e46b-400c-81e7-a37364976d15",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepads",
+                    "action": "ReturnToDriving",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -90,4 +90,9 @@ public class PlayerVehicle : Vehicle
     {
         State.OnGathering(context);
     }
+
+    public void OnOpenShop(CallbackContext context)
+    {
+        State.OnOpenShop(context);
+    }
 }

@@ -43,3 +43,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd7f18570e3f774a9cd498e31ecf20d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player:
+    defaultInventory:
+      meats:
+      - data: {fileID: 11400000, guid: c658b46fde490eb44883e3e5e877a894, type: 2}
+      - data: {fileID: 11400000, guid: c658b46fde490eb44883e3e5e877a894, type: 2}
+      - data: {fileID: 11400000, guid: c658b46fde490eb44883e3e5e877a894, type: 2}
+      - data: {fileID: 11400000, guid: c658b46fde490eb44883e3e5e877a894, type: 2}
+      - data: {fileID: 11400000, guid: 7715cabd123a35d458af1ff3dc04aeed, type: 2}
+      - data: {fileID: 11400000, guid: 7715cabd123a35d458af1ff3dc04aeed, type: 2}
+      - data: {fileID: 11400000, guid: 7715cabd123a35d458af1ff3dc04aeed, type: 2}
+      - data: {fileID: 11400000, guid: 7715cabd123a35d458af1ff3dc04aeed, type: 2}
+      - data: {fileID: 11400000, guid: 05f0a892e24f2904f8cbd92d5ed24560, type: 2}
+      - data: {fileID: 11400000, guid: 05f0a892e24f2904f8cbd92d5ed24560, type: 2}
+      - data: {fileID: 11400000, guid: 05f0a892e24f2904f8cbd92d5ed24560, type: 2}
+      - data: {fileID: 11400000, guid: 05f0a892e24f2904f8cbd92d5ed24560, type: 2}
+      - data: {fileID: 11400000, guid: 05f0a892e24f2904f8cbd92d5ed24560, type: 2}
+      - data: {fileID: 11400000, guid: 05f0a892e24f2904f8cbd92d5ed24560, type: 2}
+      - data: {fileID: 11400000, guid: 05f0a892e24f2904f8cbd92d5ed24560, type: 2}
+      corpses:
+      - data: {fileID: 11400000, guid: 9397b8e493cdffe4aa60efbcec084cfb, type: 2}
+      - data: {fileID: 11400000, guid: 9397b8e493cdffe4aa60efbcec084cfb, type: 2}
+    useDefaultInventory: 1

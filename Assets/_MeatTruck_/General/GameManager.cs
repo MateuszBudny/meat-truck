@@ -4,5 +4,18 @@ using UnityEngine;
 
 public class GameManager : DontDestroySingleBehaviour<GameManager>
 {
-    public Player Player { get; private set; } = new Player();
+    [SerializeField]
+    private Player player;
+    public Player Player
+    {
+        get => player;
+        private set => player = value;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        player.Init();
+    }
 }

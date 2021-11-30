@@ -30,6 +30,7 @@ public class VehicleController : MonoBehaviour
     [SerializeField] 
     private Wheel rearRightWheel;
 
+    public GameObject CenterOfMass => centerOfMass;
     public bool IsGrounded => frontLeftWheel.IsGrounded || frontRightWheel.IsGrounded || rearLeftWheel.IsGrounded || rearRightWheel.IsGrounded;
 
     private Queue<TiltBlocker> tiltBlockers;

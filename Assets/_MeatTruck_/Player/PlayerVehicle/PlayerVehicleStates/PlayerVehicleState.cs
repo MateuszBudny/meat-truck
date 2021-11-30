@@ -13,4 +13,6 @@ public abstract class PlayerVehicleState : VehicleState
     }
 
     public virtual void OnGathering(CallbackContext context) {}
+
+    public virtual void OnOpenShop(CallbackContext context) {}
 }

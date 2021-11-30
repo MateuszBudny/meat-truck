@@ -47,6 +47,14 @@ public class DrivingLowVelocityPlayerVehicleState : DrivingBackwardPlayerVehicle
         }
     }
 
+    public override void OnOpenShop(CallbackContext context)
+    {
+        if(context.started)
+        {
+            ShopManager.Instance.OpenShop();
+        }
+    }
+
     public override void OnTriggerEnter(Collider collider)
     {
         if (collider.CompareTag(Tags.NpcHumanToGather.ToString()) && PlayerVehicle.Gathering.gatheringTrigger.activeSelf)

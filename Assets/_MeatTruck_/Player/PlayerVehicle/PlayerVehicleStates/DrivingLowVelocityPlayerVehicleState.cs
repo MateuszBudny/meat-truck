@@ -51,7 +51,7 @@ public class DrivingLowVelocityPlayerVehicleState : DrivingBackwardPlayerVehicle
     {
         if(context.started)
         {
-            ShopManager.Instance.OpenShop();
+            MeatShopManager.Instance.OpenShop();
         }
     }
 

@@ -8,11 +8,14 @@ public class WaypointsTracker : MonoBehaviour
     [SerializeField]
     private Waypoint startingWaypoint;
 
-    public Waypoint CurrentWaypoint { get; private set; }
+    public Waypoint CurrentWaypoint { get; set; }
 
     private void Awake()
     {
-        CurrentWaypoint = startingWaypoint;
+        if(!CurrentWaypoint)
+        {
+            CurrentWaypoint = startingWaypoint;
+        }
     }
 
     private void OnTriggerEnter(Collider collider)

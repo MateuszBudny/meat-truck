@@ -15,4 +15,8 @@ public abstract class CharacterState
     public virtual void OnStateExit(CharacterState nextState) {}
 
     public virtual void OnTriggerEnter(Collider collider) {}
+
+    public virtual void OnTriggerExit(Collider collider) {}
+
+    public virtual void OnUpdate() {}
 }

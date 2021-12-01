@@ -15,7 +15,7 @@ public class NpcCharacterBehaviour : CharacterBehaviour
 
     private void Awake()
     {
-        State = new AliveNpcCharacterState(this);
+        State = new WalkingNpcCharacterState(this);
         Controller = GetComponent<RagdollCharacterControllerExtension>();
         Tracker = GetComponent<WaypointsTracker>();
         CollidersHandler = GetComponent<CollidersHandler>();
@@ -23,18 +23,17 @@ public class NpcCharacterBehaviour : CharacterBehaviour
 
     private void Update()
     {
-        Vector3 movement = new Vector3(
-            GetMovement().x,
-            0f,
-            GetMovement().y);
-
-        Controller.SimpleMove(movement, GetRotation());
-
+        State.OnUpdate();
     }
 
     private void OnTriggerEnter(Collider collider)
     {
         State.OnTriggerEnter(collider);
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        State.OnTriggerExit(collider);
     }
 
     public override Vector2 GetMovement() => State.GetMovement();

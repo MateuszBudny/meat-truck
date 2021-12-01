@@ -10,6 +10,7 @@ TagManager:
   - NpcHuman
   - PlayerVehicle
   - NpcHumanToGather
+  - MeatShop
   layers:
   - Default
   - TransparentFX

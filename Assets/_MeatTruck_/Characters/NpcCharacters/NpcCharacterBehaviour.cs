@@ -6,7 +6,9 @@ using UnityEngine;
 public class NpcCharacterBehaviour : CharacterBehaviour
 {
     public NpcCharacter npcCharacter;
+
     public NpcCharacterState State { get => characterGenericState as NpcCharacterState; private set => characterGenericState = value; }
+    public CityRegion CurrentCityRegion { get; private set; }
     public RagdollCharacterControllerExtension Controller { get; private set; }
     public WaypointsTracker Tracker { get; private set; }
     public CollidersHandler CollidersHandler { get; private set; }
@@ -19,6 +21,11 @@ public class NpcCharacterBehaviour : CharacterBehaviour
         Controller = GetComponent<RagdollCharacterControllerExtension>();
         Tracker = GetComponent<WaypointsTracker>();
         CollidersHandler = GetComponent<CollidersHandler>();
+    }
+
+    private void Start()
+    {
+        CurrentCityRegion = CityManager.Instance.CurrentRegions[npcCharacter.defaultCityRegionData];
     }
 
     private void Update()

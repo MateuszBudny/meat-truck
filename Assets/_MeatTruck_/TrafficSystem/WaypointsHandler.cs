@@ -8,20 +8,20 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class WaypointsHandler
 {
-    public List<WaypointRecord> waypointsRecords;
+    public WeightedList<WaypointRecord> weightedWaypointsRecords;
 
-    public List<Waypoint> Waypoints => waypointsRecords?.Select(record => record.waypoint).ToList();
-    public float WeightsSum => waypointsRecords.Sum(record => record.weight);
+    public List<Waypoint> Waypoints => weightedWaypointsRecords?.List.Select(record => record.waypoint).ToList();
+    public float WeightsSum => weightedWaypointsRecords.List.Sum(record => record.weight);
 
     public void Add(Waypoint waypoint)
     {
-        waypointsRecords.Add(new WaypointRecord(waypoint));
+        weightedWaypointsRecords.List.Add(new WaypointRecord(waypoint));
     }
 
     public void Remove(Waypoint waypoint)
     {
-        WaypointRecord recordToRemove = waypointsRecords.Find(record => record.waypoint == waypoint);
-        waypointsRecords.Remove(recordToRemove);
+        WaypointRecord recordToRemove = weightedWaypointsRecords.List.Find(record => record.waypoint == waypoint);
+        weightedWaypointsRecords.List.Remove(recordToRemove);
     }
 
     public void Replace(Waypoint waypointToRemove, Waypoint waypointToAdd)
@@ -35,7 +35,7 @@ public class WaypointsHandler
         float weightsSum = WeightsSum;
         float randomWeight = Random.Range(0f, weightsSum);
         float currentWeightsSum = 0f;
-        WaypointRecord randomWeightedRecord = waypointsRecords.Find(record =>
+        WaypointRecord randomWeightedRecord = weightedWaypointsRecords.List.Find(record =>
         {
             currentWeightsSum += record.weight;
             return currentWeightsSum >= randomWeight;
@@ -46,6 +46,6 @@ public class WaypointsHandler
 
     public void SortWaypointsByWeightDescending()
     {
-        waypointsRecords.Sort((record1, record2) => -record1.weight.CompareTo(record2.weight));
+        weightedWaypointsRecords.List.Sort((record1, record2) => -record1.weight.CompareTo(record2.weight));
     }
 }

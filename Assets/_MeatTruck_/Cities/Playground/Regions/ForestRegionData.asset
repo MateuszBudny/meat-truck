@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e936f077b7b840428637cc52e38aeb6, type: 3}
+  m_Name: ForestRegionData
+  m_EditorClassIdentifier: 
+  region:
+    meatsPopularity:
+    - meatData: {fileID: 11400000, guid: 7715cabd123a35d458af1ff3dc04aeed, type: 2}
+      popularity: 1.5
+      thisOrNothing: 0
+    - meatData: {fileID: 11400000, guid: c658b46fde490eb44883e3e5e877a894, type: 2}
+      popularity: 3
+      thisOrNothing: 1
+    - meatData: {fileID: 11400000, guid: 05f0a892e24f2904f8cbd92d5ed24560, type: 2}
+      popularity: 1
+      thisOrNothing: 0

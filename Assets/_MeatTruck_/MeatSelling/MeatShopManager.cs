@@ -62,15 +62,7 @@ public class MeatShopManager : SingleBehaviour<MeatShopManager>
         virtualCamera.Priority = 0;
         DrivingGameplayManager.Instance.CurrentControllerMode.VirtualCamera.Priority++;
 
-        spawnedMeats.ForEach(meat =>
-        {
-            meat.CollidersHandler.CollidersSetEnabled(false);
-            meat.transform.DOPunchScale(new Vector3(2f, 2f, 2f), 0.8f, 1, 1f)
-                .Play();
-            meat.transform.DOJump(playerVehicle.VehicleController.CenterOfMass.transform.position, 3f, 1, 1f)
-                .OnComplete(() => Destroy(meat.gameObject))
-                .Play();
-        });
+        spawnedMeats.ForEach(meat => meat.JumpTo(playerVehicle.VehicleController.CenterOfMass.transform.position, true, () => Destroy(meat.gameObject)));
 
         List<OnRouteToMeatShopNpcCharacterState> customersToInformAboutShopClosing = new List<OnRouteToMeatShopNpcCharacterState>(CustomersWalkingToShop);
         customersToInformAboutShopClosing.ForEach(customer => customer.OnMeatShopClosed());
@@ -79,7 +71,7 @@ public class MeatShopManager : SingleBehaviour<MeatShopManager>
         rangeGameObject.SetActive(false);
     }
 
-    public void CustomerBuy(NpcCharacterBehaviour customer)
+    public void CustomerBuy(NpcCharacterBehaviour customer, Meat meat)
     {
         Debug.Log("customer bought something!");
     }

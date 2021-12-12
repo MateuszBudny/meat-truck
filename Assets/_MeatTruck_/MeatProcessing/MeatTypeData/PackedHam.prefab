@@ -260,6 +260,8 @@ GameObject:
   - component: {fileID: 7149307893716140282}
   - component: {fileID: 2648172857824959056}
   - component: {fileID: 4679611316655265391}
+  - component: {fileID: 7085442921838093437}
+  - component: {fileID: 1708357435850458737}
   m_Layer: 0
   m_Name: PackedHam
   m_TagString: Untagged
@@ -342,3 +344,34 @@ MonoBehaviour:
   autoCollidersDetection: 0
   colliders:
   - {fileID: 7149307893716140282}
+--- !u!114 &7085442921838093437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6653460918614756770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79960c58bc6fe6b478a66c3894a222d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpDuration: 1
+  jumpPower: 3
+  jumpsNum: 1
+--- !u!114 &1708357435850458737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6653460918614756770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46e507bf44ef9f4b86b361329b97e9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleDuration: 0.8
+  scalePunch: 2
+  vibrato: 1
+  elasticity: 1

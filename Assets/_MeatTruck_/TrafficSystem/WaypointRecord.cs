@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class WaypointRecord : SerializableWithValidation
+public class WaypointRecord : SerializableWithValidation, IWeightedElement
 {
     public Waypoint waypoint;
     /// <summary>
@@ -10,6 +10,8 @@ public class WaypointRecord : SerializableWithValidation
     /// </summary>
     [Tooltip("The higher the weight, the highter the frequency of choosing this waypoint if there are multiple waypoints. E.g. a waypoint of weight 2f will be chosen two times more frequent, than a waypoint of weight 1f. Weight cannot be smaller than 0f.")]
     public float weight = 1f;
+
+    public float Weight => weight;
 
     public WaypointRecord(Waypoint waypoint, float weight = 1f)
     {

@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class OnTemporaryRouteCharacterNpcState : WalkingNpcCharacterState
 {
-    private readonly Action onCompleted;
-    private readonly bool returnOnRoute;
-    private readonly WaypointsTracker tempTracker;
+    protected Action onCompleted;
+    protected bool returnOnRoute;
+    protected WaypointsTracker tempTracker;
 
     public OnTemporaryRouteCharacterNpcState(NpcCharacterBehaviour npcCharacter, Waypoint startingWaypoint, Action onCompleted, bool returnOnRoute) : base(npcCharacter)
     {

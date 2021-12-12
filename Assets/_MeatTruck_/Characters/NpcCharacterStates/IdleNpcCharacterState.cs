@@ -25,7 +25,7 @@ public class IdleNpcCharacterState : NpcCharacterState
 
         if(collider.CompareTag(Tags.MeatShop.ToString()))
         {
-            NpcCharacter.ChangeState(new OnRouteToMeatShopNpcCharacterState(NpcCharacter, MeatShopManager.Instance.customerEntryWaypoint, () => MeatShopManager.Instance.CustomerBuy(NpcCharacter), true));
+            NpcCharacter.ChangeState(new OnRouteToMeatShopNpcCharacterState(NpcCharacter, MeatShopManager.Instance.customerEntryWaypoint, true));
         }
     }
 }

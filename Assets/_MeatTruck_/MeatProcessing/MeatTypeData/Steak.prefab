@@ -254,6 +254,8 @@ GameObject:
   - component: {fileID: 2302272307114306967}
   - component: {fileID: -3988803657486871389}
   - component: {fileID: 716659562738041236}
+  - component: {fileID: 1926061866401709072}
+  - component: {fileID: 1224271039322062273}
   m_Layer: 0
   m_Name: Steak
   m_TagString: Untagged
@@ -322,6 +324,37 @@ MonoBehaviour:
   autoCollidersDetection: 0
   colliders:
   - {fileID: 6356919933761959995}
+--- !u!114 &1926061866401709072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5533905832917308247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79960c58bc6fe6b478a66c3894a222d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpDuration: 1
+  jumpPower: 3
+  jumpsNum: 1
+--- !u!114 &1224271039322062273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5533905832917308247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46e507bf44ef9f4b86b361329b97e9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleDuration: 0.8
+  scalePunch: 2
+  vibrato: 1
+  elasticity: 1
 --- !u!1 &8531237595253872558
 GameObject:
   m_ObjectHideFlags: 0

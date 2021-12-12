@@ -7,4 +7,5 @@ using UnityEngine;
 public class NpcCharacter : Character
 {
     public NpcCharacterData data;
+    public CityRegionData defaultCityRegionData;
 }

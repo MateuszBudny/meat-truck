@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 7262134090030566636}
   - component: {fileID: 1254932418244671282}
   - component: {fileID: 2960865122693592780}
+  - component: {fileID: 8476966405526787188}
+  - component: {fileID: 2471721520519554605}
   m_Layer: 0
   m_Name: Drumstick
   m_TagString: Untagged
@@ -150,6 +152,37 @@ MonoBehaviour:
   colliders:
   - {fileID: 7262134090030566636}
   - {fileID: 6075472471618788484}
+--- !u!114 &8476966405526787188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103729609193184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79960c58bc6fe6b478a66c3894a222d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpDuration: 1
+  jumpPower: 3
+  jumpsNum: 1
+--- !u!114 &2471721520519554605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103729609193184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46e507bf44ef9f4b86b361329b97e9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleDuration: 0.8
+  scalePunch: 2
+  vibrato: 1
+  elasticity: 1
 --- !u!1 &1183062911300714
 GameObject:
   m_ObjectHideFlags: 0

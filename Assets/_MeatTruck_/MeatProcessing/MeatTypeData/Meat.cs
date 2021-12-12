@@ -14,7 +14,7 @@ public class Meat
 
     public Meat(MeatData data)
     {
-        this.Data = data;
+        Data = data;
         CurrentFreshness = data.meatFreshness;
     }
 }

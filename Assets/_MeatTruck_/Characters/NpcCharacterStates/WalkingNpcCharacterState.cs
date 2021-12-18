@@ -25,21 +25,21 @@ public class WalkingNpcCharacterState : IdleNpcCharacterState
                 0f,
                 GetMovement().y);
 
-        NpcCharacter.Controller.SimpleMove(movement, GetRotation());
+        NpcCharacterBehaviour.Controller.SimpleMove(movement, GetRotation());
     }
 
-    protected virtual bool IsOnRoute => NpcCharacter.Tracker.CurrentWaypoint;
+    protected virtual bool IsOnRoute => NpcCharacterBehaviour.Tracker.CurrentWaypoint;
 
     protected virtual void OnRouteFinished()
     {
-        NpcCharacter.ChangeState(new IdleNpcCharacterState(NpcCharacter));
+        NpcCharacterBehaviour.ChangeState(new IdleNpcCharacterState(NpcCharacterBehaviour));
     }
 
     public override Vector2 GetMovement()
     {
-        if (NpcCharacter.Tracker.CurrentWaypoint)
+        if (NpcCharacterBehaviour.Tracker.CurrentWaypoint)
         {
-            return new Vector2(characterBehaviour.transform.forward.x, characterBehaviour.transform.forward.z) * NpcCharacter.walkSpeed;
+            return new Vector2(characterBehaviour.transform.forward.x, characterBehaviour.transform.forward.z) * NpcCharacterBehaviour.walkSpeed;
         }
         else
         {
@@ -49,19 +49,19 @@ public class WalkingNpcCharacterState : IdleNpcCharacterState
 
     public override Quaternion GetRotation()
     {
-        if (NpcCharacter.Tracker.CurrentWaypoint)
+        if (NpcCharacterBehaviour.Tracker.CurrentWaypoint)
         {
-            return GetSlerpedRotationTowardsTarget(NpcCharacter.Tracker.CurrentWaypoint.transform.position, NpcCharacter.rotationSpeed);
+            return GetSlerpedRotationTowardsTarget(NpcCharacterBehaviour.Tracker.CurrentWaypoint.transform.position, NpcCharacterBehaviour.rotationSpeed);
         }
         else
         {
-            return NpcCharacter.transform.rotation;
+            return NpcCharacterBehaviour.transform.rotation;
         }
     }
 
     protected Quaternion GetSlerpedRotationTowardsTarget(Vector3 targetPosition, float rotationSpeed)
     {
-        return Quaternion.Slerp(NpcCharacter.transform.rotation, GetDesiredRotation(targetPosition), rotationSpeed * Time.deltaTime);
+        return Quaternion.Slerp(NpcCharacterBehaviour.transform.rotation, GetDesiredRotation(targetPosition), rotationSpeed * Time.deltaTime);
     }
 
     private Quaternion GetDesiredRotation(Vector3 targetPosition)

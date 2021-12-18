@@ -16,4 +16,4 @@ MonoBehaviour:
   meatDescription: Precious end cut with bone from only one side
   meatValue: 10
   meatFreshness: 3
-  meatPrefabBehaviour: {fileID: -3988803657486871389, guid: d03ad75155fd5ea42b7faa6991cea299, type: 3}
+  meatPrefabBehaviour: {fileID: 5234568379367904419, guid: d03ad75155fd5ea42b7faa6991cea299, type: 3}

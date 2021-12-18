@@ -4,10 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PunchScaleTween : MonoBehaviour
+public class PunchScaleTween : TweenBehaviour
 {
-    [SerializeField]
-    private float scaleDuration = 1f;
+    [Header("PunchScale tween properties")]
     [SerializeField]
     private float scalePunch = 2f;
     [SerializeField]
@@ -15,9 +14,8 @@ public class PunchScaleTween : MonoBehaviour
     [SerializeField]
     private float elasticity = 1f;
 
-    public Tweener Play(Action onComplete = null)
-    {
-        return transform.DOPunchScale(new Vector3(scalePunch, scalePunch, scalePunch), scaleDuration, vibrato, elasticity)
+    public override Tween Play(Action onComplete = null, Transform transformToTween = null) =>
+        GetTransformToTween(transformToTween).DOPunchScale(new Vector3(scalePunch, scalePunch, scalePunch), duration, vibrato, elasticity)
+            .SetEase(ease)
             .OnComplete(() => onComplete?.Invoke());
-    }
 }

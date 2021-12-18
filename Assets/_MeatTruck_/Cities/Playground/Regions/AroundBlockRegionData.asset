@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   region:
     meatsPopularity:
-    - meatData: {fileID: 11400000, guid: 7715cabd123a35d458af1ff3dc04aeed, type: 2}
-      popularity: 3
-      thisOrNothing: 0
-    - meatData: {fileID: 11400000, guid: c658b46fde490eb44883e3e5e877a894, type: 2}
-      popularity: 1.5
-      thisOrNothing: 0
-    - meatData: {fileID: 11400000, guid: 05f0a892e24f2904f8cbd92d5ed24560, type: 2}
-      popularity: 1
-      thisOrNothing: 0
+      list:
+      - meatData: {fileID: 11400000, guid: 7715cabd123a35d458af1ff3dc04aeed, type: 2}
+        popularity: 3
+        thisOrNothing: 0
+      - meatData: {fileID: 11400000, guid: c658b46fde490eb44883e3e5e877a894, type: 2}
+        popularity: 1.5
+        thisOrNothing: 0
+      - meatData: {fileID: 11400000, guid: 05f0a892e24f2904f8cbd92d5ed24560, type: 2}
+        popularity: 1
+        thisOrNothing: 0

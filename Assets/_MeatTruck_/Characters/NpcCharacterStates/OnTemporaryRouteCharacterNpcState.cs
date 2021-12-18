@@ -12,7 +12,7 @@ public class OnTemporaryRouteCharacterNpcState : WalkingNpcCharacterState
         this.onCompleted = onCompleted;
         this.returnOnRoute = returnOnRoute;
 
-        tempTracker = NpcCharacter.gameObject.AddComponent<WaypointsTracker>();
+        tempTracker = NpcCharacterBehaviour.gameObject.AddComponent<WaypointsTracker>();
         tempTracker.CurrentWaypoint = startingWaypoint;
     }
 
@@ -25,7 +25,7 @@ public class OnTemporaryRouteCharacterNpcState : WalkingNpcCharacterState
     {
         if(returnOnRoute)
         {
-            NpcCharacter.ChangeState(new WalkingNpcCharacterState(NpcCharacter));
+            NpcCharacterBehaviour.ChangeState(new WalkingNpcCharacterState(NpcCharacterBehaviour));
         }
         else
         {

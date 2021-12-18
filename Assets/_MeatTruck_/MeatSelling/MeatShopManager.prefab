@@ -58,6 +58,7 @@ MonoBehaviour:
   - {fileID: 6498779436871741294}
   rangeGameObject: {fileID: 9012630465833012425}
   customerEntryWaypoint: {fileID: 4614927537561410289}
+  cashTable: {fileID: 11400000, guid: e1a462048abb21b419fac2cf63d28f36, type: 2}
 --- !u!1 &2350230151081566868
 GameObject:
   m_ObjectHideFlags: 0

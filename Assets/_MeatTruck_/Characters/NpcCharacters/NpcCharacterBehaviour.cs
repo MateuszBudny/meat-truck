@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(WaypointsTracker), typeof(RagdollCharacterControllerExtension), typeof(CollidersHandler))]
+[RequireComponent(typeof(NpcCharacterEffects))]
 public class NpcCharacterBehaviour : CharacterBehaviour
 {
     public NpcCharacter npcCharacter;
@@ -12,6 +13,7 @@ public class NpcCharacterBehaviour : CharacterBehaviour
     public RagdollCharacterControllerExtension Controller { get; private set; }
     public WaypointsTracker Tracker { get; private set; }
     public CollidersHandler CollidersHandler { get; private set; }
+    public NpcCharacterEffects NpcCharacterEffects { get; private set; }
 
     public bool IsGatherable => State is DeadNpcCharacterState;
 
@@ -21,6 +23,7 @@ public class NpcCharacterBehaviour : CharacterBehaviour
         Controller = GetComponent<RagdollCharacterControllerExtension>();
         Tracker = GetComponent<WaypointsTracker>();
         CollidersHandler = GetComponent<CollidersHandler>();
+        NpcCharacterEffects = GetComponent<NpcCharacterEffects>();
     }
 
     private void Start()

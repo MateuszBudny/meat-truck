@@ -16,4 +16,4 @@ MonoBehaviour:
   meatDescription: Ordinary roasted leg
   meatValue: 5
   meatFreshness: 5
-  meatPrefabBehaviour: {fileID: 1254932418244671282, guid: b5633769281ca0940b368cbed17b7ec0, type: 3}
+  meatPrefabBehaviour: {fileID: 8665866837998082675, guid: 9db86766e5740c340873d26eb8f34a6b, type: 3}

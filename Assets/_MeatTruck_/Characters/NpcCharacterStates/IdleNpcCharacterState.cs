@@ -13,19 +13,19 @@ public class IdleNpcCharacterState : NpcCharacterState
 
     public override Quaternion GetRotation()
     {
-        return NpcCharacter.transform.rotation;
+        return NpcCharacterBehaviour.transform.rotation;
     }
 
     public override void OnTriggerEnter(Collider collider)
     {
         if (collider.CompareTag(Tags.PlayerVehicle.ToString()) || collider.CompareTag(Tags.NpcVehicle.ToString()))
         {
-            NpcCharacter.ChangeState(new DeadNpcCharacterState(NpcCharacter));
+            NpcCharacterBehaviour.ChangeState(new DeadNpcCharacterState(NpcCharacterBehaviour));
         }
 
         if(collider.CompareTag(Tags.MeatShop.ToString()))
         {
-            NpcCharacter.ChangeState(new OnRouteToMeatShopNpcCharacterState(NpcCharacter, MeatShopManager.Instance.customerEntryWaypoint, true));
+            NpcCharacterBehaviour.ChangeState(new OnRouteToMeatShopNpcCharacterState(NpcCharacterBehaviour, MeatShopManager.Instance.customerEntryWaypoint, true));
         }
     }
 }

@@ -8,7 +8,7 @@ public class DeadNpcCharacterState : NpcCharacterState
 
     public override void OnStateEnter(CharacterState previousState)
     {
-        NpcCharacter.Controller.SetAsRagdoll();
+        NpcCharacterBehaviour.Controller.SetAsRagdoll();
     }
 
     public override Vector2 GetMovement() => Vector2.zero;

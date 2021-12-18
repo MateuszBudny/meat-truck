@@ -16,4 +16,4 @@ MonoBehaviour:
   meatDescription: Extra fresh tightly packed ham
   meatValue: 3
   meatFreshness: 10
-  meatPrefabBehaviour: {fileID: 2648172857824959056, guid: 8060cf8a88a11a24a91b6494333116cd, type: 3}
+  meatPrefabBehaviour: {fileID: 7673031724888586516, guid: 3b7b9d4ccbf8e904ea13cc2dc0c06b32, type: 3}

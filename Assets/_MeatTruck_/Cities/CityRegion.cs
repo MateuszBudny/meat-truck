@@ -1,17 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
 public class CityRegion
 {
-    public List<MeatPopularity> meatsPopularity;
+    public WeightedList<MeatPopularity> meatsPopularity;
 
-    public CityRegion(List<MeatPopularity> meatsPopularity)
+    public CityRegion(WeightedList<MeatPopularity> meatsPopularity)
     {
         this.meatsPopularity = meatsPopularity;
     }
 
-    public CityRegion Copy() => new CityRegion(new List<MeatPopularity>(meatsPopularity));
+    public CityRegion DeepCopy() => new CityRegion(new WeightedList<MeatPopularity>(meatsPopularity.List.Select(meatPopularity => meatPopularity.Copy()).ToList()));
 }

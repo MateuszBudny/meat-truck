@@ -3,30 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CollidersHandler), typeof(JumpTween), typeof(PunchScaleTween))]
-public class MeatBehaviour : MonoBehaviour
+[RequireComponent(typeof(CollidersHandler))]
+public class MeatBehaviour : MonoBehaviour, IItemJumpTo
 {
     public Meat meat;
+    [SerializeField]
+    private ItemJumpToSequence jumpSequence;
 
     public CollidersHandler CollidersHandler { get; private set; }
 
-    private JumpTween jumpTweenBehaviour;
-    private PunchScaleTween punchScaleTweenBehaviour;
+    public GameObject GameObject => gameObject;
 
     private void Awake()
     {
         CollidersHandler = GetComponent<CollidersHandler>();
-        jumpTweenBehaviour = GetComponent<JumpTween>();
-        punchScaleTweenBehaviour = GetComponent<PunchScaleTween>();
     }
 
-    public void JumpTo(Vector3 target, bool turnOffColliders = false, Action onComplete = null)
-    {
-        if(turnOffColliders)
-        {
-            CollidersHandler.CollidersSetEnabled(false);
-        }
-        jumpTweenBehaviour.Play(target, onComplete);
-        punchScaleTweenBehaviour.Play();
-    }
+    public void JumpTo(Vector3 target, bool scaleTo0, Action onComplete = null, bool turnOffColliders = false) => jumpSequence.JumpTo(target, scaleTo0, onComplete, turnOffColliders);
 }

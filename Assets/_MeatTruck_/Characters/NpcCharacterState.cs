@@ -4,10 +4,10 @@ using UnityEngine;
 
 public abstract class NpcCharacterState : CharacterState
 {
-    protected NpcCharacterBehaviour NpcCharacter => characterBehaviour as NpcCharacterBehaviour;
+    protected NpcCharacterBehaviour NpcCharacterBehaviour => characterBehaviour as NpcCharacterBehaviour;
 
-    public NpcCharacterState(NpcCharacterBehaviour npcCharacter)
+    public NpcCharacterState(NpcCharacterBehaviour npcCharacterBehaviour)
     {
-        characterBehaviour = npcCharacter;
+        characterBehaviour = npcCharacterBehaviour;
     }
 }

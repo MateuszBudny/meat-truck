@@ -7,7 +7,7 @@ public class OnRouteToMeatShopNpcCharacterState : OnTemporaryRouteCharacterNpcSt
 {
     public OnRouteToMeatShopNpcCharacterState(NpcCharacterBehaviour npcCharacter, Waypoint startingWaypoint, bool returnOnRoute) : base(npcCharacter, startingWaypoint, null, returnOnRoute) 
     {
-        onCompleted = () => MeatShopManager.Instance.CustomerBuy(NpcCharacter, ChooseMeatToBuy());
+        onCompleted = () => MeatShopManager.Instance.CustomerBuy(NpcCharacterBehaviour, ChooseMeatToBuy());
     }
 
     public override void OnStateEnter(CharacterState previousState)
@@ -23,11 +23,40 @@ public class OnRouteToMeatShopNpcCharacterState : OnTemporaryRouteCharacterNpcSt
 
     public void OnMeatShopClosed()
     {
-        NpcCharacter.ChangeState(new WalkingNpcCharacterState(NpcCharacter));
+        NpcCharacterBehaviour.ChangeState(new WalkingNpcCharacterState(NpcCharacterBehaviour));
     }
 
-    public Meat ChooseMeatToBuy()
+    public MeatData ChooseMeatToBuy()
     {
-        return null;
+        WeightedList<MeatPopularity> meatsToChooseFrom = new WeightedList<MeatPopularity>(NpcCharacterBehaviour.CurrentCityRegion.meatsPopularity.List);
+        MeatData chosenMeat = null;
+        while (!chosenMeat && meatsToChooseFrom.List.Count > 0)
+        {
+            MeatPopularity tempChosenMeatPopularity = meatsToChooseFrom.GetRandomWeightedElement();
+            chosenMeat = GameManager.Instance.Player.Inventory.HasMeatType(tempChosenMeatPopularity.meatData) ? tempChosenMeatPopularity.meatData : null;
+            if(!chosenMeat)
+            {
+                if(tempChosenMeatPopularity.thisOrNothing)
+                {
+                    break;
+                }
+                else
+                {
+                    meatsToChooseFrom.List.Remove(tempChosenMeatPopularity);
+                }
+            }
+        }
+
+        if(!chosenMeat)
+        {
+            NoMeatBought();
+        }
+
+        return chosenMeat;
+    }
+
+    private void NoMeatBought()
+    {
+        NpcCharacterBehaviour.NpcCharacterEffects.PlayForLimitedTime(NpcCharacterEffect.NoMeatBought, 2f);
     }
 }

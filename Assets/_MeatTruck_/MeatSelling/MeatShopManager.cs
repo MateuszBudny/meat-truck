@@ -20,11 +20,14 @@ public class MeatShopManager : SingleBehaviour<MeatShopManager>
     [SerializeField]
     private GameObject rangeGameObject;
     public Waypoint customerEntryWaypoint;
+    [SerializeField]
+    private CashTableData cashTable;
 
     public List<OnRouteToMeatShopNpcCharacterState> CustomersWalkingToShop { get; private set; } = new List<OnRouteToMeatShopNpcCharacterState>();
 
     private Dictionary<MeatData, MeatSpawnPoint> meatSpawnPointsDict = new Dictionary<MeatData, MeatSpawnPoint>();
     private List<MeatBehaviour> spawnedMeats;
+    private List<CashBehaviour> spawnedEarnedCash;
 
     protected override void Awake()
     {
@@ -51,8 +54,11 @@ public class MeatShopManager : SingleBehaviour<MeatShopManager>
         GameManager.Instance.Player.Inventory.Meats.ForEach(meat =>
         {
             MeatBehaviour newMeat = Instantiate(meat.Data.meatPrefabBehaviour, meatSpawnPointsDict[meat.Data].transform.position, Quaternion.identity, transform);
+            newMeat.meat = meat;
             spawnedMeats.Add(newMeat);
         });
+
+        spawnedEarnedCash = new List<CashBehaviour>();
     }
 
     public void ReturnToDriving()
@@ -62,7 +68,10 @@ public class MeatShopManager : SingleBehaviour<MeatShopManager>
         virtualCamera.Priority = 0;
         DrivingGameplayManager.Instance.CurrentControllerMode.VirtualCamera.Priority++;
 
-        spawnedMeats.ForEach(meat => meat.JumpTo(playerVehicle.VehicleController.CenterOfMass.transform.position, true, () => Destroy(meat.gameObject)));
+        List<IItemJumpTo> itemsToGather = new List<IItemJumpTo>();
+        itemsToGather.AddRange(spawnedMeats);
+        itemsToGather.AddRange(spawnedEarnedCash);
+        itemsToGather.ForEach(item => item.JumpTo(playerVehicle.VehicleController.CenterOfMass.transform.position, false, () => Destroy(item.GameObject), true));
 
         List<OnRouteToMeatShopNpcCharacterState> customersToInformAboutShopClosing = new List<OnRouteToMeatShopNpcCharacterState>(CustomersWalkingToShop);
         customersToInformAboutShopClosing.ForEach(customer => customer.OnMeatShopClosed());
@@ -71,9 +80,26 @@ public class MeatShopManager : SingleBehaviour<MeatShopManager>
         rangeGameObject.SetActive(false);
     }
 
-    public void CustomerBuy(NpcCharacterBehaviour customer, Meat meat)
+    public void CustomerBuy(NpcCharacterBehaviour customer, MeatData meatDataBought)
     {
-        Debug.Log("customer bought something!");
+        if(meatDataBought)
+        {
+            MeatBehaviour spawnedMeatBehaviourBought = spawnedMeats.Find(meatBehaviour => meatBehaviour.meat.Data == meatDataBought);
+            spawnedMeats.Remove(spawnedMeatBehaviourBought);
+            GameManager.Instance.Player.Inventory.Meats.Remove(spawnedMeatBehaviourBought.meat);
+
+            MeatPopularity boughtMeatPopularity = customer.CurrentCityRegion.meatsPopularity.List.Find(meatPopularity => meatPopularity.meatData == meatDataBought);
+            boughtMeatPopularity.DecreasePopularityAfterBuy();
+            
+            spawnedMeatBehaviourBought.JumpTo(customer.mainRigidbody.position, true, () => Destroy(spawnedMeatBehaviourBought.gameObject), true);
+
+            int cashValueEarned = boughtMeatPopularity.GetMeatFinalValue();
+            for(int i = 0; i < cashValueEarned; i++)
+            {
+                spawnedEarnedCash.Add(Instantiate(cashTable.CashValues[1], customer.mainRigidbody.position, Quaternion.identity, transform));
+            }
+            GameManager.Instance.Player.Inventory.Cash += cashValueEarned;
+        }
     }
 
     public void OnReturnToDrivingInput(CallbackContext context)

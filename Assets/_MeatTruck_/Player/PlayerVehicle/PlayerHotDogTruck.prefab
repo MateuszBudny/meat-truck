@@ -26,6 +26,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 210ea7f919af1d547bb3cf83926f28ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainInput: {fileID: 7499024061375423835}
   deliberateMovementVelocityThreshold: 1
 --- !u!114 &5977176858047709223
 MonoBehaviour:
@@ -66,22 +67,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1814516575773958639}
-        m_TargetAssemblyTypeName: VehiclePlayerInput, Assembly-CSharp
-        m_MethodName: OnAccelerateInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 5c8ae644-f569-425e-9e64-12e13962752d
-    m_ActionName: Driving/Accelerate[/Keyboard/w,/Keyboard/upArrow,/XInputControllerWindows/rightTrigger]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1814516575773958639}
@@ -132,9 +117,9 @@ MonoBehaviour:
     m_ActionName: Driving/ChangeControllerMode[/Keyboard/y,/XInputControllerWindows/buttonNorth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1814516575773958639}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: VehiclePlayerInput, Assembly-CSharp
-        m_MethodName: OnChangeTiltBlockerInput
+        m_MethodName: OnChangeControllerModeInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -151,14 +136,10 @@ MonoBehaviour:
     m_ActionId: d1cb459a-c4fc-45c9-bc4b-0075e2ba6d12
     m_ActionName: Driving/Restart[/Keyboard/r]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 87dbb08e-aa6c-49e0-8787-990678120f9d
-    m_ActionName: Driving/Quit[/Keyboard/escape]
-  - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1814516575773958639}
-        m_TargetAssemblyTypeName: VehiclePlayerInput, Assembly-CSharp
-        m_MethodName: OnGathering
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnRestartInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -168,28 +149,56 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: f9499cd1-c7b3-4633-b839-9b696d1b3689
-    m_ActionName: Driving/Gathering[/Keyboard/space,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast]
+    m_ActionId: d1cb459a-c4fc-45c9-bc4b-0075e2ba6d12
+    m_ActionName: Driving/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnQuitInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 87dbb08e-aa6c-49e0-8787-990678120f9d
+    m_ActionName: Driving/New action
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 35404064-450c-4752-b676-49e8a73c8b2b
-    m_ActionName: MeatProcessing/CorpseJump[/Keyboard/space,/XInputControllerWindows/buttonSouth]
+    m_ActionName: Driving/Gathering[/Keyboard/space,/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 316f7395-a80e-4127-9c35-111f37815494
-    m_ActionName: MeatProcessing/LightButton[/Keyboard/f,/XInputControllerWindows/buttonEast]
-  - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1814516575773958639}
+        m_TargetAssemblyTypeName: PlayerVehicle, Assembly-CSharp
+        m_MethodName: OnOpenShop
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 73dae0ed-f1a6-481c-87df-2161b536d698
     m_ActionName: Driving/OpenShop[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 665fb499-1da2-4525-9521-a513b9fe7fff
-    m_ActionName: MeatProcessing/SelectLeftPoster[/Keyboard/a]
+    m_ActionId: 35404064-450c-4752-b676-49e8a73c8b2b
+    m_ActionName: MeatProcessing/CorpseJump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 9b554b9d-e447-4ce4-9a4c-e77df2806e86
-    m_ActionName: MeatProcessing/SelectRightPoster[/Keyboard/d]
+    m_ActionId: 316f7395-a80e-4127-9c35-111f37815494
+    m_ActionName: MeatProcessing/LightButton[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 665fb499-1da2-4525-9521-a513b9fe7fff
+    m_ActionName: MeatProcessing/SelectLeftPoster[/Keyboard/a]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5725186905115098597}
@@ -204,11 +213,59 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+    m_ActionId: 9b554b9d-e447-4ce4-9a4c-e77df2806e86
+    m_ActionName: MeatProcessing/SelectRightPoster[/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5725186905115098597}
+        m_TargetAssemblyTypeName: MeatShopManager, MeatTruck
+        m_MethodName: OnReturnToDrivingInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 5bc2e113-e1d9-454d-b2ca-d99466b94183
     m_ActionName: MeatSelling/ReturnToDriving[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1814516575773958639}
+        m_TargetAssemblyTypeName: PlayerVehicle, MeatTruck
+        m_MethodName: OnAccelerateInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1a1825ae-7bb0-4fa3-bb9c-d06e9d352517
+    m_ActionName: Accelerating/Accelerate[/Keyboard/upArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1814516575773958639}
+        m_TargetAssemblyTypeName: PlayerVehicle, MeatTruck
+        m_MethodName: OnAccelerateInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f9499cd1-c7b3-4633-b839-9b696d1b3689
+    m_ActionName: OtherDriving/Gathering[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepads
-  m_DefaultActionMap: Driving
+  m_DefaultActionMap: Accelerating
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &4480662395376520127
@@ -563,6 +620,10 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 3069467694399282531}
+    - target: {fileID: 2504429946760012640, guid: 9301b98f46c73644cb372bbc27610405, type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.7777778
+      objectReference: {fileID: 0}
     - target: {fileID: 8266985549791684649, guid: 9301b98f46c73644cb372bbc27610405, type: 3}
       propertyPath: mainInput
       value: 

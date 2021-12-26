@@ -1,6 +1,7 @@
 public enum PlayerInputActionMap 
 {
-    Driving,
+    Accelerating,
+    OtherDriving,
     MeatProcessing,
     MeatSelling,
 }

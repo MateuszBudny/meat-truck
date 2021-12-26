@@ -2,17 +2,47 @@
     "name": "PlayerInput",
     "maps": [
         {
-            "name": "Driving",
-            "id": "3ab41319-b38b-4f53-98e8-17d334b0a18b",
+            "name": "Accelerating",
+            "id": "1af33fa1-4f9a-43a9-8b11-85218192d4c2",
             "actions": [
                 {
                     "name": "Accelerate",
                     "type": "PassThrough",
-                    "id": "5c8ae644-f569-425e-9e64-12e13962752d",
+                    "id": "1a1825ae-7bb0-4fa3-bb9c-d06e9d352517",
                     "expectedControlType": "Double",
                     "processors": "",
                     "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4bdbb75b-e936-40ee-8492-b468d3a1ad95",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Accelerate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
+                {
+                    "name": "",
+                    "id": "2f72e570-af8a-47a9-bcf0-c89aa7b5e9e0",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepads",
+                    "action": "Accelerate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "OtherDriving",
+            "id": "3ab41319-b38b-4f53-98e8-17d334b0a18b",
+            "actions": [
                 {
                     "name": "NormalBrake",
                     "type": "PassThrough",
@@ -79,28 +109,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "895189c4-cb44-40a3-8d3c-05c740030cd4",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Accelerate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0ec65d64-37f8-4553-a88b-ec679af71d16",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepads",
-                    "action": "Accelerate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "db107fb7-920d-4dee-b397-1234ed161ef9",
@@ -515,7 +523,7 @@
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard",
                     "action": "ReturnToDriving",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -524,6 +532,28 @@
                     "name": "",
                     "id": "1f60b587-e46b-400c-81e7-a37364976d15",
                     "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepads",
+                    "action": "ReturnToDriving",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "489de751-76c9-45ec-9da4-14e5b5c6ea78",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ReturnToDriving",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "15537f01-2793-419f-839d-d493a7f5542a",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepads",

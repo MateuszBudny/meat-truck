@@ -41,7 +41,7 @@ public class GatheringPlayerVehicleState : DrivingLowVelocityPlayerVehicleState
     private IEnumerator StartGatheringEnumerator()
     {
         PlayerVehicle.PlayerVehicleEffects.Play(PlayerVehicleEffect.GatheringSmoke);
-        yield return new WaitForSecondsRealtime(PlayerVehicle.characterGatheringDuration);
+        yield return new WaitForSecondsRealtime(PlayerVehicle.Gathering.characterGatheringDuration);
 
         GatheringFinished();
     }

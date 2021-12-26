@@ -17,18 +17,27 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class MeatProcessingManager : MonoBehaviour
 {
-    public GameObject corpse;
     public GameObject corpseSpawnPoint;
     public float nonThrowingDuration = 1;
     public Vector3 throwForceMin = new Vector3(-100f, 300f, -200f);
     public Vector3 throwForceMax = new Vector3(-1000f, 1000f, 200f);
     public List<MeatPoster> meatPosters;
+    [SerializeField]
+    private MeatsSpawning meatsSpawning;
+    [SerializeField]
+    private CashSpawning cashSpawning;
 
     private MeatProcessingStep meatProcessingStep = MeatProcessingStep.CorpseThrowing;
     private NpcCharacterBehaviour corpseInstance;
     private int currentPosterIndex = 0;
 
     private Inventory PlayerInventory => GameManager.Instance.Player.Inventory;
+
+    private void Start()
+    {
+        meatsSpawning.SpawnGivenMeats(GameManager.Instance.Player.Inventory.Meats);
+        cashSpawning.SpawnGivenCashAmount(GameManager.Instance.Player.Inventory.Cash);
+    }
 
     public void OnCorpseJumpClick(CallbackContext context)
     {

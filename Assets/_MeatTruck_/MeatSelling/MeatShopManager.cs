@@ -16,28 +16,21 @@ public class MeatShopManager : SingleBehaviour<MeatShopManager>
     [SerializeField]
     private CinemachineVirtualCamera virtualCamera;
     [SerializeField]
-    private List<MeatSpawnPoint> meatSpawnPoints;
-    [SerializeField]
     private GameObject rangeGameObject;
     public Waypoint customerEntryWaypoint;
     [SerializeField]
     private CashTableData cashTable;
+    [SerializeField]
+    private MeatsSpawning meatsSpawning;
 
     public List<OnRouteToMeatShopNpcCharacterState> CustomersWalkingToShop { get; private set; } = new List<OnRouteToMeatShopNpcCharacterState>();
 
-    private Dictionary<MeatData, MeatSpawnPoint> meatSpawnPointsDict = new Dictionary<MeatData, MeatSpawnPoint>();
     private List<MeatBehaviour> spawnedMeats;
     private List<CashBehaviour> spawnedEarnedCash;
 
     protected override void Awake()
     {
         base.Awake();
-
-        meatSpawnPoints.ForEach(meatSpawnPoint =>
-        {
-            meatSpawnPointsDict.Add(meatSpawnPoint.meatDataToSpawn, meatSpawnPoint);
-        });
-
         rangeGameObject.SetActive(false);
     }
 
@@ -50,13 +43,7 @@ public class MeatShopManager : SingleBehaviour<MeatShopManager>
         DrivingGameplayManager.Instance.CurrentControllerMode.VirtualCamera.Priority = 0;
         virtualCamera.Priority++;
 
-        spawnedMeats = new List<MeatBehaviour>();
-        GameManager.Instance.Player.Inventory.Meats.ForEach(meat =>
-        {
-            MeatBehaviour newMeat = Instantiate(meat.Data.meatPrefabBehaviour, meatSpawnPointsDict[meat.Data].transform.position, Quaternion.identity, transform);
-            newMeat.meat = meat;
-            spawnedMeats.Add(newMeat);
-        });
+        spawnedMeats = meatsSpawning.SpawnGivenMeats(GameManager.Instance.Player.Inventory.Meats);
 
         spawnedEarnedCash = new List<CashBehaviour>();
     }

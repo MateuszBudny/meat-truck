@@ -23,4 +23,10 @@ public static class ExtensionMethods
     {
         return (point - pivot).Rotate(angle) + pivot;
     }
+
+    public static T GetRandomElement<T>(this List<T> list)
+    {
+        int chosenElementIndex = UnityEngine.Random.Range(0, list.Count);
+        return list[chosenElementIndex];
+    }
 }

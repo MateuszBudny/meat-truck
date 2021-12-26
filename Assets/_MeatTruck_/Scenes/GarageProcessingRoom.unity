@@ -123,6 +123,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &319584942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 319584944}
+  - component: {fileID: 319584943}
+  m_Layer: 0
+  m_Name: CashSpawning
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &319584943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319584942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b6ffe4830a0b314794399c8d8de5a43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cashSpawningPoint: {fileID: 1765515004}
+  cashTableData: {fileID: 11400000, guid: e1a462048abb21b419fac2cf63d28f36, type: 2}
+--- !u!4 &319584944
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319584942}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.97, y: 1.48, z: 2.447}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1765515004}
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &348102233
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,7 +264,7 @@ PrefabInstance:
       objectReference: {fileID: 1945136479}
     - target: {fileID: 8558819430095017860, guid: 917ec09f1b28b4944af5d394a4e6afe4, type: 3}
       propertyPath: m_VersionIndex
-      value: 510
+      value: 513
       objectReference: {fileID: 0}
     - target: {fileID: 8558819430095017861, guid: 917ec09f1b28b4944af5d394a4e6afe4, type: 3}
       propertyPath: m_RootOrder
@@ -376,7 +422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb0306e3c6fb76a45a28e8b816fa8d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corpse: {fileID: 5001736940374171689, guid: 38d65aac2e2aab14f82b88d01ce0cc30, type: 3}
   corpseSpawnPoint: {fileID: 1556014308}
   nonThrowingDuration: 1
   throwForceMin: {x: -16000, y: 7000, z: -2000}
@@ -385,6 +430,8 @@ MonoBehaviour:
   - {fileID: 650113163}
   - {fileID: 1105777970}
   - {fileID: 1656977227}
+  meatsSpawning: {fileID: 1611344223}
+  cashSpawning: {fileID: 319584943}
 --- !u!4 &749781259
 Transform:
   m_ObjectHideFlags: 0
@@ -508,6 +555,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9b554b9d-e447-4ce4-9a4c-e77df2806e86
     m_ActionName: MeatProcessing/SelectRightPoster[/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 73dae0ed-f1a6-481c-87df-2161b536d698
+    m_ActionName: Driving/OpenShop[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5bc2e113-e1d9-454d-b2ca-d99466b94183
+    m_ActionName: MeatSelling/ReturnToDriving[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepads
   m_DefaultActionMap: MeatProcessing
@@ -780,7 +835,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1304
+  m_Name: pb_Mesh-4912
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -951,7 +1006,7 @@ PrefabInstance:
       objectReference: {fileID: 1146802021}
     - target: {fileID: 1698385267078450660, guid: 4e225901a9193844a82449f14a2033c0, type: 3}
       propertyPath: m_VersionIndex
-      value: 551
+      value: 554
       objectReference: {fileID: 0}
     - target: {fileID: 1698385267078450660, guid: 4e225901a9193844a82449f14a2033c0, type: 3}
       propertyPath: m_Tangents.Array.data[0].x
@@ -1528,7 +1583,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1280
+  m_Name: pb_Mesh-4866
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1906,6 +1961,86 @@ LightingSettings:
   m_PVRFilteringAtrousPositionSigmaDirect: 0.5
   m_PVRFilteringAtrousPositionSigmaIndirect: 2
   m_PVRFilteringAtrousPositionSigmaAO: 1
+--- !u!1001 &1611344222
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 874596723455125602, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 874596723455125602, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.245
+      objectReference: {fileID: 0}
+    - target: {fileID: 874596723455125602, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.233
+      objectReference: {fileID: 0}
+    - target: {fileID: 874596723455125602, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.692
+      objectReference: {fileID: 0}
+    - target: {fileID: 874596723455125602, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 874596723455125602, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 874596723455125602, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 874596723455125602, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 874596723455125602, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 874596723455125602, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 874596723455125602, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015480766317165447, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.289
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521901520540793061, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.327
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521901520540793061, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.938
+      objectReference: {fileID: 0}
+    - target: {fileID: 7844615463511614277, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+      propertyPath: m_Name
+      value: MeatsSpawnPoints
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+--- !u!114 &1611344223 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3732237902586252552, guid: 213a6184e2171584e8e4a7977f72d550, type: 3}
+  m_PrefabInstance: {fileID: 1611344222}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59231b064206c734ab72cf7e2d157276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1643899750
 GameObject:
   m_ObjectHideFlags: 0
@@ -2016,7 +2151,7 @@ PrefabInstance:
       objectReference: {fileID: 1057845932}
     - target: {fileID: 2076184236142924116, guid: 31f13130344655746a9162b650d63279, type: 3}
       propertyPath: m_VersionIndex
-      value: 577
+      value: 580
       objectReference: {fileID: 0}
     - target: {fileID: 2076184236142924116, guid: 31f13130344655746a9162b650d63279, type: 3}
       propertyPath: m_Tangents.Array.data[0].x
@@ -2756,6 +2891,36 @@ Transform:
   m_Father: {fileID: 348102234}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 180}
+--- !u!1 &1765515003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1765515004}
+  m_Layer: 0
+  m_Name: CashSpawningPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1765515004
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765515003}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 319584944}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1770538357
 GameObject:
   m_ObjectHideFlags: 0
@@ -4325,7 +4490,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1256
+  m_Name: pb_Mesh-4830
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

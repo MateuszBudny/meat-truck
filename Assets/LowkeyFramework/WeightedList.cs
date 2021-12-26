@@ -24,6 +24,11 @@ public class WeightedList<T> where T : IWeightedElement
 
     public T GetRandomWeightedElement()
     {
+        if(List.All(weightedElement => weightedElement.Weight.Equals(0f)))
+        {
+            return List.GetRandomElement();
+        }
+
         float weightsSum = List.Sum(weightedElement => weightedElement.Weight);
         float randomWeight = UnityEngine.Random.Range(0f, weightsSum);
         float currentWeightsSum = 0f;

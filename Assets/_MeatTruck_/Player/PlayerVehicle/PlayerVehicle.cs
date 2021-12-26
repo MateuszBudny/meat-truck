@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
 [RequireComponent(typeof(VehicleController))]
 public class PlayerVehicle : Vehicle
 {
+    [SerializeField]
+    private PlayerInput mainInput;
     [SerializeField]
     private float deliberateMovementVelocityThreshold = 0.05f;
 
@@ -27,6 +30,7 @@ public class PlayerVehicle : Vehicle
         State = new DrivingLowVelocityPlayerVehicleState(this);
         Gathering = GetComponent<CharactersGathering>();
         PlayerVehicleEffects = GetComponent<PlayerVehicleEffects>();
+        mainInput.actions.FindActionMap(PlayerInputActionMap.OtherDriving.ToString()).Enable();
     }
 
     private void Update()

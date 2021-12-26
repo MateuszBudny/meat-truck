@@ -120,6 +120,10 @@ PrefabInstance:
       value: -1.6860003
       objectReference: {fileID: 0}
     - target: {fileID: 7499024061375423835, guid: aae35f85bb86fab4fb62f715603bf48c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8344061946266810197}
+    - target: {fileID: 7499024061375423835, guid: aae35f85bb86fab4fb62f715603bf48c, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8344061946266810197}
@@ -131,6 +135,10 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8344061946266810197}
+    - target: {fileID: 7499024061375423835, guid: aae35f85bb86fab4fb62f715603bf48c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DrivingGameplayManager, MeatTruck
+      objectReference: {fileID: 0}
     - target: {fileID: 7534358371950541876, guid: aae35f85bb86fab4fb62f715603bf48c, type: 3}
       propertyPath: m_ConnectedAnchor.x
       value: 1.7250006

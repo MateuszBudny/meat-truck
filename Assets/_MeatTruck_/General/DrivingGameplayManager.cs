@@ -12,9 +12,6 @@ public class DrivingGameplayManager : SingleBehaviour<DrivingGameplayManager>
     private List<ControllerModeRecord> controllerModesRecords;
     public Queue<ControllerMode> ControllerModes { get; private set; }
 
-    [SerializeField]
-    private GameObject mobileVirtualControllers;
-
     public VehicleController PlayerVehicleController { get; set; }
     public ControllerMode CurrentControllerMode => ControllerModes.Peek();
 
@@ -40,12 +37,6 @@ public class DrivingGameplayManager : SingleBehaviour<DrivingGameplayManager>
         tempControllerModes.Insert(0, firstControllerMode);
 
         ControllerModes = new Queue<ControllerMode>(tempControllerModes);
-
-#if UNITY_ANDROID
-        mobileVirtualControllers.SetActive(true);
-#else
-        mobileVirtualControllers.SetActive(false);
-#endif
     }
 
     public void OnChangeControllerModeInput(CallbackContext context)

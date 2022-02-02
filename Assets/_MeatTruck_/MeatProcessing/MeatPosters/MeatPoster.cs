@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class MeatPoster : MonoBehaviour
+public class MeatPoster : MonoBehaviour, IPointerClickHandler
 {
     public GameObject highlight;
     public MeatBehaviour meatPrefabBehaviour;
     [Range(1, 20)]
     public int meatsNum = 1;
+    public MeatProcessingManager meatProcessingManager;
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        meatProcessingManager.OnMeatPosterClick(this);
+    }
 
     public void SetPosterAsSelected(bool activate)
     {

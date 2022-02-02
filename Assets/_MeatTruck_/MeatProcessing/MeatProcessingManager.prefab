@@ -1,0 +1,282 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5446385853905751717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5446385853905751719}
+  - component: {fileID: 5446385853905751718}
+  - component: {fileID: 5446385853905751712}
+  m_Layer: 0
+  m_Name: MeatProcessingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5446385853905751719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5446385853905751717}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5541287871210526284}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5446385853905751718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5446385853905751717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb0306e3c6fb76a45a28e8b816fa8d6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corpseSpawnPoint: {fileID: 0}
+  nonThrowingDuration: 1
+  throwForceMin: {x: -16000, y: 7000, z: -2000}
+  throwForceMax: {x: -26000, y: 9000, z: 2000}
+  meatPosters:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  meatsSpawning: {fileID: 0}
+  cashSpawning: {fileID: 0}
+  corpseThrowMobileButtonRenderer: {fileID: 0}
+--- !u!114 &5446385853905751712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5446385853905751717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 1e09542362c657049977311a62287d10, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 54aab448-b015-4605-9515-cb9b5c68cbb4
+    m_ActionName: Driving/NormalBrake[/Keyboard/downArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a2e668cc-d44f-4f1a-8ed4-91e00f01a457
+    m_ActionName: Driving/Steering[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f5396bd8-5874-41b4-9ba1-918ae3f60c64
+    m_ActionName: Driving/ChangeControllerMode[/Keyboard/y]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 860acc03-b8b5-4a5e-bef7-27cba29a8959
+    m_ActionName: Driving/ChangeTiltBlocker[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d1cb459a-c4fc-45c9-bc4b-0075e2ba6d12
+    m_ActionName: Driving/Restart[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 87dbb08e-aa6c-49e0-8787-990678120f9d
+    m_ActionName: Driving/Quit[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f9499cd1-c7b3-4633-b839-9b696d1b3689
+    m_ActionName: Driving/Gathering[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5446385853905751718}
+        m_TargetAssemblyTypeName: MeatProcessingManager, Assembly-CSharp
+        m_MethodName: OnCorpseJumpClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 35404064-450c-4752-b676-49e8a73c8b2b
+    m_ActionName: MeatProcessing/CubeJump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 316f7395-a80e-4127-9c35-111f37815494
+    m_ActionName: MeatProcessing/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5446385853905751718}
+        m_TargetAssemblyTypeName: MeatProcessingManager, Assembly-CSharp
+        m_MethodName: OnSelectLeftPosterClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 665fb499-1da2-4525-9521-a513b9fe7fff
+    m_ActionName: MeatProcessing/SelectLeftPoster[/Keyboard/a]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5446385853905751718}
+        m_TargetAssemblyTypeName: MeatProcessingManager, Assembly-CSharp
+        m_MethodName: OnSelectRightPosterClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9b554b9d-e447-4ce4-9a4c-e77df2806e86
+    m_ActionName: MeatProcessing/SelectRightPoster[/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 73dae0ed-f1a6-481c-87df-2161b536d698
+    m_ActionName: Driving/OpenShop[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5bc2e113-e1d9-454d-b2ca-d99466b94183
+    m_ActionName: MeatSelling/ReturnToDriving[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1a1825ae-7bb0-4fa3-bb9c-d06e9d352517
+    m_ActionName: Accelerating/Accelerate[/Keyboard/upArrow]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Gamepads
+  m_DefaultActionMap: MeatProcessing
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!1001 &5446385854077391779
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5446385853905751719}
+    m_Modifications:
+    - target: {fileID: 537028856273552876, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_Name
+      value: MeatProcessingCanvasUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+--- !u!224 &5541287871210526284 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 537028856273552879, guid: 6fbbcebb3b9c66341bce53b8ca8fd8fd, type: 3}
+  m_PrefabInstance: {fileID: 5446385854077391779}
+  m_PrefabAsset: {fileID: 0}

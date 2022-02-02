@@ -26,10 +26,24 @@ public class MeatProcessingManager : MonoBehaviour
     private MeatsSpawning meatsSpawning;
     [SerializeField]
     private CashSpawning cashSpawning;
+    [SerializeField]
+    private GameObject corpseThrowMobileButtonRenderer;
 
-    private MeatProcessingStep meatProcessingStep = MeatProcessingStep.CorpseThrowing;
     private NpcCharacterBehaviour corpseInstance;
     private int currentPosterIndex = 0;
+
+    private MeatProcessingStep meatProcessingStep = MeatProcessingStep.CorpseThrowing;
+    private MeatProcessingStep MeatProcessingStep 
+    { 
+        get => meatProcessingStep;
+        set
+        {
+            meatProcessingStep = value;
+#if UNITY_ANDROID
+            CheckCorpseThrowButton(value);
+#endif
+        }
+    }
 
     private Inventory PlayerInventory => GameManager.Instance.Player.Inventory;
 
@@ -41,17 +55,17 @@ public class MeatProcessingManager : MonoBehaviour
 
     public void OnCorpseJumpClick(CallbackContext context)
     {
-        if (meatProcessingStep == MeatProcessingStep.CorpseThrowing)
+        if (MeatProcessingStep == MeatProcessingStep.CorpseThrowing)
         {
 
             if (context.started)
             {
-                if (PlayerInventory.Corpses.Count == 0 )
+                if (PlayerInventory.Corpses.Count == 0)
                 {
                     SceneManager.LoadScene("PLAYGROUND");
                     return;
                 }
-                corpseInstance = Instantiate(PlayerInventory.Corpses[PlayerInventory.Corpses.Count-1].data.behaviour, corpseSpawnPoint.transform);
+                corpseInstance = Instantiate(PlayerInventory.Corpses[PlayerInventory.Corpses.Count - 1].data.behaviour, corpseSpawnPoint.transform);
                 PlayerInventory.Corpses.RemoveAt(PlayerInventory.Corpses.Count - 1);
                 Vector3 throwForce = new Vector3(
                     Random.Range(throwForceMin.x, throwForceMax.x),
@@ -62,29 +76,25 @@ public class MeatProcessingManager : MonoBehaviour
 
                 corpseInstance.SetAsRagdoll();
                 corpseInstance.mainRigidbody.AddForce(throwForce);
-                meatProcessingStep++;
+                MeatProcessingStep++;
                 StartCoroutine(NonThrowingTime());
             }
         }
-        if (meatProcessingStep == MeatProcessingStep.MeatAcquire)
+        if (MeatProcessingStep == MeatProcessingStep.MeatAcquire)
         {
             if (context.started)
             {
-                meatPosters[currentPosterIndex].SpawnMeat(corpseInstance);
-                Destroy(corpseInstance.gameObject);
-                meatProcessingStep = MeatProcessingStep.CorpseThrowing;
-                meatPosters[currentPosterIndex].SetPosterAsSelected(false);
+                ProcessCurrentCorpse(meatPosters[currentPosterIndex]);
             }
         }
     }
 
     public void OnSelectLeftPosterClick(CallbackContext context)
     {
-        if (meatProcessingStep == MeatProcessingStep.MeatAcquire)
+        if (MeatProcessingStep == MeatProcessingStep.MeatAcquire)
         {
             if (context.started)
             {
-                meatPosters[currentPosterIndex].SetPosterAsSelected(false);
                 if (currentPosterIndex == 0)
                 {
                     currentPosterIndex = meatPosters.Count - 1;
@@ -93,18 +103,17 @@ public class MeatProcessingManager : MonoBehaviour
                 {
                     currentPosterIndex--;
                 }
-                meatPosters[currentPosterIndex].SetPosterAsSelected(true);
+                SelectMeatPoster(meatPosters[currentPosterIndex]);
             }
         }
     }
 
     public void OnSelectRightPosterClick(CallbackContext context)
     {
-        if (meatProcessingStep == MeatProcessingStep.MeatAcquire)
+        if (MeatProcessingStep == MeatProcessingStep.MeatAcquire)
         {
             if (context.started)
             {
-                meatPosters[currentPosterIndex].SetPosterAsSelected(false);
                 if (currentPosterIndex == meatPosters.Count - 1)
                 {
                     currentPosterIndex = 0;
@@ -113,15 +122,50 @@ public class MeatProcessingManager : MonoBehaviour
                 {
                     currentPosterIndex++;
                 }
-                meatPosters[currentPosterIndex].SetPosterAsSelected(true);
+                SelectMeatPoster(meatPosters[currentPosterIndex]);
             }
         }
     }
 
+    public void OnMeatPosterClick(MeatPoster meatPoster)
+    {
+        if (MeatProcessingStep == MeatProcessingStep.MeatAcquire)
+        {
+            SelectMeatPoster(meatPoster);
+            ProcessCurrentCorpse(meatPoster);
+        }
+    }
+
+    private void ProcessCurrentCorpse(MeatPoster meatPoster)
+    {
+        meatPoster.SpawnMeat(corpseInstance);
+        Destroy(corpseInstance.gameObject);
+        MeatProcessingStep = MeatProcessingStep.CorpseThrowing;
+        meatPoster.SetPosterAsSelected(false);
+    }
+
+    private void SelectMeatPoster(MeatPoster meatPoster)
+    {
+        DeselectAllMeatPosters();
+        meatPoster.SetPosterAsSelected(true);
+    }
+
+    private void DeselectAllMeatPosters()
+    {
+        meatPosters.ForEach(poster => poster.SetPosterAsSelected(false));
+    }
+
+#if UNITY_ANDROID
+    private void CheckCorpseThrowButton(MeatProcessingStep newStep)
+    {
+        corpseThrowMobileButtonRenderer.SetActive(newStep == MeatProcessingStep.CorpseThrowing);
+    }
+#endif
+
     private IEnumerator NonThrowingTime()
     {
         yield return new WaitForSecondsRealtime(nonThrowingDuration);
-        meatProcessingStep++;
+        MeatProcessingStep++;
         meatPosters[currentPosterIndex].SetPosterAsSelected(true);
     }
 }

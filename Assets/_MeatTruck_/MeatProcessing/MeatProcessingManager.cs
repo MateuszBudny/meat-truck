@@ -33,17 +33,6 @@ public class MeatProcessingManager : MonoBehaviour
     private int currentPosterIndex = 0;
 
     private MeatProcessingStep meatProcessingStep = MeatProcessingStep.CorpseThrowing;
-    private MeatProcessingStep MeatProcessingStep 
-    { 
-        get => meatProcessingStep;
-        set
-        {
-            meatProcessingStep = value;
-#if UNITY_ANDROID
-            CheckCorpseThrowButton(value);
-#endif
-        }
-    }
 
     private Inventory PlayerInventory => GameManager.Instance.Player.Inventory;
 
@@ -55,7 +44,7 @@ public class MeatProcessingManager : MonoBehaviour
 
     public void OnCorpseJumpClick(CallbackContext context)
     {
-        if (MeatProcessingStep == MeatProcessingStep.CorpseThrowing)
+        if (meatProcessingStep == MeatProcessingStep.CorpseThrowing)
         {
 
             if (context.started)
@@ -76,11 +65,15 @@ public class MeatProcessingManager : MonoBehaviour
 
                 corpseInstance.SetAsRagdoll();
                 corpseInstance.mainRigidbody.AddForce(throwForce);
-                MeatProcessingStep++;
+                meatProcessingStep++;
+#if UNITY_ANDROID
+                corpseThrowMobileButtonRenderer.SetActive(false);
+#endif
+
                 StartCoroutine(NonThrowingTime());
             }
         }
-        if (MeatProcessingStep == MeatProcessingStep.MeatAcquire)
+        if (meatProcessingStep == MeatProcessingStep.MeatAcquire)
         {
             if (context.started)
             {
@@ -91,7 +84,7 @@ public class MeatProcessingManager : MonoBehaviour
 
     public void OnSelectLeftPosterClick(CallbackContext context)
     {
-        if (MeatProcessingStep == MeatProcessingStep.MeatAcquire)
+        if (meatProcessingStep == MeatProcessingStep.MeatAcquire)
         {
             if (context.started)
             {
@@ -110,7 +103,7 @@ public class MeatProcessingManager : MonoBehaviour
 
     public void OnSelectRightPosterClick(CallbackContext context)
     {
-        if (MeatProcessingStep == MeatProcessingStep.MeatAcquire)
+        if (meatProcessingStep == MeatProcessingStep.MeatAcquire)
         {
             if (context.started)
             {
@@ -129,7 +122,7 @@ public class MeatProcessingManager : MonoBehaviour
 
     public void OnMeatPosterClick(MeatPoster meatPoster)
     {
-        if (MeatProcessingStep == MeatProcessingStep.MeatAcquire)
+        if (meatProcessingStep == MeatProcessingStep.MeatAcquire)
         {
             SelectMeatPoster(meatPoster);
             ProcessCurrentCorpse(meatPoster);
@@ -140,33 +133,33 @@ public class MeatProcessingManager : MonoBehaviour
     {
         meatPoster.SpawnMeat(corpseInstance);
         Destroy(corpseInstance.gameObject);
-        MeatProcessingStep = MeatProcessingStep.CorpseThrowing;
-        meatPoster.SetPosterAsSelected(false);
+        meatProcessingStep = MeatProcessingStep.CorpseThrowing;
+        SetSelectionOnAllMeatPosters(false);
+#if UNITY_ANDROID
+        corpseThrowMobileButtonRenderer.SetActive(true);
+#endif
     }
 
     private void SelectMeatPoster(MeatPoster meatPoster)
     {
-        DeselectAllMeatPosters();
+        SetSelectionOnAllMeatPosters(false);
         meatPoster.SetPosterAsSelected(true);
     }
 
-    private void DeselectAllMeatPosters()
+    private void SetSelectionOnAllMeatPosters(bool select)
     {
-        meatPosters.ForEach(poster => poster.SetPosterAsSelected(false));
+        meatPosters.ForEach(poster => poster.SetPosterAsSelected(select));
     }
-
-#if UNITY_ANDROID
-    private void CheckCorpseThrowButton(MeatProcessingStep newStep)
-    {
-        corpseThrowMobileButtonRenderer.SetActive(newStep == MeatProcessingStep.CorpseThrowing);
-    }
-#endif
 
     private IEnumerator NonThrowingTime()
     {
         yield return new WaitForSecondsRealtime(nonThrowingDuration);
-        MeatProcessingStep++;
-        meatPosters[currentPosterIndex].SetPosterAsSelected(true);
+        meatProcessingStep++;
+#if UNITY_ANDROID
+        SetSelectionOnAllMeatPosters(true);
+#else
+        SelectMeatPoster(meatPosters[currentPosterIndex]);
+#endif
     }
 }
 

@@ -8,6 +8,11 @@ public class CityManager : SingleBehaviour<CityManager>
 {
     [SerializeField]
     private List<CityRegionData> defaultRegionsData;
+    public float meatPopularityDropOnBuy = 0.5f;
+    public float minMeatPopularityAfterDrop = 0.25f;
+    [Tooltip("For every second.")]
+    public float meatPopularityRestorationSpeed = 0.01f;
+    
     [Header("Inspector display purpose ONLY")]
     [SerializeField]
     private List<CityRegionDataWithInstanceValues> currentRegionsListInspectorDisplayPurposeOnly = new List<CityRegionDataWithInstanceValues>();
@@ -30,6 +35,17 @@ public class CityManager : SingleBehaviour<CityManager>
 
         // TODO: when SaveSystem is ready, then this should be invoked only on first game launch
         CurrentRegions = defaultRegionsData.ToDictionary(regionData => regionData, regionData => regionData.region.DeepCopy());
+
+        StartCoroutine(MeatsPopularityRestorationEnumerator());
+    }
+
+    private IEnumerator MeatsPopularityRestorationEnumerator()
+    {
+        while(true)
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            CurrentRegions.ToList().ForEach(regionPair => regionPair.Value.RestorePartOfMeatsPopularity());
+        }
     }
 
     [Serializable]

@@ -14,5 +14,7 @@ public class CityRegion
         this.meatsPopularity = meatsPopularity;
     }
 
+    public void RestorePartOfMeatsPopularity() => meatsPopularity.List.ForEach(meatPopularity => meatPopularity.RestorePartOfPopularity());
+
     public CityRegion DeepCopy() => new CityRegion(new WeightedList<MeatPopularity>(meatsPopularity.List.Select(meatPopularity => meatPopularity.Copy()).ToList()));
 }

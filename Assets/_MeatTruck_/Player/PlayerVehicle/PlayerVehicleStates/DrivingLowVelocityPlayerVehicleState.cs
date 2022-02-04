@@ -51,7 +51,7 @@ public class DrivingLowVelocityPlayerVehicleState : DrivingBackwardPlayerVehicle
     {
         if(context.started)
         {
-            MeatShopManager.Instance.OpenShop();
+            PlayerVehicle.ChangeState(new MeatShopPlayerVehicleState(PlayerVehicle));
         }
     }
 
@@ -62,10 +62,6 @@ public class DrivingLowVelocityPlayerVehicleState : DrivingBackwardPlayerVehicle
             NpcCharacterBehaviour npcCharacterCollided = collider.transform.parent.transform.parent.GetComponent<NpcCharacterBehaviour>();
             if (npcCharacterCollided.IsGatherable)
             {
-                // TODO:
-                // add particle effects
-                // add progress bar
-                // and eventually add character to inventory
                 PlayerVehicle.ChangeState(new GatheringPlayerVehicleState(PlayerVehicle, npcCharacterCollided));
             }
         }

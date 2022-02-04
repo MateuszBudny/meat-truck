@@ -27,23 +27,16 @@ public class MeatShopManager : SingleBehaviour<MeatShopManager>
 
     private List<MeatBehaviour> spawnedMeats;
     private List<CashBehaviour> spawnedEarnedCash;
-    private InputActionMap otherDrivingActionMap;
-    private InputActionMap meatSellingActionMap;
 
     protected override void Awake()
     {
         base.Awake();
         rangeGameObject.SetActive(false);
-        otherDrivingActionMap = mainInput.actions.FindActionMap(PlayerInputActionMap.OtherDriving.ToString());
-        meatSellingActionMap = mainInput.actions.FindActionMap(PlayerInputActionMap.MeatSelling.ToString());
     }
 
     public void OpenShop()
     {
         rangeGameObject.SetActive(true);
-
-        otherDrivingActionMap.Disable();
-        meatSellingActionMap.Enable();
 
         DrivingGameplayManager.Instance.CurrentControllerMode.VirtualCamera.Priority = 0;
         virtualCamera.Priority++;
@@ -55,9 +48,6 @@ public class MeatShopManager : SingleBehaviour<MeatShopManager>
 
     public void ReturnToDriving()
     {
-        otherDrivingActionMap.Enable();
-        meatSellingActionMap.Disable();
-
         virtualCamera.Priority = 0;
         DrivingGameplayManager.Instance.CurrentControllerMode.VirtualCamera.Priority++;
 
@@ -92,14 +82,6 @@ public class MeatShopManager : SingleBehaviour<MeatShopManager>
                 spawnedEarnedCash.Add(Instantiate(cashTable.CashValues[1], customer.mainRigidbody.position, Quaternion.identity, transform));
             }
             GameManager.Instance.Player.Inventory.Cash += cashValueEarned;
-        }
-    }
-
-    public void OnReturnToDrivingInput(CallbackContext context)
-    {
-        if(context.started)
-        {
-            ReturnToDriving();
         }
     }
 }

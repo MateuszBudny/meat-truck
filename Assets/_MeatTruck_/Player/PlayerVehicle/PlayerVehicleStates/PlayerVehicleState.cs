@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,4 +16,6 @@ public abstract class PlayerVehicleState : VehicleState
     public virtual void OnGathering(CallbackContext context) {}
 
     public virtual void OnOpenShop(CallbackContext context) {}
+
+    public virtual void ReturnToDriving(CallbackContext context) {}
 }

@@ -30,8 +30,8 @@ public abstract class Vehicle : MonoBehaviour
 
     protected virtual void HandleMovement()
     {
-        VehicleController.ApplyAcceleration(GetCurrentAcceleration());
-        VehicleController.ApplyBraking(GetCurrentBraking());
+        ApplyCurrentAcceleration();
+        ApplyCurrentBraking();
     }
 
     protected virtual void HandleSteering()
@@ -43,4 +43,8 @@ public abstract class Vehicle : MonoBehaviour
     {
         VehicleController.HandleChangeTiltBlockerInput();
     }
+
+    private void ApplyCurrentAcceleration() => VehicleController.ApplyAcceleration(GetCurrentAcceleration());
+
+    private void ApplyCurrentBraking() => VehicleController.ApplyBraking(GetCurrentBraking());
 }

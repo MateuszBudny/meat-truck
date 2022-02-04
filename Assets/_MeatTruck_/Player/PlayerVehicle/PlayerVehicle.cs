@@ -8,7 +8,7 @@ using static UnityEngine.InputSystem.InputAction;
 public class PlayerVehicle : Vehicle
 {
     [SerializeField]
-    private PlayerInput mainInput;
+    public PlayerInput mainInput;
     [SerializeField]
     private float deliberateMovementVelocityThreshold = 0.05f;
 
@@ -97,5 +97,10 @@ public class PlayerVehicle : Vehicle
     public void OnOpenShop(CallbackContext context)
     {
         State.OnOpenShop(context);
+    }
+
+    public void OnReturnToDrivingInput(CallbackContext context)
+    {
+        State.ReturnToDriving(context);
     }
 }

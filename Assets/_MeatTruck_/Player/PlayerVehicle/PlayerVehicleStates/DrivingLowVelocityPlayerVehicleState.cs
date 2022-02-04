@@ -8,9 +8,20 @@ public class DrivingLowVelocityPlayerVehicleState : DrivingBackwardPlayerVehicle
 {
     public DrivingLowVelocityPlayerVehicleState(PlayerVehicle playerVehicle) : base(playerVehicle) {}
 
+    public override void OnStateEnter(VehicleState previousState)
+    {
+        if(PlayerVehicle.Gathering.IsTryingToLookForNPCToGather)
+        {
+            StartLookingForNpcToGatherForReal();
+        }
+    }
+
     public override void OnStateExit(VehicleState nextState)
     {
-        StopLookingForNpcToGather();
+        if(PlayerVehicle.Gathering.IsTryingToLookForNPCToGather)
+        {
+            StopLookingForNpcToGatherForReal();
+        }
     }
 
     public override void Update()
@@ -38,12 +49,13 @@ public class DrivingLowVelocityPlayerVehicleState : DrivingBackwardPlayerVehicle
     {
         if (context.started)
         {
-            StartLookingForNpcToGather();
+            PlayerVehicle.Gathering.IsTryingToLookForNPCToGather = true;
+            StartLookingForNpcToGatherForReal();
         }
-
-        if (context.canceled)
+        else if (context.canceled)
         {
-            StopLookingForNpcToGather();
+            PlayerVehicle.Gathering.IsTryingToLookForNPCToGather = false;
+            StopLookingForNpcToGatherForReal();
         }
     }
 
@@ -67,13 +79,15 @@ public class DrivingLowVelocityPlayerVehicleState : DrivingBackwardPlayerVehicle
         }
     }
 
-    private void StartLookingForNpcToGather()
+    private void StartLookingForNpcToGatherForReal()
     {
+        PlayerVehicle.PlayerVehicleEffects.Play(PlayerVehicleEffect.GatheringRangeCorrectSpeed);
         PlayerVehicle.Gathering.gatheringTrigger.SetActive(true);
     }
 
-    private void StopLookingForNpcToGather()
+    private void StopLookingForNpcToGatherForReal()
     {
+        PlayerVehicle.PlayerVehicleEffects.Stop(PlayerVehicleEffect.GatheringRangeCorrectSpeed);
         PlayerVehicle.Gathering.gatheringTrigger.SetActive(false);
     }
 }

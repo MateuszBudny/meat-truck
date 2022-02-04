@@ -6,4 +6,6 @@ public class CharactersGathering : MonoBehaviour
 {
     public float characterGatheringDuration = 1f;
     public GameObject gatheringTrigger;
+
+    public bool IsTryingToLookForNPCToGather { get; set; } = false;
 }

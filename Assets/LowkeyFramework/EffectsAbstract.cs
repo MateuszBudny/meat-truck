@@ -7,7 +7,9 @@ public abstract class EffectsAbstract<TEnum> : MonoBehaviour where TEnum : Enum
 {
     public abstract void Play(TEnum effect);
 
-    public abstract void Stop(TEnum effect, ParticleSystemStopBehavior stopBehavior);
+    public virtual void Stop(TEnum effect, ParticleSystemStopBehavior stopBehavior) {}
+
+    public virtual void Stop(TEnum effect) {}
 
     public virtual void PlayForLimitedTime(TEnum effect, float duration, ParticleSystemStopBehavior stopBehaviour)
     {

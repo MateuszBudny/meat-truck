@@ -26,6 +26,13 @@ public class MeatShopPlayerVehicleState : PlayerVehicleState
         otherDrivingActionMap.Disable();
         meatSellingActionMap.Enable();
 
+        if(PlayerVehicle.Gathering.IsTryingToLookForNPCToGather)
+        {
+            PlayerVehicle.Gathering.IsTryingToLookForNPCToGather = false;
+            PlayerVehicle.PlayerVehicleEffects.Stop(PlayerVehicleEffect.GatheringRangeCorrectSpeed);
+            PlayerVehicle.PlayerVehicleEffects.Stop(PlayerVehicleEffect.GatheringRangeTooFast);
+        }
+
         MeatShopManager.Instance.OpenShop();
     }
 

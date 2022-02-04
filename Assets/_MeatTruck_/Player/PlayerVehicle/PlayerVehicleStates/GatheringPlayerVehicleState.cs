@@ -57,11 +57,14 @@ public class GatheringPlayerVehicleState : DrivingLowVelocityPlayerVehicleState
                 PlayerVehicle.PlayerVehicleEffects.Play(PlayerVehicleEffect.GatheringFinishedSuccessfully);
             })
             .Play();
+
+        PlayerVehicle.ChangeState(new DrivingLowVelocityPlayerVehicleState(PlayerVehicle));
     }
 
     private void ForceStopGathering()
     {
         PlayerVehicle.PlayerVehicleEffects.Stop(PlayerVehicleEffect.GatheringSmoke, ParticleSystemStopBehavior.StopEmitting);
         PlayerVehicle.StopCoroutine(gatheringCoroutine);
+        PlayerVehicle.Gathering.IsTryingToLookForNPCToGather = false;
     }
 }

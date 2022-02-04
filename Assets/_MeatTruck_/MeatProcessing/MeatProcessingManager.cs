@@ -64,6 +64,7 @@ public class MeatProcessingManager : MonoBehaviour
                 Debug.Log(throwForce);
 
                 corpseInstance.SetAsRagdoll();
+                corpseInstance.transform.RotateAround(corpseInstance.transform.position, Vector3.up, Random.Range(0f, 360f));
                 corpseInstance.mainRigidbody.AddForce(throwForce);
                 meatProcessingStep++;
 #if UNITY_ANDROID

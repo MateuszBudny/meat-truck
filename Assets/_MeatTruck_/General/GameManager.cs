@@ -1,11 +1,14 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : DontDestroySingleBehaviour<GameManager>
 {
+    [SaveField]
     [SerializeField]
     private Player player;
+    [JsonIgnore]
     public Player Player
     {
         get => player;
@@ -16,6 +19,6 @@ public class GameManager : DontDestroySingleBehaviour<GameManager>
     {
         base.Awake();
 
-        player.Init();
+        Player.Init();
     }
 }

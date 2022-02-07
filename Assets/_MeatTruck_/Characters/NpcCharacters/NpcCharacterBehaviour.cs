@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[SelectionBase]
 [RequireComponent(typeof(WaypointsTracker), typeof(RagdollCharacterControllerExtension), typeof(CollidersHandler))]
 [RequireComponent(typeof(NpcCharacterEffects))]
 public class NpcCharacterBehaviour : CharacterBehaviour

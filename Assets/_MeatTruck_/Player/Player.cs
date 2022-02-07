@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using UnityEngine;
 
@@ -8,8 +9,13 @@ public class Player
     private Inventory defaultInventory;
     [SerializeField]
     private bool useDefaultInventory = false;
-    
-    public Inventory Inventory { get; private set; }
+
+    [Header("Runtime usage ONLY")]
+    [JsonProperty]
+    [SerializeField]
+    private Inventory inventory;
+    [JsonIgnore]
+    public Inventory Inventory { get => inventory; private set => inventory = value; }
 
     public void Init()
     {

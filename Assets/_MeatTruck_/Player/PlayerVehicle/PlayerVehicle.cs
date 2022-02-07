@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
+[SelectionBase]
 [RequireComponent(typeof(VehicleController))]
 public class PlayerVehicle : Vehicle
 {

@@ -12,10 +12,10 @@ public class CityManager : SingleBehaviour<CityManager>
     public float minMeatPopularityAfterDrop = 0.25f;
     [Tooltip("For every second.")]
     public float meatPopularityRestorationSpeed = 0.01f;
-    
-    [Header("Inspector display purpose ONLY")]
+
+    [Header("Runtime usage ONLY")]
     [SerializeField]
-    private List<CityRegionDataWithInstanceValues> currentRegionsListInspectorDisplayPurposeOnly = new List<CityRegionDataWithInstanceValues>();
+    private List<CityRegionDataWithInstanceValues> currentRegionsListForRuntimeInspector = new List<CityRegionDataWithInstanceValues>();
 
 
     private Dictionary<CityRegionData, CityRegion> currentRegions;
@@ -25,7 +25,7 @@ public class CityManager : SingleBehaviour<CityManager>
         private set
         {
             currentRegions = value;
-            currentRegionsListInspectorDisplayPurposeOnly = currentRegions.Select(keyValue => new CityRegionDataWithInstanceValues(keyValue.Key, keyValue.Value)).ToList();
+            currentRegionsListForRuntimeInspector = currentRegions.Select(keyValue => new CityRegionDataWithInstanceValues(keyValue.Key, keyValue.Value)).ToList();
         }
     }
 

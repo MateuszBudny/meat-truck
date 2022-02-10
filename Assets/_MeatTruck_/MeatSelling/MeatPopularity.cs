@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,11 @@ public class MeatPopularity : IWeightedElement
     [Tooltip("If true and this meat is chosen as a one wanted by a customer, but MeatShop has no such meat, then no meat is bought. Otherwise, other meat is chosen.")]
     public bool thisOrNothing = false;
 
+    [JsonProperty]
     private float maxPopularity;
+
+    [JsonIgnore]
+    public float Weight => popularity;
 
     public MeatPopularity(MeatData meatData, float popularity, bool thisOrNothing)
     {
@@ -21,8 +26,6 @@ public class MeatPopularity : IWeightedElement
         maxPopularity = popularity;
         this.thisOrNothing = thisOrNothing;
     }
-
-    public float Weight => popularity;
 
     public void DecreasePopularityAfterBuy() => popularity = Mathf.Max(popularity - CityManager.Instance.meatPopularityDropOnBuy, CityManager.Instance.minMeatPopularityAfterDrop);
 

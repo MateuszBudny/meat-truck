@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,26 +18,39 @@ public class CityManager : SingleBehaviour<CityManager>
     [SerializeField]
     private List<CityRegionDataWithInstanceValues> currentRegionsListForRuntimeInspector = new List<CityRegionDataWithInstanceValues>();
 
-
+    [SaveField]
     private Dictionary<CityRegionData, CityRegion> currentRegions;
     public Dictionary<CityRegionData, CityRegion> CurrentRegions
-    { 
-        get => currentRegions;
+    {
+        get
+        {
+            LoadSavedStateAndInitRegions();   
+            return currentRegions;
+        }
         private set
         {
             currentRegions = value;
-            currentRegionsListForRuntimeInspector = currentRegions.Select(keyValue => new CityRegionDataWithInstanceValues(keyValue.Key, keyValue.Value)).ToList();
         }
     }
 
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
-
-        // TODO: when SaveSystem is ready, then this should be invoked only on first game launch
-        CurrentRegions = defaultRegionsData.ToDictionary(regionData => regionData, regionData => regionData.region.DeepCopy());
+        LoadSavedStateAndInitRegions();
 
         StartCoroutine(MeatsPopularityRestorationEnumerator());
+    }
+
+    private void LoadSavedStateAndInitRegions()
+    {
+        if (currentRegions == null)
+        {
+            SaveManager.Instance.Load();
+            if (currentRegions == null)
+            {
+                // this happens on the first ever game launch only
+                CurrentRegions = defaultRegionsData.ToDictionary(regionData => regionData, regionData => regionData.region.DeepCopy());
+            }
+        }
     }
 
     private IEnumerator MeatsPopularityRestorationEnumerator()
@@ -45,6 +59,9 @@ public class CityManager : SingleBehaviour<CityManager>
         {
             yield return new WaitForSecondsRealtime(1f);
             CurrentRegions.ToList().ForEach(regionPair => regionPair.Value.RestorePartOfMeatsPopularity());
+#if UNITY_EDITOR
+            currentRegionsListForRuntimeInspector = currentRegions.Select(keyValue => new CityRegionDataWithInstanceValues(keyValue.Key, keyValue.Value)).ToList();
+#endif
         }
     }
 

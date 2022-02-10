@@ -15,6 +15,10 @@ public class SingleBehaviour<T> : SaveableBehaviour where T : SingleBehaviour<T>
         else
         {
             OnAnotherInstance();
+            if(gameObject.activeInHierarchy)
+            {
+                StartCoroutine(OnAnotherInstanceEnumerator());
+            }
         }
     }
 
@@ -23,8 +27,11 @@ public class SingleBehaviour<T> : SaveableBehaviour where T : SingleBehaviour<T>
         Instance = this as T;
     }
 
-    protected virtual void OnAnotherInstance()
+    protected virtual void OnAnotherInstance() {}
+
+    protected virtual IEnumerator OnAnotherInstanceEnumerator()
     {
-        Debug.LogError($"More than one SingleBehaviour of the same class is present on scene. Additional SingleBehaviour's GameObject name: {name}");
+        yield return null;
+        Debug.LogError($"More than one SingleBehaviour of the same class is present on the scene, even after one frame. Additional SingleBehaviour's GameObject name: {name}");
     }
 }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff864955aa4e1a49864dce45e73c21c, type: 3}
   m_Name: DrumstickData
   m_EditorClassIdentifier: 
+  guid: 45394fa2-154b-4829-ba88-418faab4b320
   meatName: Drumstick
   meatDescription: Ordinary roasted leg
   meatValue: 5

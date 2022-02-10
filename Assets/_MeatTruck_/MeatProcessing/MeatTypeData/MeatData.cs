@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewMeat", menuName = "MeatTruck/Meat Data")]
-public class MeatData : ScriptableObject
+public class MeatData : ReferenceableScriptableObject
 {
     public string meatName;
     public string meatDescription;

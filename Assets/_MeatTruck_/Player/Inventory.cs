@@ -4,24 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 [Serializable]
 public class Inventory
 {
     [JsonProperty]
     [SerializeField]
     private int cash;
-    [JsonIgnore]
+    [JsonProperty]
     [SerializeField]
     private List<Meat> meats = new List<Meat>();
-    [JsonIgnore]
+    [JsonProperty]
     [SerializeField]
     private List<NpcCharacter> corpses = new List<NpcCharacter>();
 
-    [JsonIgnore]
     public int Cash { get => cash; set => cash = value; }
-    [JsonIgnore]
     public List<Meat> Meats { get => meats; private set => meats = value; }
-    [JsonIgnore]
     public List<NpcCharacter> Corpses { get => corpses; private set => corpses = value; }
 
     public Inventory() {}

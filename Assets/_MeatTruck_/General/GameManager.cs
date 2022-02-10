@@ -18,7 +18,7 @@ public class GameManager : DontDestroySingleBehaviour<GameManager>
     protected override void Awake()
     {
         base.Awake();
-
         Player.Init();
+        SaveManager.AdditionalCustomConverters.Add(new ComplexKeyDictionaryJsonConverter<CityRegionData, CityRegion>());
     }
 }

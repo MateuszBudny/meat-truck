@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff864955aa4e1a49864dce45e73c21c, type: 3}
   m_Name: SteakData
   m_EditorClassIdentifier: 
+  guid: ad32d340-da48-4b8c-be51-47eba04805cf
   meatName: Steak
   meatDescription: Precious end cut with bone from only one side
   meatValue: 10

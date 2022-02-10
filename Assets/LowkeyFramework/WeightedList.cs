@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,9 +8,11 @@ using UnityEngine;
 [Serializable]
 public class WeightedList<T> where T : IWeightedElement
 {
+    [JsonProperty]
     [SerializeField]
     private List<T> list;
 
+    [JsonIgnore]
     public List<T> List { get => list; private set => list = value; }
 
     public WeightedList(List<T> standardList)

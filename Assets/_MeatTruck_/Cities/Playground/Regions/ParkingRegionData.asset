@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e936f077b7b840428637cc52e38aeb6, type: 3}
   m_Name: ParkingRegionData
   m_EditorClassIdentifier: 
+  guid: 7118c737-6d4d-42b9-be79-317642444864
   region:
     meatsPopularity:
       list:

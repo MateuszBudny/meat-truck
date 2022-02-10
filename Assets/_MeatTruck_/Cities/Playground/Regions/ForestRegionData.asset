@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e936f077b7b840428637cc52e38aeb6, type: 3}
   m_Name: ForestRegionData
   m_EditorClassIdentifier: 
+  guid: cc43ec83-bb45-446c-a2e9-a7e5dde62a7b
   region:
     meatsPopularity:
       list:

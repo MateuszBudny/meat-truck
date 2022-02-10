@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97cb39db39d81a04c88319f47ab5d3f9, type: 3}
   m_Name: AmericanJanuszData
   m_EditorClassIdentifier: 
+  guid: b83d7c98-1ef7-4621-b395-14746b534782
   behaviour: {fileID: 1320904446827655870, guid: 38d65aac2e2aab14f82b88d01ce0cc30, type: 3}

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff864955aa4e1a49864dce45e73c21c, type: 3}
   m_Name: PackedHamData
   m_EditorClassIdentifier: 
+  guid: 1cc34b37-0bc6-4700-93cf-77cb0816cb89
   meatName: Packed Ham
   meatDescription: Extra fresh tightly packed ham
   meatValue: 3

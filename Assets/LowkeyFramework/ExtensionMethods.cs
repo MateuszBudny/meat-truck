@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public static class ExtensionMethods
@@ -28,5 +30,18 @@ public static class ExtensionMethods
     {
         int chosenElementIndex = UnityEngine.Random.Range(0, list.Count);
         return list[chosenElementIndex];
+    }
+
+    public static void SafeDestroy(this GameObject gameObject)
+    {
+        gameObject.transform.parent = null;
+        gameObject.name = "$disposed";
+        SaveableBehaviour saveable = gameObject.GetComponent<SaveableBehaviour>();
+        if(saveable)
+        {
+            saveable.TurnOffSavingAndLoadingForThisBehaviour = true;
+        }
+        UnityEngine.Object.Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

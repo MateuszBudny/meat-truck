@@ -38,8 +38,6 @@ public class MeatProcessingManager : MonoBehaviour
 
     private void Start()
     {
-        SaveManager.Instance.Save();
-
         meatsSpawning.SpawnGivenMeats(GameManager.Instance.Player.Inventory.Meats);
         cashSpawning.SpawnGivenCashAmount(GameManager.Instance.Player.Inventory.Cash);
     }

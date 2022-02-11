@@ -12,6 +12,7 @@ public class GarageEntrance : MonoBehaviour
     {
         if(collider.CompareTag(Tags.PlayerVehicle.ToString()))
         {
+            SaveManager.Instance.Save();
             SceneManager.LoadScene(garageSceneName);
         }
     }

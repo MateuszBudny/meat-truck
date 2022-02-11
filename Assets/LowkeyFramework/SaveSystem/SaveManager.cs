@@ -19,12 +19,17 @@ public class SaveManager : SingleBehaviour<SaveManager>
     // find a way to use SaveFileName enum or other type, so end user won't have to edit a file created by me
     // add virtual function to Saveables abstract to add some way of extending this system, if someone would like to save Transform or other Unity component. Or add other way to do that, but for now I think virtual function would be the best solution. EDIT: Custom JsonConverters for Unity (there is such a github project) should do just fine.
     // interfaces with BeforeSave(), AfterLoad() (optionally AfterSave() and BeforeLoad())
+    // clearing saves from Unity window
     // displaying contents of save files in Inspector
     // editing contents of save files in Inspector
 
     [SerializeField]
     private SaveFileName defaultSaveFile = 0;
     public SaveFileName DefaultSaveFile { get => defaultSaveFile; set => defaultSaveFile = value; }
+
+    [SerializeField]
+    private bool appendSaves = true;
+    public bool AppendSaves { get => appendSaves; set => appendSaves = value; }
 
     public static List<JsonConverter> AdditionalCustomConverters = new List<JsonConverter>();
 
@@ -35,15 +40,30 @@ public class SaveManager : SingleBehaviour<SaveManager>
         string jsonSaveFileName = GetJsonSaveFileName(saveFileName);
 
         // Dictionary<behaviour's GUID, Dictionary<field's name, field as object>> 
-        Dictionary<string, Dictionary<string, object>> saveDictionary = new Dictionary<string, Dictionary<string, object>>();
-        ForEachSaveField((behaviour, _, fieldInfo) =>
+        Dictionary<string, Dictionary<string, object>> saveDictionary;
+        if (appendSaves && FileManager.LoadFromFile(jsonSaveFileName, out string saveJson) && !string.IsNullOrEmpty(saveJson))
         {
-            if (!saveDictionary.ContainsKey(behaviour.Guid))
+            saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson, GetCustomJsonConverters());
+        }
+        else
+        {
+            saveDictionary = new Dictionary<string, Dictionary<string, object>>();
+        }
+
+
+        ForEachSaveField(
+            forEachSaveableBehaviour: behaviour =>
             {
-                saveDictionary.Add(behaviour.Guid, new Dictionary<string, object>());
-            }
-            saveDictionary[behaviour.Guid].Add(fieldInfo.Name, fieldInfo.GetValue(behaviour));
-        });
+                saveDictionary.Remove(behaviour.Guid);
+            },
+            forEachSaveField: (behaviour, _, fieldInfo) =>
+            {
+                if (!saveDictionary.ContainsKey(behaviour.Guid))
+                {
+                    saveDictionary.Add(behaviour.Guid, new Dictionary<string, object>());
+                }
+                saveDictionary[behaviour.Guid].Add(fieldInfo.Name, fieldInfo.GetValue(behaviour));
+            });
 
         string jsonSave = JsonConvert.SerializeObject(saveDictionary, Formatting.Indented, GetCustomJsonConverters());
 
@@ -68,7 +88,7 @@ public class SaveManager : SingleBehaviour<SaveManager>
             {
                 string guid = behaviour.Guid;
                 string fieldName = fieldInfo.Name;
-                if(saveDictionary.TryGetValue(guid, out Dictionary<string, object> savedFieldsDictionary))
+                if (saveDictionary.TryGetValue(guid, out Dictionary<string, object> savedFieldsDictionary))
                 {
                     object fieldSavedValue = savedFieldsDictionary[fieldName];
                     object fieldSavedValueAfterConvertion = (fieldSavedValue as JToken).ToObject(fieldInfo.FieldType, GetJsonSerializerWithCustomJsonConverters());
@@ -80,11 +100,12 @@ public class SaveManager : SingleBehaviour<SaveManager>
         }
     }
 
-    private void ForEachSaveField(Action<SaveableBehaviour, SaveField, FieldInfo> forEachSaveField)
+    private void ForEachSaveField(Action<SaveableBehaviour, SaveField, FieldInfo> forEachSaveField, Action<SaveableBehaviour> forEachSaveableBehaviour = null)
     {
         List<SaveableBehaviour> behaviours = GetSaveableBehaviours();
         behaviours.ForEach(behaviour =>
         {
+            forEachSaveableBehaviour?.Invoke(behaviour);
             List<FieldInfo> objectFields = behaviour.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).ToList();
             objectFields.ForEach(fieldInfo =>
             {
@@ -120,13 +141,14 @@ public class SaveManager : SingleBehaviour<SaveManager>
     {
         List<JsonConverter> customJsonConverters = new List<JsonConverter>(AdditionalCustomConverters);
         customJsonConverters.Add(new ReferenceableScriptableObjectJsonConverter());
+        customJsonConverters.Add(new RuntimeTypedComplexKeyDictionaryJsonConverter());
 
         return customJsonConverters.ToArray();
     }
 
     private static bool IsGameObjectOnScene(GameObject gameObject) => !EditorUtility.IsPersistent(gameObject.transform.root.gameObject) && !(gameObject.hideFlags == HideFlags.NotEditable || gameObject.hideFlags == HideFlags.HideAndDontSave);
 
-    public static Dictionary<TKey,TValue> GetDictionaryFromList<TKey, TValue>(List<KeyValuePair<TKey, TValue>> list) => list.ToDictionary(x => x.Key, x => x.Value);
+    public static Dictionary<TKey, TValue> GetDictionaryFromList<TKey, TValue>(List<KeyValuePair<TKey, TValue>> list) => list.ToDictionary(x => x.Key, x => x.Value);
 
     private string GetJsonSaveFileName(string currentSaveFileName)
     {

@@ -12,7 +12,6 @@ public class SaveManager : SingleBehaviour<SaveManager>
 {
     // TODO:
     // is Newtonsoft using serialized fields only? Or is it ignoring Unity serialization? - it looks like it is ignoring serialization, but if field is set as [NonSerialized], then it is not added in json
-    // ScriptableObject by GUID reference
     // ScriptableObject by values and toggle to choose reference saving or values
     // encryption and toggle to turn it on or off (plus possibility to toggle it from script)
     // properties also should have possibility to set them as [SaveField]
@@ -100,7 +99,7 @@ public class SaveManager : SingleBehaviour<SaveManager>
         }
     }
 
-    private void ForEachSaveField(Action<SaveableBehaviour, SaveField, FieldInfo> forEachSaveField, Action<SaveableBehaviour> forEachSaveableBehaviour = null)
+    private void ForEachSaveField(Action<SaveableBehaviour, SaveFieldAttribute, FieldInfo> forEachSaveField, Action<SaveableBehaviour> forEachSaveableBehaviour = null)
     {
         List<SaveableBehaviour> behaviours = GetSaveableBehaviours();
         behaviours.ForEach(behaviour =>
@@ -109,7 +108,7 @@ public class SaveManager : SingleBehaviour<SaveManager>
             List<FieldInfo> objectFields = behaviour.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).ToList();
             objectFields.ForEach(fieldInfo =>
             {
-                SaveField saveField = Attribute.GetCustomAttribute(fieldInfo, typeof(SaveField)) as SaveField;
+                SaveFieldAttribute saveField = Attribute.GetCustomAttribute(fieldInfo, typeof(SaveFieldAttribute)) as SaveFieldAttribute;
                 if (saveField != null)
                 {
                     forEachSaveField(behaviour, saveField, fieldInfo);

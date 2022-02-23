@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-// a code stolen from: https://gist.github.com/SteveDunn/e355b98b0dbf5a0209cb8294f7fffe24
+// a code borrowed from: https://gist.github.com/SteveDunn/e355b98b0dbf5a0209cb8294f7fffe24
 
 /// <summary>
 /// Represents a JSON.net <see cref="JsonConverter"/> that serialises and deserialises a <see cref="Dictionary{TKey,TValue}"/>, where

@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-// a class stolen from: https://github.com/UnityTechnologies/open-project-1
+// a class borrowed from: https://github.com/UnityTechnologies/open-project-1
 
 public static class FileManager
 {

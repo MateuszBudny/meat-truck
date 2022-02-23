@@ -1,4 +1,7 @@
-public enum SaveFileName
+namespace LowkeyFramework.AttributeSaveSystem
 {
-    save,
+    public enum SaveFileName
+    {
+        save,
+    }
 }

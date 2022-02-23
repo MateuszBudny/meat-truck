@@ -5,31 +5,34 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ReferenceableScriptableObjectJsonConverter : JsonConverter<ReferenceableScriptableObject>
+namespace LowkeyFramework.AttributeSaveSystem
 {
-    // Dictionary<GUI, SaveableScriptableObject>
-    private readonly Dictionary<string, ReferenceableScriptableObject> allReferenceableScriptableObjects;
-
-    public ReferenceableScriptableObjectJsonConverter() : base()
+    public class ReferenceableScriptableObjectJsonConverter : JsonConverter<ReferenceableScriptableObject>
     {
-        allReferenceableScriptableObjects = GetReferenceableScriptableObjects().ToDictionary(saveableSO => saveableSO.Guid);
-    }
+        // Dictionary<GUI, SaveableScriptableObject>
+        private readonly Dictionary<string, ReferenceableScriptableObject> allReferenceableScriptableObjects;
 
-    public override void WriteJson(JsonWriter writer, ReferenceableScriptableObject value, JsonSerializer serializer)
-    {
-        writer.WriteValue(value.Guid);
-    }
+        public ReferenceableScriptableObjectJsonConverter() : base()
+        {
+            allReferenceableScriptableObjects = GetReferenceableScriptableObjects().ToDictionary(saveableSO => saveableSO.Guid);
+        }
 
-    public override ReferenceableScriptableObject ReadJson(JsonReader reader, Type objectType, ReferenceableScriptableObject existingValue, bool hasExistingValue, JsonSerializer serializer)
-    {
-        string guid = (string)reader.Value;
-        return string.IsNullOrEmpty(guid) ? null : allReferenceableScriptableObjects[guid];
-    }
+        public override void WriteJson(JsonWriter writer, ReferenceableScriptableObject value, JsonSerializer serializer)
+        {
+            writer.WriteValue(value.Guid);
+        }
 
-    private List<ReferenceableScriptableObject> GetReferenceableScriptableObjects()
-    {
-        return Resources.FindObjectsOfTypeAll(typeof(ReferenceableScriptableObject))
-            .Select(referenceableSO => (ReferenceableScriptableObject) referenceableSO)
-            .ToList();
+        public override ReferenceableScriptableObject ReadJson(JsonReader reader, Type objectType, ReferenceableScriptableObject existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            string guid = (string)reader.Value;
+            return string.IsNullOrEmpty(guid) ? null : allReferenceableScriptableObjects[guid];
+        }
+
+        private List<ReferenceableScriptableObject> GetReferenceableScriptableObjects()
+        {
+            return Resources.FindObjectsOfTypeAll(typeof(ReferenceableScriptableObject))
+                .Select(referenceableSO => (ReferenceableScriptableObject)referenceableSO)
+                .ToList();
+        }
     }
 }

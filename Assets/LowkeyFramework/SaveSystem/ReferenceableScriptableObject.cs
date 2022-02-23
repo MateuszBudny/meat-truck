@@ -3,28 +3,31 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public abstract class ReferenceableScriptableObject : ScriptableObject
+namespace LowkeyFramework.AttributeSaveSystem
 {
-	[SerializeField, ReadOnly]
-	private string guid;
+	public abstract class ReferenceableScriptableObject : ScriptableObject
+	{
+		[SerializeField, ReadOnly]
+		private string guid;
 
-	public string Guid => guid;
+		public string Guid => guid;
 
 #if UNITY_EDITOR
-	void OnValidate()
-	{
-		if (string.IsNullOrEmpty(guid))
+		void OnValidate()
 		{
-			guid = System.Guid.NewGuid().ToString();
-			Debug.LogWarning($"New GUID ({Guid}) has been assigned to SO: {name}.");
-
-			EditorApplication.delayCall += () =>
+			if (string.IsNullOrEmpty(guid))
 			{
-				AssetDatabase.Refresh();
-				EditorUtility.SetDirty(this);
-				AssetDatabase.SaveAssets();
-			};
+				guid = System.Guid.NewGuid().ToString();
+				Debug.LogWarning($"New GUID ({Guid}) has been assigned to SO: {name}.");
+
+				EditorApplication.delayCall += () =>
+				{
+					AssetDatabase.Refresh();
+					EditorUtility.SetDirty(this);
+					AssetDatabase.SaveAssets();
+				};
+			}
 		}
-	}
 #endif
+	}
 }

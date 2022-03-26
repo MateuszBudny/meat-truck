@@ -91,9 +91,9 @@ namespace LowkeyFramework.AttributeSaveSystem
 
             foreach (JToken eachToken in tokens)
             {
-                TKey key = eachToken[0].ToObject<TKey>(SaveManager.GetJsonSerializerWithCustomJsonConverters());
+                TKey key = eachToken[0].ToObject<TKey>();
 
-                TValue value = eachToken[1].ToObject<TValue>(SaveManager.GetJsonSerializerWithCustomJsonConverters());
+                TValue value = eachToken[1].ToObject<TValue>();
 
                 dictionary.Add(key, value);
             }

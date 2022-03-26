@@ -14,7 +14,6 @@ namespace LowkeyFramework.AttributeSaveSystem
     {
         // TODO:
         // is Newtonsoft using serialized fields only? Or is it ignoring Unity serialization? - it looks like it is ignoring serialization, but if field is set as [NonSerialized], then it is not added in json
-        // ScriptableObject by values and toggle to choose reference saving or values
         // encryption and toggle to turn it on or off (plus possibility to toggle it from script)
         // properties also should have possibility to set them as [SaveField]
         // find a way to use SaveFileName enum or other type, so end user won't have to edit a file created by me
@@ -44,7 +43,7 @@ namespace LowkeyFramework.AttributeSaveSystem
             Dictionary<string, Dictionary<string, object>> saveDictionary;
             if (appendSaves && FileManager.LoadFromFile(jsonSaveFileName, out string saveJson) && !string.IsNullOrEmpty(saveJson))
             {
-                saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson, GetCustomJsonConverters());
+                saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson);
             }
             else
             {
@@ -66,7 +65,7 @@ namespace LowkeyFramework.AttributeSaveSystem
                     saveDictionary[behaviour.Guid].Add(fieldInfo.Name, fieldInfo.GetValue(behaviour));
                 });
 
-            string jsonSave = JsonConvert.SerializeObject(saveDictionary, Formatting.Indented, GetCustomJsonConverters());
+            string jsonSave = JsonConvert.SerializeObject(saveDictionary, Formatting.Indented);
 
             FileManager.MoveFile(jsonSaveFileName, jsonSaveFileName + ".bak");
             if (FileManager.WriteToFile(jsonSaveFileName, jsonSave))
@@ -84,16 +83,19 @@ namespace LowkeyFramework.AttributeSaveSystem
             if (FileManager.LoadFromFile(jsonSaveFileName, out string saveJson) && !string.IsNullOrEmpty(saveJson))
             {
                 // Dictionary<behaviour's GUID, Dictionary<field's name, field as object>> 
-                Dictionary<string, Dictionary<string, object>> saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson, GetCustomJsonConverters());
+                Dictionary<string, Dictionary<string, object>> saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson);
                 ForEachSaveField((behaviour, _, fieldInfo) =>
                 {
                     string guid = behaviour.Guid;
                     string fieldName = fieldInfo.Name;
                     if (saveDictionary.TryGetValue(guid, out Dictionary<string, object> savedFieldsDictionary))
                     {
-                        object fieldSavedValue = savedFieldsDictionary[fieldName];
-                        object fieldSavedValueAfterConvertion = (fieldSavedValue as JToken).ToObject(fieldInfo.FieldType, GetJsonSerializerWithCustomJsonConverters());
-                        fieldInfo.SetValue(behaviour, fieldSavedValueAfterConvertion);
+                        if(savedFieldsDictionary.ContainsKey(fieldName))
+                        {
+                            object fieldSavedValue = savedFieldsDictionary[fieldName];
+                            object fieldSavedValueAfterConvertion = (fieldSavedValue as JToken).ToObject(fieldInfo.FieldType);
+                            fieldInfo.SetValue(behaviour, fieldSavedValueAfterConvertion);
+                        }
                     }
                 });
 

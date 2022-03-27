@@ -16,9 +16,8 @@ namespace LowkeyFramework.AttributeSaveSystem
         // is Newtonsoft using serialized fields only? Or is it ignoring Unity serialization? - it looks like it is ignoring serialization, but if field is set as [NonSerialized], then it is not added in json
         // encryption and toggle to turn it on or off (plus possibility to toggle it from script)
         // properties also should have possibility to set them as [SaveField]
-        // find a way to use SaveFileName enum or other type, so end user won't have to edit a file created by me
+        // find a way to use SaveFileName enum or other type, so end user won't have to edit a file created by me. Best way to solve this: serialized list of file names and a button to generate enum out of this.
         // add virtual function to Saveables abstract to add some way of extending this system, if someone would like to save Transform or other Unity component. Or add other way to do that, but for now I think virtual function would be the best solution. EDIT: Custom JsonConverters for Unity (there is such a github project) should do just fine.
-        // interfaces with BeforeSave(), AfterLoad() (optionally AfterSave() and BeforeLoad())
         // clearing saves from Unity window
         // displaying contents of save files in Inspector
         // editing contents of save files in Inspector
@@ -27,16 +26,52 @@ namespace LowkeyFramework.AttributeSaveSystem
         private SaveFileName defaultSaveFile = 0;
         public SaveFileName DefaultSaveFile { get => defaultSaveFile; set => defaultSaveFile = value; }
 
+        [Tooltip("If true, then new save is based on a previous save, so save is updated by new or changed values, but values that were present in a previous save and are not present in a new save, are not deleted from save. If false, then new save is based on an empty save, so all values not present in a new save will be deleted.")]
         [SerializeField]
         private bool appendSaves = true;
+        /// <summary>
+        /// If true, then new save is based on a previous save, so save is updated by new or changed values, but values that were present in a previous save and are not present in a new save, are not deleted from save. If false, then new save is based on an empty save, so all values not present in a new save will be deleted.
+        /// </summary>
         public bool AppendSaves { get => appendSaves; set => appendSaves = value; }
 
-        public static List<JsonConverter> AdditionalCustomConverters = new List<JsonConverter>();
+        [SerializeField]
+        private bool log = true;
+        public bool Log { get => log; set => log = value }
 
+        /// <summary>
+        /// An event invoked before saving is started.
+        /// </summary>
+        public event Action OnBeforeSave;
+        /// <summary>
+        /// An event happening after saving is finished. Bool variable defines if saving is successful or not.
+        /// </summary>
+        public event Action<bool> OnAfterSave;
+        /// <summary>
+        /// An event happening before loading is started.
+        /// </summary>
+        public event Action OnBeforeLoad;
+        /// <summary>
+        /// An event happening after loading is finished. Bool variable defines if loading is successful or not.
+        /// </summary>
+        public event Action<bool> OnAfterLoad;
+
+        private void Start()
+        {
+            OnBeforeSave += () => Debug.Log("dziaa");
+        }
+
+        /// <summary>
+        /// Save SaveFields to JSON file.
+        /// </summary>
+        /// <param name="saveFileName"></param>
         public void Save(SaveFileName saveFileName) => Save(saveFileName.ToString());
 
+        /// <summary>
+        /// Save SaveFields to JSON file.
+        /// </summary>
         public void Save(string saveFileName = "")
         {
+            OnBeforeSave?.Invoke();
             string jsonSaveFileName = GetJsonSaveFileName(saveFileName);
 
             // Dictionary<behaviour's GUID, Dictionary<field's name, field as object>> 
@@ -70,14 +105,31 @@ namespace LowkeyFramework.AttributeSaveSystem
             FileManager.MoveFile(jsonSaveFileName, jsonSaveFileName + ".bak");
             if (FileManager.WriteToFile(jsonSaveFileName, jsonSave))
             {
-                Debug.Log("Save successful: " + jsonSaveFileName);
+                if(Log)
+                {
+                    Debug.Log("Save successful: " + jsonSaveFileName);
+                }
+                OnAfterSave?.Invoke(true);
+            }
+            else
+            {
+                OnAfterSave?.Invoke(false);
             }
         }
 
+        /// <summary>
+        /// Load from JSON file and update SaveFields.
+        /// </summary>
+        /// <param name="saveFileName"></param>
         public void Load(SaveFileName saveFileName) => Load(saveFileName.ToString());
 
+        /// <summary>
+        /// Load from JSON file and update SaveFields.
+        /// </summary>
+        /// <param name="saveFileName"></param>
         public void Load(string saveFileName = "")
         {
+            OnBeforeLoad?.Invoke();
             string jsonSaveFileName = GetJsonSaveFileName(saveFileName);
 
             if (FileManager.LoadFromFile(jsonSaveFileName, out string saveJson) && !string.IsNullOrEmpty(saveJson))
@@ -99,7 +151,15 @@ namespace LowkeyFramework.AttributeSaveSystem
                     }
                 });
 
-                Debug.Log("Load successful: " + jsonSaveFileName);
+                if(Log)
+                {
+                    Debug.Log("Load successful: " + jsonSaveFileName);
+                }
+                OnAfterLoad?.Invoke(true);
+            }
+            else
+            {
+                OnAfterLoad?.Invoke(false);
             }
         }
 
@@ -142,7 +202,7 @@ namespace LowkeyFramework.AttributeSaveSystem
 
         public static JsonConverter[] GetCustomJsonConverters()
         {
-            List<JsonConverter> customJsonConverters = new List<JsonConverter>(AdditionalCustomConverters);
+            List<JsonConverter> customJsonConverters = new List<JsonConverter>();
             customJsonConverters.Add(new ReferenceableScriptableObjectJsonConverter());
             customJsonConverters.Add(new RuntimeTypedComplexKeyDictionaryJsonConverter());
 

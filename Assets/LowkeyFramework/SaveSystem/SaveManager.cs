@@ -273,7 +273,7 @@ namespace LowkeyFramework.AttributeSaveSystem
             {
                 xor[i] = (byte)(text[i] ^ key[i % key.Length]);
             }
-            return Encoding.ASCII.GetString(xor);     
+            return Encoding.UTF8.GetString(xor);     
         }
 
 

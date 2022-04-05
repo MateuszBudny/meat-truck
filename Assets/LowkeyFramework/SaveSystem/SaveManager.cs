@@ -80,6 +80,8 @@ namespace LowkeyFramework.AttributeSaveSystem
             OnBeforeSave?.Invoke();
             string jsonSaveFileName = GetJsonSaveFileName(saveFileName);
 
+            bool makeBackUp = FileManager.FileExists(jsonSaveFileName);
+
             // Dictionary<behaviour's GUID, Dictionary<field's name, field as object>> 
             Dictionary<string, Dictionary<string, object>> saveDictionary;
             if (appendSaves && FileManager.LoadFromFile(jsonSaveFileName, out string saveJson) && !string.IsNullOrEmpty(saveJson) && !string.IsNullOrEmpty(DecodeJsonSave(saveJson)))
@@ -114,7 +116,9 @@ namespace LowkeyFramework.AttributeSaveSystem
                 jsonSave = xorString(jsonSave, key);
             }
 
-            FileManager.MoveFile(jsonSaveFileName, jsonSaveFileName + ".bak");
+            if(makeBackUp){
+                FileManager.MoveFile(jsonSaveFileName, jsonSaveFileName + ".bak");
+            }
             if (FileManager.WriteToFile(jsonSaveFileName, jsonSave))
             {
                 if(Log)

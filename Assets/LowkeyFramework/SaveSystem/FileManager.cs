@@ -69,4 +69,17 @@ public static class FileManager
 
 		return true;
 	}
+
+	public static bool FileExists(string fileName){
+		var fullPath = Path.Combine(Application.persistentDataPath, fileName);
+
+		if(File.Exists(fullPath)){
+			return true;
+		}
+
+		return false;
+	}
+
+
+
 }

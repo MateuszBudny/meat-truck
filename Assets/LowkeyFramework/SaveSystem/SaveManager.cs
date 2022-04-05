@@ -35,6 +35,11 @@ namespace LowkeyFramework.AttributeSaveSystem
         /// </summary>
         public bool AppendSaves { get => appendSaves; set => appendSaves = value; }
 
+        /// <summary>
+        /// Value is used for encrypting save file with xor method, if key is changed all previous saves generated before changing key will be inacessible
+        /// </summary>
+        public string key;
+
         [SerializeField]
         private bool log = true;
         public bool Log { get => log; set => log = value; }
@@ -106,8 +111,7 @@ namespace LowkeyFramework.AttributeSaveSystem
 
             if (encode)
             {
-                byte[] bytesToEncode = Encoding.UTF8.GetBytes(jsonSave);
-                jsonSave = Convert.ToBase64String(bytesToEncode);
+                jsonSave = xorString(jsonSave, key);
             }
 
             FileManager.MoveFile(jsonSaveFileName, jsonSaveFileName + ".bak");
@@ -253,23 +257,25 @@ namespace LowkeyFramework.AttributeSaveSystem
                 return json;
             }
 
-            //We catch exceptions when decoding because  
-            //if encoded file is changed manually "Convert.FromBase64String" can throw an error due to bad characters 
-            //which doesn't matter to us.
-            try{
-                byte[] decodedBytes = Convert.FromBase64String(json);
-                string decodedJson = Encoding.UTF8.GetString(decodedBytes);
+            string decodedJson = xorString(json, key);
 
-                if (IsValidJson(decodedJson)){
-                    return decodedJson;
-                }
-            }catch(Exception ex){
-
+            if (IsValidJson(decodedJson)){
+                return decodedJson;
             }
             
             return null;
 
         }
+
+        private string xorString(string text, string key){
+            byte[] xor = new byte[text.Length];
+            for (int i = 0; i < text.Length; i++)
+            {
+                xor[i] = (byte)(text[i] ^ key[i % key.Length]);
+            }
+            return Encoding.ASCII.GetString(xor);     
+        }
+
 
     }
 

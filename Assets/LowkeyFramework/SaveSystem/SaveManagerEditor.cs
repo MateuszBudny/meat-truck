@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using System.Text;
+using System;
 using UnityEditor;
 using LowkeyFramework.AttributeSaveSystem;
 
@@ -28,5 +30,25 @@ public class SaveManagerEditor : Editor
             myScript.Load(saveName);
         }
 
+        if(GUILayout.Button("Make random key")){
+            myScript.key = RandomString(16);
+        }
+
+    }
+
+
+    private static string RandomString(int length)
+    {
+    const string pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    var builder = new StringBuilder();
+    var random = new System.Random();
+
+    for (var i = 0; i < length; i++)
+    {
+        var c = pool[random.Next(0, pool.Length)];
+        builder.Append(c);
+    }
+
+    return builder.ToString();
     }
 }

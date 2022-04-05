@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace LowkeyFramework.AttributeSaveSystem
 
         [SerializeField]
         private bool log = true;
-        public bool Log { get => log; set => log = value }
+        public bool Log { get => log; set => log = value; }
 
         /// <summary>
         /// An event invoked before saving is started.
@@ -64,21 +65,22 @@ namespace LowkeyFramework.AttributeSaveSystem
         /// Save SaveFields to JSON file.
         /// </summary>
         /// <param name="saveFileName"></param>
-        public void Save(SaveFileName saveFileName) => Save(saveFileName.ToString());
+        public void Save(SaveFileName saveFileName, bool encode = false) => Save(saveFileName.ToString(), encode);
 
         /// <summary>
         /// Save SaveFields to JSON file.
         /// </summary>
-        public void Save(string saveFileName = "")
+        public void Save(string saveFileName = "", bool encode = false)
         {
             OnBeforeSave?.Invoke();
             string jsonSaveFileName = GetJsonSaveFileName(saveFileName);
 
             // Dictionary<behaviour's GUID, Dictionary<field's name, field as object>> 
             Dictionary<string, Dictionary<string, object>> saveDictionary;
-            if (appendSaves && FileManager.LoadFromFile(jsonSaveFileName, out string saveJson) && !string.IsNullOrEmpty(saveJson))
+            if (appendSaves && FileManager.LoadFromFile(jsonSaveFileName, out string saveJson) && !string.IsNullOrEmpty(saveJson) && !string.IsNullOrEmpty(DecodeJsonSave(saveJson)))
             {
-                saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson);
+
+                saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(DecodeJsonSave(saveJson));
             }
             else
             {
@@ -101,6 +103,12 @@ namespace LowkeyFramework.AttributeSaveSystem
                 });
 
             string jsonSave = JsonConvert.SerializeObject(saveDictionary, Formatting.Indented);
+
+            if (encode)
+            {
+                byte[] bytesToEncode = Encoding.UTF8.GetBytes(jsonSave);
+                jsonSave = Convert.ToBase64String(bytesToEncode);
+            }
 
             FileManager.MoveFile(jsonSaveFileName, jsonSaveFileName + ".bak");
             if (FileManager.WriteToFile(jsonSaveFileName, jsonSave))
@@ -134,6 +142,15 @@ namespace LowkeyFramework.AttributeSaveSystem
 
             if (FileManager.LoadFromFile(jsonSaveFileName, out string saveJson) && !string.IsNullOrEmpty(saveJson))
             {
+                saveJson = DecodeJsonSave(saveJson);
+
+                if(string.IsNullOrEmpty(saveJson)){
+                    Debug.LogError("Save file is not in a valid format.\nSave path: " + jsonSaveFileName);
+                    OnAfterLoad?.Invoke(false);
+                    return;
+                }
+
+
                 // Dictionary<behaviour's GUID, Dictionary<field's name, field as object>> 
                 Dictionary<string, Dictionary<string, object>> saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson);
                 ForEachSaveField((behaviour, _, fieldInfo) =>
@@ -217,5 +234,46 @@ namespace LowkeyFramework.AttributeSaveSystem
         {
             return (string.IsNullOrEmpty(currentSaveFileName) ? DefaultSaveFile.ToString() : currentSaveFileName) + ".json";
         }
+
+        private bool IsValidJson(string json)
+        {
+            try
+            {
+                JToken token = JObject.Parse(json);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        private string DecodeJsonSave(string json){
+            if(IsValidJson(json)){
+                return json;
+            }
+
+            //We catch exceptions when decoding because  
+            //if encoded file is changed manually "Convert.FromBase64String" can throw an error due to bad characters 
+            //which doesn't matter to us.
+            try{
+                byte[] decodedBytes = Convert.FromBase64String(json);
+                string decodedJson = Encoding.UTF8.GetString(decodedBytes);
+
+                if (IsValidJson(decodedJson)){
+                    return decodedJson;
+                }
+            }catch(Exception ex){
+
+            }
+            
+            return null;
+
+        }
+
     }
+
+
+
+
 }

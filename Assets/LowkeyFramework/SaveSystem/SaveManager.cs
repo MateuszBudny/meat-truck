@@ -15,17 +15,15 @@ namespace LowkeyFramework.AttributeSaveSystem
     {
         // TODO:
         // is Newtonsoft using serialized fields only? Or is it ignoring Unity serialization? - it looks like it is ignoring serialization, but if field is set as [NonSerialized], then it is not added in json
-        // encryption and toggle to turn it on or off (plus possibility to toggle it from script)
         // properties also should have possibility to set them as [SaveField]
-        // find a way to use SaveFileName enum or other type, so end user won't have to edit a file created by me. Best way to solve this: serialized list of file names and a button to generate enum out of this.
         // add virtual function to Saveables abstract to add some way of extending this system, if someone would like to save Transform or other Unity component. Or add other way to do that, but for now I think virtual function would be the best solution. EDIT: Custom JsonConverters for Unity (there is such a github project) should do just fine.
         // clearing saves from Unity window
         // displaying contents of save files in Inspector
         // editing contents of save files in Inspector
 
         [SerializeField]
-        private SaveFileName defaultSaveFile = 0;
-        public SaveFileName DefaultSaveFile { get => defaultSaveFile; set => defaultSaveFile = value; }
+        private string currentSaveFile = "save.json";
+        public string CurrentSaveFile { get => currentSaveFile; set => currentSaveFile = value; }
 
         [Tooltip("If true, then new save is based on a previous save, so save is updated by new or changed values, but values that were present in a previous save and are not present in a new save, are not deleted from save. If false, then new save is based on an empty save, so all values not present in a new save will be deleted.")]
         [SerializeField]
@@ -42,6 +40,7 @@ namespace LowkeyFramework.AttributeSaveSystem
 
         [SerializeField]
         private bool log = true;
+
         public bool Log { get => log; set => log = value; }
 
         /// <summary>
@@ -61,17 +60,6 @@ namespace LowkeyFramework.AttributeSaveSystem
         /// </summary>
         public event Action<bool> OnAfterLoad;
 
-        private void Start()
-        {
-            OnBeforeSave += () => Debug.Log("dziaa");
-        }
-
-        /// <summary>
-        /// Save SaveFields to JSON file.
-        /// </summary>
-        /// <param name="saveFileName"></param>
-        public void Save(SaveFileName saveFileName, bool encode = false) => Save(saveFileName.ToString(), encode);
-
         /// <summary>
         /// Save SaveFields to JSON file.
         /// </summary>
@@ -86,14 +74,12 @@ namespace LowkeyFramework.AttributeSaveSystem
             Dictionary<string, Dictionary<string, object>> saveDictionary;
             if (appendSaves && FileManager.LoadFromFile(jsonSaveFileName, out string saveJson) && !string.IsNullOrEmpty(saveJson) && !string.IsNullOrEmpty(DecodeJsonSave(saveJson)))
             {
-
                 saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(DecodeJsonSave(saveJson));
             }
             else
             {
                 saveDictionary = new Dictionary<string, Dictionary<string, object>>();
             }
-
 
             ForEachSaveField(
                 forEachSaveableBehaviour: behaviour =>
@@ -113,15 +99,17 @@ namespace LowkeyFramework.AttributeSaveSystem
 
             if (encode)
             {
-                jsonSave = xorString(jsonSave, key);
+                jsonSave = XorString(jsonSave, key);
             }
 
-            if(makeBackUp){
+            if (makeBackUp)
+            {
                 FileManager.MoveFile(jsonSaveFileName, jsonSaveFileName + ".bak");
             }
+
             if (FileManager.WriteToFile(jsonSaveFileName, jsonSave))
             {
-                if(Log)
+                if (Log)
                 {
                     Debug.Log("Save successful: " + jsonSaveFileName);
                 }
@@ -137,12 +125,6 @@ namespace LowkeyFramework.AttributeSaveSystem
         /// Load from JSON file and update SaveFields.
         /// </summary>
         /// <param name="saveFileName"></param>
-        public void Load(SaveFileName saveFileName) => Load(saveFileName.ToString());
-
-        /// <summary>
-        /// Load from JSON file and update SaveFields.
-        /// </summary>
-        /// <param name="saveFileName"></param>
         public void Load(string saveFileName = "")
         {
             OnBeforeLoad?.Invoke();
@@ -152,12 +134,12 @@ namespace LowkeyFramework.AttributeSaveSystem
             {
                 saveJson = DecodeJsonSave(saveJson);
 
-                if(string.IsNullOrEmpty(saveJson)){
-                    Debug.LogError("Save file is not in a valid format.\nSave path: " + jsonSaveFileName);
+                if (string.IsNullOrEmpty(saveJson))
+                {
+                    Debug.LogError("Save file is not in a valid format. Save path: " + jsonSaveFileName);
                     OnAfterLoad?.Invoke(false);
                     return;
                 }
-
 
                 // Dictionary<behaviour's GUID, Dictionary<field's name, field as object>> 
                 Dictionary<string, Dictionary<string, object>> saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson);
@@ -167,7 +149,7 @@ namespace LowkeyFramework.AttributeSaveSystem
                     string fieldName = fieldInfo.Name;
                     if (saveDictionary.TryGetValue(guid, out Dictionary<string, object> savedFieldsDictionary))
                     {
-                        if(savedFieldsDictionary.ContainsKey(fieldName))
+                        if (savedFieldsDictionary.ContainsKey(fieldName))
                         {
                             object fieldSavedValue = savedFieldsDictionary[fieldName];
                             object fieldSavedValueAfterConvertion = (fieldSavedValue as JToken).ToObject(fieldInfo.FieldType);
@@ -176,7 +158,7 @@ namespace LowkeyFramework.AttributeSaveSystem
                     }
                 });
 
-                if(Log)
+                if (Log)
                 {
                     Debug.Log("Load successful: " + jsonSaveFileName);
                 }
@@ -240,7 +222,7 @@ namespace LowkeyFramework.AttributeSaveSystem
 
         private string GetJsonSaveFileName(string currentSaveFileName)
         {
-            return (string.IsNullOrEmpty(currentSaveFileName) ? DefaultSaveFile.ToString() : currentSaveFileName) + ".json";
+            return (string.IsNullOrEmpty(currentSaveFileName) ? CurrentSaveFile : currentSaveFileName) + ".json";
         }
 
         private bool IsValidJson(string json)
@@ -250,40 +232,37 @@ namespace LowkeyFramework.AttributeSaveSystem
                 JToken token = JObject.Parse(json);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
         }
 
-        private string DecodeJsonSave(string json){
-            if(IsValidJson(json)){
+        private string DecodeJsonSave(string json)
+        {
+            if (IsValidJson(json))
+            {
                 return json;
             }
 
-            string decodedJson = xorString(json, key);
+            string decodedJson = XorString(json, key);
 
-            if (IsValidJson(decodedJson)){
+            if (IsValidJson(decodedJson))
+            {
                 return decodedJson;
             }
-            
-            return null;
 
+            return null;
         }
 
-        private string xorString(string text, string key){
+        private string XorString(string text, string key)
+        {
             byte[] xor = new byte[text.Length];
             for (int i = 0; i < text.Length; i++)
             {
                 xor[i] = (byte)(text[i] ^ key[i % key.Length]);
             }
-            return Encoding.UTF8.GetString(xor);     
+            return Encoding.UTF8.GetString(xor);
         }
-
-
     }
-
-
-
-
 }

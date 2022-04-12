@@ -72,9 +72,9 @@ namespace LowkeyFramework.AttributeSaveSystem
 
             // Dictionary<behaviour's GUID, Dictionary<field's name, field as object>> 
             Dictionary<string, Dictionary<string, object>> saveDictionary;
-            if (appendSaves && FileManager.LoadFromFile(jsonSaveFileName, out string saveJson) && !string.IsNullOrEmpty(saveJson) && !string.IsNullOrEmpty(DecodeJsonSave(saveJson)))
+            if (appendSaves && LoadDecodeSaveFile(jsonSaveFileName, out string saveJson))
             {
-                saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(DecodeJsonSave(saveJson));
+                saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson);
             }
             else
             {
@@ -97,15 +97,12 @@ namespace LowkeyFramework.AttributeSaveSystem
 
             string jsonSave = JsonConvert.SerializeObject(saveDictionary, Formatting.Indented);
 
-            if (encode)
-            {
-                jsonSave = XorString(jsonSave, key);
-            }
-
             if (makeBackUp)
             {
                 FileManager.MoveFile(jsonSaveFileName, jsonSaveFileName + ".bak");
             }
+
+            jsonSave = encode ? EncodeString(jsonSave, key) : jsonSave;
 
             if (FileManager.WriteToFile(jsonSaveFileName, jsonSave))
             {
@@ -130,16 +127,10 @@ namespace LowkeyFramework.AttributeSaveSystem
             OnBeforeLoad?.Invoke();
             string jsonSaveFileName = GetJsonSaveFileName(saveFileName);
 
-            if (FileManager.LoadFromFile(jsonSaveFileName, out string saveJson) && !string.IsNullOrEmpty(saveJson))
-            {
-                saveJson = DecodeJsonSave(saveJson);
+            
 
-                if (string.IsNullOrEmpty(saveJson))
-                {
-                    Debug.LogError("Save file is not in a valid format. Save path: " + jsonSaveFileName);
-                    OnAfterLoad?.Invoke(false);
-                    return;
-                }
+            if (LoadDecodeSaveFile(jsonSaveFileName, out string saveJson))
+            {
 
                 // Dictionary<behaviour's GUID, Dictionary<field's name, field as object>> 
                 Dictionary<string, Dictionary<string, object>> saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson);
@@ -166,6 +157,7 @@ namespace LowkeyFramework.AttributeSaveSystem
             }
             else
             {
+                Debug.LogError("Save file is not in a valid format or does not exist. Save path: " + jsonSaveFileName);
                 OnAfterLoad?.Invoke(false);
             }
         }
@@ -238,31 +230,60 @@ namespace LowkeyFramework.AttributeSaveSystem
             }
         }
 
-        private string DecodeJsonSave(string json)
+        private bool LoadDecodeSaveFile(string filename, out string json)
         {
-            if (IsValidJson(json))
-            {
-                return json;
+
+            bool fileLoaded = FileManager.LoadFromFile(filename, out string saveJson) ;
+
+            if(!fileLoaded){
+                json = saveJson;
+                return false;
             }
 
-            string decodedJson = XorString(json, key);
+            if (IsValidJson(saveJson))
+            {
+                json = saveJson;
+                return true;
+            }
+
+            string decodedJson = DecodeString(saveJson, key);
 
             if (IsValidJson(decodedJson))
             {
-                return decodedJson;
+                json = decodedJson;
+                return true;
             }
 
-            return null;
+            json = null;
+            return false;
         }
 
-        private string XorString(string text, string key)
+        private string EncodeString(string text, string key)
         {
-            byte[] xor = new byte[text.Length];
-            for (int i = 0; i < text.Length; i++)
+
+            byte[] textBytes = Encoding.Default.GetBytes(text);
+            byte[] xor = new byte[textBytes.Length];
+
+
+            for (int i = 0; i < textBytes.Length; i++)
             {
-                xor[i] = (byte)(text[i] ^ key[i % key.Length]);
+                xor[i] = (byte)(textBytes[i] ^ key[i % key.Length]);
             }
-            return Encoding.UTF8.GetString(xor);
+            return Convert.ToBase64String(xor);
+        }
+
+        private string DecodeString(string text, string key)
+        {
+
+
+            byte[] textBytes = Convert.FromBase64String(text);
+            byte[] xor = new byte[textBytes.Length];
+
+            for (int i = 0; i < textBytes.Length; i++)
+            {
+                xor[i] = (byte)(textBytes[i] ^ key[i % key.Length]);
+            }
+            return Encoding.Default.GetString(xor);
         }
     }
 }

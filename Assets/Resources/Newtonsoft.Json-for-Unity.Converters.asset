@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce56e4dbb13e1644aa983b6dd170e4a7, type: 3}
   m_Name: Newtonsoft.Json-for-Unity.Converters
   m_EditorClassIdentifier: 
-  useUnityContractResolver: 1
+  useUnityContractResolver: 0
   useAllOutsideConverters: 1
   outsideConverters:
   - enabled: 1

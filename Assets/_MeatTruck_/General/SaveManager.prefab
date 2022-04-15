@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guid: 5dcac9d7-0a7e-4b1e-bdf4-efe843aac7e5
-  currentSaveFile: save.json
+  currentSaveFile: save
   appendSaves: 1
   key: dEWQMfpbR0nuqD7U
   log: 1

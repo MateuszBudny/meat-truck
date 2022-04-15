@@ -13,6 +13,7 @@ namespace LowkeyFramework.AttributeSaveSystem
 {
     public class SaveManager : SingleBehaviour<SaveManager>
     {
+
         // TODO:
         // is Newtonsoft using serialized fields only? Or is it ignoring Unity serialization? - it looks like it is ignoring serialization, but if field is set as [NonSerialized], then it is not added in json
         // properties also should have possibility to set them as [SaveField]
@@ -86,13 +87,23 @@ namespace LowkeyFramework.AttributeSaveSystem
                 {
                     saveDictionary.Remove(behaviour.Guid);
                 },
-                forEachSaveField: (behaviour, _, fieldInfo) =>
+                forEachSaveField: (behaviour, _, memberInfo) =>
                 {
                     if (!saveDictionary.ContainsKey(behaviour.Guid))
                     {
                         saveDictionary.Add(behaviour.Guid, new Dictionary<string, object>());
                     }
-                    saveDictionary[behaviour.Guid].Add(fieldInfo.Name, fieldInfo.GetValue(behaviour));
+
+
+                    if (memberInfo.MemberType == MemberTypes.Field)
+                    {
+                        saveDictionary[behaviour.Guid].Add(memberInfo.Name, ((FieldInfo)memberInfo).GetValue(behaviour));
+                    }
+                    if (memberInfo.MemberType == MemberTypes.Property)
+                    {
+                        saveDictionary[behaviour.Guid].Add(memberInfo.Name, ((PropertyInfo)memberInfo).GetValue(behaviour));
+                    }
+
                 });
 
             string jsonSave = JsonConvert.SerializeObject(saveDictionary, Formatting.Indented);
@@ -134,17 +145,26 @@ namespace LowkeyFramework.AttributeSaveSystem
 
                 // Dictionary<behaviour's GUID, Dictionary<field's name, field as object>> 
                 Dictionary<string, Dictionary<string, object>> saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson);
-                ForEachSaveField((behaviour, _, fieldInfo) =>
+                ForEachSaveField((behaviour, _, memberInfo) =>
                 {
                     string guid = behaviour.Guid;
-                    string fieldName = fieldInfo.Name;
+                    string fieldName = memberInfo.Name;
                     if (saveDictionary.TryGetValue(guid, out Dictionary<string, object> savedFieldsDictionary))
                     {
                         if (savedFieldsDictionary.ContainsKey(fieldName))
                         {
                             object fieldSavedValue = savedFieldsDictionary[fieldName];
-                            object fieldSavedValueAfterConvertion = (fieldSavedValue as JToken).ToObject(fieldInfo.FieldType);
-                            fieldInfo.SetValue(behaviour, fieldSavedValueAfterConvertion);
+                            Type underlyingType = GetUnderlyingType(memberInfo);
+                            object fieldSavedValueAfterConvertion = (fieldSavedValue as JToken).ToObject(underlyingType);
+
+                            if(memberInfo.MemberType == MemberTypes.Field)
+                            {
+                                ((FieldInfo) memberInfo).SetValue(behaviour, fieldSavedValueAfterConvertion);
+                            }
+                            if (memberInfo.MemberType == MemberTypes.Property)
+                            {
+                                ((PropertyInfo )memberInfo).SetValue(behaviour, fieldSavedValueAfterConvertion);
+                            }
                         }
                     }
                 });
@@ -162,19 +182,23 @@ namespace LowkeyFramework.AttributeSaveSystem
             }
         }
 
-        private void ForEachSaveField(Action<SaveableBehaviour, SaveFieldAttribute, FieldInfo> forEachSaveField, Action<SaveableBehaviour> forEachSaveableBehaviour = null)
+
+        private void ForEachSaveField(Action<SaveableBehaviour, SaveFieldAttribute, MemberInfo> forEachSaveField, Action<SaveableBehaviour> forEachSaveableBehaviour = null)
         {
             List<SaveableBehaviour> behaviours = GetSaveableBehaviours();
             behaviours.ForEach(behaviour =>
             {
                 forEachSaveableBehaviour?.Invoke(behaviour);
-                List<FieldInfo> objectFields = behaviour.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).ToList();
-                objectFields.ForEach(fieldInfo =>
+                var objectFields = behaviour.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Cast<MemberInfo>();
+                var propertyFields = behaviour.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Cast<MemberInfo>();
+                List<MemberInfo> fields = objectFields.Concat(propertyFields).ToList();
+
+                fields.ForEach(memberInfo =>
                 {
-                    SaveFieldAttribute saveField = Attribute.GetCustomAttribute(fieldInfo, typeof(SaveFieldAttribute)) as SaveFieldAttribute;
+                    SaveFieldAttribute saveField = memberInfo.GetCustomAttribute<SaveFieldAttribute>();
                     if (saveField != null)
                     {
-                        forEachSaveField(behaviour, saveField, fieldInfo);
+                        forEachSaveField(behaviour, saveField, memberInfo);
                     }
                 });
             });
@@ -284,6 +308,27 @@ namespace LowkeyFramework.AttributeSaveSystem
                 xor[i] = (byte)(textBytes[i] ^ key[i % key.Length]);
             }
             return Encoding.Default.GetString(xor);
+        }
+
+
+        public static Type GetUnderlyingType(MemberInfo member)
+        {
+            switch (member.MemberType)
+            {
+                case MemberTypes.Event:
+                    return ((EventInfo)member).EventHandlerType;
+                case MemberTypes.Field:
+                    return ((FieldInfo)member).FieldType;
+                case MemberTypes.Method:
+                    return ((MethodInfo)member).ReturnType;
+                case MemberTypes.Property:
+                    return ((PropertyInfo)member).PropertyType;
+                default:
+                    throw new ArgumentException
+                    (
+                     "Input MemberInfo must be if type EventInfo, memberInfo, MethodInfo, or PropertyInfo"
+                    );
+            }
         }
     }
 }

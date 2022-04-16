@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Text;
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using LowkeyFramework.AttributeSaveSystem;
 
@@ -12,6 +13,12 @@ public class SaveManagerEditor : Editor
 
     private SaveManager Target => (SaveManager)target;
 
+    private JSONEditor jsonEditor;
+
+    private void OnEnable()
+    {
+        jsonEditor = ScriptableObject.CreateInstance<JSONEditor>();
+    }
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -29,16 +36,24 @@ public class SaveManagerEditor : Editor
         if(GUILayout.Button("Load"))
         {
             Target.Load(testSaveName);
+            Target.LoadDecodeSaveFile(testSaveName + ".json", out string jsonFile);
+            jsonEditor.rawText = jsonFile;
         }
 
         if(GUILayout.Button("Generate random key")){
             Target.key = RandomString(16);
             EditorUtility.SetDirty(Target);
         }
+
+        GUILayout.BeginScrollView(new Vector2(0,0));
+        jsonEditor.JsonInspectorGUI();
+        GUILayout.EndScrollView();
+
     }
 
-    private static string RandomString(int length)
-    {
+
+        private static string RandomString(int length)
+        {
         const string pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
         var builder = new StringBuilder();
         var random = new System.Random();

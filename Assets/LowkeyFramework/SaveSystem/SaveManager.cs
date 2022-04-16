@@ -92,6 +92,7 @@ namespace LowkeyFramework.AttributeSaveSystem
                     if (!saveDictionary.ContainsKey(behaviour.Guid))
                     {
                         saveDictionary.Add(behaviour.Guid, new Dictionary<string, object>());
+                        saveDictionary[behaviour.Guid].Add("name", behaviour.name);
                     }
 
                     saveDictionary[behaviour.Guid].Add(memberInfo.Name, GetMemberValue(memberInfo, behaviour));
@@ -143,9 +144,20 @@ namespace LowkeyFramework.AttributeSaveSystem
                         {
                             object fieldSavedValue = savedFieldsDictionary[memberName];
                             Type underlyingType = GetUnderlyingType(memberInfo);
-                            object fieldSavedValueAfterConvertion = (fieldSavedValue as JToken).ToObject(underlyingType);
+                            if(fieldSavedValue != null)
+                            {
+                                object fieldSavedValueAfterConvertion = (fieldSavedValue as JToken).ToObject(underlyingType);
 
-                            SetMemberValue(memberInfo, fieldSavedValueAfterConvertion, behaviour);
+                                SetMemberValue(memberInfo, fieldSavedValueAfterConvertion, behaviour);
+                            }
+                            else
+                            {
+                                SetMemberValue(memberInfo, null, behaviour);
+                                if (Log)
+                                {
+                                    Debug.Log(memberName + " from save '" + jsonSaveFileName + "' has a null value.");
+                                }
+                            }
                         }
                     }
                 });
@@ -237,7 +249,7 @@ namespace LowkeyFramework.AttributeSaveSystem
             }
         }
 
-        private bool LoadDecodeSaveFile(string filename, out string json)
+        public bool LoadDecodeSaveFile(string filename, out string json)
         {
             bool fileLoaded = FileManager.LoadFromFile(filename, out string saveJson) ;
 

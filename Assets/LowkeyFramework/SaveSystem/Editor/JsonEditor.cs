@@ -147,6 +147,7 @@ public class JSONEditor : Editor
 
                 if (!hasMoreChildren)
                 {
+                    GUILayout.FlexibleSpace();
                     GUILayout.EndHorizontal();
                 }
                 else
@@ -157,6 +158,7 @@ public class JSONEditor : Editor
             else if (token.Type == JTokenType.Object)
             {
                 RecursiveDrawField(false, token);
+
             }
             else
             {
@@ -199,11 +201,20 @@ public class JSONEditor : Editor
                         break;
                     case JTokenType.Array:
                         EditorGUILayout.BeginVertical();
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Space((EditorGUI.indentLevel-1) * 20);
+                        GUILayout.Label("[");
+                        GUILayout.EndHorizontal();
                         var array = token.Value<IEnumerable<JToken>>();
                         foreach (var ele in array)
                         {
+                            GUILayout.Space(10);
                             RecursiveDrawField(true, ele as JToken);
                         }
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Space((EditorGUI.indentLevel-1) * 20);
+                        GUILayout.Label("]");
+                        GUILayout.EndHorizontal();
                         EditorGUILayout.EndVertical();
                         break;
                     default:

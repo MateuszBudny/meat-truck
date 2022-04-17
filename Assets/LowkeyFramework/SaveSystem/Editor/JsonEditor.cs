@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEditor;
 using System;
+using System.Collections.Generic;
 
 
 // Adds a nice editor to edit JSON files as well as a simple text editor incase
@@ -30,6 +31,7 @@ public class JSONEditor : Editor
     private JObject jsonObject;
     private JProperty propertyToRename;
     private string propertyRename;
+    private Dictionary<string,bool> foldOuts = new Dictionary<string,bool>();
 
     private bool unableToParseJson()
     {
@@ -75,60 +77,31 @@ public class JSONEditor : Editor
             {
                 Rect initialRect = new Rect(10, 5 + EditorGUIUtility.singleLineHeight * 20, EditorGUIUtility.currentViewWidth - 20, EditorGUIUtility.singleLineHeight);
 
-                int fieldsHeight = RecursiveDrawField(new Rect(initialRect.x + 5, initialRect.y, initialRect.width, initialRect.height), jsonObject);
-                fieldsHeight += 3;
-                Rect addNewButton = new Rect(initialRect.x, initialRect.y + fieldsHeight * initialRect.height, initialRect.width, initialRect.height * 2);
-                if (GUI.Button(addNewButton, "Add New Property"))
-                {
-                    GenericMenu menu = new GenericMenu();
-                    menu.AddItem(new GUIContent("Empty Object"), false, () =>
-                    {
-                        AddNewProperty<JObject>(jsonObject);
-                    });
-                    menu.AddSeparator("");
-                    menu.AddItem(new GUIContent("String"), false, () =>
-                    {
-                        AddNewProperty<string>(jsonObject);
-                    });
-                    menu.AddItem(new GUIContent("Single"), false, () =>
-                    {
-                        AddNewProperty<float>(jsonObject);
-                    });
-                    menu.AddItem(new GUIContent("Integer"), false, () =>
-                    {
-                        AddNewProperty<int>(jsonObject);
-                    });
-                    menu.AddItem(new GUIContent("Boolean"), false, () =>
-                    {
-                        AddNewProperty<bool>(jsonObject);
-
-                    });
-                    menu.DropDown(addNewButton);
-                }
+                RecursiveDrawField(false, jsonObject);
+                
             }
         }
         else
         {
-            float textFieldHeight = GUI.skin.label.CalcSize(new GUIContent(rawText)).y;
-            Rect textFieldRect = new Rect(subHeaderRect.x, subHeaderRect.y + subHeaderRect.height + EditorGUIUtility.singleLineHeight, subHeaderRect.width, textFieldHeight);
-            rawText = EditorGUI.TextArea(textFieldRect, rawText);
-            Rect errorBoxRect = new Rect(textFieldRect.x, textFieldRect.y + textFieldRect.height + EditorGUIUtility.singleLineHeight, textFieldRect.width, EditorGUIUtility.singleLineHeight * 2.5f);
+
+            rawText = EditorGUILayout.TextArea(rawText);
             GUIStyle helpBoxRichText = new GUIStyle(EditorStyles.helpBox);
             Texture errorIcon = EditorGUIUtility.Load("icons/console.erroricon.png") as Texture2D;
 
             helpBoxRichText.richText = true;
 
             if (unableToParse)
-                GUI.Label(errorBoxRect, new GUIContent("Unable to parse text into JSON. Make sure there are no mistakes! Are you missing a <b>{</b>, <b>{</b> or <b>,</b>?", errorIcon), helpBoxRichText);
+                GUILayout.Label(new GUIContent("Unable to parse text into JSON. Make sure there are no mistakes! Are you missing a <b>{</b>, <b>{</b> or <b>,</b>?", errorIcon), helpBoxRichText);
         }
 
         wasTextMode = isTextMode;
         GUI.enabled = enabled;
     }
 
-    private int RecursiveDrawField(Rect rect, JToken container)
+    private void RecursiveDrawField(bool indent, JToken container)
     {
-        int j = 0;
+        if(indent)
+            EditorGUI.indentLevel++;
         for (int i = 0; i < container.Count(); i++)
         {
             JToken token = container.Values<JToken>().ToArray()[i];
@@ -137,121 +110,110 @@ public class JSONEditor : Editor
             {
                 JProperty property = token.Value<JProperty>();
 
-                string propertyName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(property.Name.ToLower()) + ":";
-                float propertyNameWidth = GUI.skin.label.CalcSize(new GUIContent(propertyName)).x;
-                Rect propertyNameRect = new Rect(rect.x + rect.height, rect.y + EditorGUIUtility.singleLineHeight * j * 1.3f, propertyNameWidth, rect.height);
+                var propertyName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(property.Name.ToLower()) + ":";
 
-                Rect buttonRect = new Rect(rect.x, rect.y + EditorGUIUtility.singleLineHeight * j * 1.3f, rect.height, rect.height);
-                GUIStyle buttonContent = new GUIStyle(EditorStyles.label);
-                buttonContent.normal.textColor = Color.grey;
 
-                if (propertyToRename != property)
+                var children = token.Values().ToArray();
+                bool hasObjects = children.Any(t => t.Type == JTokenType.Object);
+
+                bool hasProperties = children.Any(t => t.Type == JTokenType.Property);
+                bool hasMoreChildren = children.Count() > 1 || hasObjects ||  hasProperties;
+
+                
+
+                if (hasMoreChildren)
                 {
-                    if (GUI.Button(buttonRect, GUIContent.none, EditorStyles.miniButton))
-                    {
-                        GenericMenu menu = new GenericMenu();
-                        if (property.Value.Type == JTokenType.Object)
-                        {
-                            JObject jObject = property.Value.Value<JObject>();
-                            menu.AddItem(new GUIContent("Add/Empty Object"), false, () =>
-                            {
-                                AddNewProperty<JObject>(jObject);
-                            });
-                            menu.AddSeparator("Add/");
-                            menu.AddItem(new GUIContent("Add/String"), false, () =>
-                            {
-                                AddNewProperty<string>(jObject);
-                            });
-                            menu.AddItem(new GUIContent("Add/Single"), false, () =>
-                            {
-                                AddNewProperty<float>(jObject);
-                            });
-                            menu.AddItem(new GUIContent("Add/Integer"), false, () =>
-                            {
-                                AddNewProperty<int>(jObject);
-                            });
-                            menu.AddItem(new GUIContent("Add/Boolean"), false, () =>
-                            {
-                                AddNewProperty<bool>(jObject);
+                    GUILayout.BeginVertical();
 
-                            });
-                        }
-                        menu.AddItem(new GUIContent("Remove"), false, () => {
-                            token.Remove();
-                        });
-                        menu.AddSeparator("");
-                        menu.AddItem(new GUIContent("Rename"), false, () => {
-                            propertyToRename = property;
-                            propertyRename = propertyToRename.Name;
-                        });
-                        menu.DropDown(buttonRect);
+                    if (!foldOuts.ContainsKey(property.Path))
+                    {
+                        foldOuts.Add(property.Path, false);
                     }
-                    GUI.Label(propertyNameRect, propertyName);
-                    GUI.Label(buttonRect, "►", buttonContent);
+                    foldOuts[property.Path] = EditorGUILayout.Foldout(foldOuts[property.Path], propertyName);
+
+                    if (foldOuts[property.Path])
+                    {
+                        RecursiveDrawField(true, token);
+                    }
                 }
                 else
                 {
-                    Rect propertyTextFieldRect = new Rect(propertyNameRect.x + 2, propertyNameRect.y, propertyNameRect.width - 4, propertyNameRect.height);
-                    GUI.SetNextControlName("RENAME_PROPERTY");
-                    propertyRename = EditorGUI.TextField(propertyTextFieldRect, propertyRename);
-
-                    GUI.color = new Color32(109, 135, 111, 255);
-                    GUI.enabled = !string.IsNullOrEmpty(propertyRename);
-                    if (GUI.Button(buttonRect, GUIContent.none, EditorStyles.miniButton))
-                    {
-                       // property.Value.Rename(propertyRename);
-                        GUI.FocusControl("");
-                    }
-                    GUI.color = Color.white;
-                    buttonContent.normal.textColor = new Color32(133, 229, 143, 255);
-                    GUI.Label(buttonRect, "✔", buttonContent);
-                    GUI.enabled = true;
+                    GUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField(propertyName);
+                    RecursiveDrawField(true, token);
                 }
-                Rect nextRect = new Rect(rect.x + rect.height + propertyNameWidth, rect.y + EditorGUIUtility.singleLineHeight * j * 1.3f, rect.width - propertyNameWidth - rect.height, rect.height);
-                j += RecursiveDrawField(nextRect, token);
+
+
+
+                if (!hasMoreChildren)
+                {
+                    GUILayout.EndHorizontal();
+                }
+                else
+                {
+                    GUILayout.EndVertical();
+                }
             }
             else if (token.Type == JTokenType.Object)
             {
-                j += RecursiveDrawField(rect, token);
+                RecursiveDrawField(false, token);
             }
             else
             {
-                JProperty parentProperty = token.Parent.Value<JProperty>();
+                //JProperty parentProperty = token.Parent.Value<JProperty>();
 
                 switch (token.Type)
                 {
+
                     case JTokenType.String:
-                        string stringValue = token.Value<string>();
-                        stringValue = EditorGUI.TextField(rect, stringValue);
-                        parentProperty.Value = stringValue;
-                        break;
+                        {
+                            var value = token.Value<string>();
+                            value = EditorGUILayout.TextField(value);
+                            token.Replace(value);
+                            break;
+                        }
                     case JTokenType.Float:
-                        float floatValue = token.Value<float>();
-                        floatValue = EditorGUI.FloatField(rect, floatValue);
-                        parentProperty.Value = floatValue;
-                        break;
+                        {
+                            var value = token.Value<float>();
+                            value = EditorGUILayout.FloatField(value);
+                            token.Replace(value);
+                            break;
+                        }
                     case JTokenType.Integer:
-                        int intValue = token.Value<int>();
-                        intValue = EditorGUI.IntField(rect, intValue);
-                        parentProperty.Value = intValue;
-                        break;
+                        {
+                            var value = token.Value<int>();
+                            value = EditorGUILayout.IntField(value);
+                            token.Replace(value);
+                            break;
+                        }
                     case JTokenType.Boolean:
-                        bool boolValue = token.Value<bool>();
-                        boolValue = EditorGUI.Toggle(rect, boolValue);
-                        parentProperty.Value = boolValue;
-                        break;
+                        {
+                            var value = token.Value<bool>();
+                            value = EditorGUILayout.Toggle(value);
+                            token.Replace(value);
+                            break;
+                        }
                     case JTokenType.Null:
-                        float textFieldWidth = EditorStyles.helpBox.CalcSize(new GUIContent("Null")).x;
-                        GUI.Label(new Rect(rect.x, rect.y, textFieldWidth, rect.height), "Null", EditorStyles.helpBox);
+                        var textFieldWidth = EditorStyles.helpBox.CalcSize(new GUIContent("Null")).x;
+                        GUILayout.Label("Null", EditorStyles.helpBox);
+                        break;
+                    case JTokenType.Array:
+                        EditorGUILayout.BeginVertical();
+                        var array = token.Value<IEnumerable<JToken>>();
+                        foreach (var ele in array)
+                        {
+                            RecursiveDrawField(true, ele as JToken);
+                        }
+                        EditorGUILayout.EndVertical();
                         break;
                     default:
-                        GUI.Label(new Rect(rect.x, rect.y, rect.width, rect.height), string.Format("Type '{0}' is not supported. Use text editor instead", token.Type.ToString()), EditorStyles.helpBox);
+                        GUILayout.Label(string.Format("Type '{0}' is not supported. Use text editor instead", token.Type.ToString()), EditorStyles.helpBox);
                         break;
                 }
-                j++;
             }
         }
-        return Mathf.Max(j, 1);
+        if(indent)
+            EditorGUI.indentLevel--;
     }
 
 

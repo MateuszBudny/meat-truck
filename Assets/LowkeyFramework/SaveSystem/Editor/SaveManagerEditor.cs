@@ -45,9 +45,7 @@ public class SaveManagerEditor : Editor
             EditorUtility.SetDirty(Target);
         }
 
-        GUILayout.BeginScrollView(new Vector2(0,0));
         jsonEditor.JsonInspectorGUI();
-        GUILayout.EndScrollView();
 
     }
 

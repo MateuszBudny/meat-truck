@@ -200,22 +200,37 @@ public class JSONEditor : Editor
                         GUILayout.Label("Null", EditorStyles.helpBox);
                         break;
                     case JTokenType.Array:
-                        EditorGUILayout.BeginVertical();
-                        GUILayout.BeginHorizontal();
-                        GUILayout.Space((EditorGUI.indentLevel-1) * 20);
-                        GUILayout.Label("[");
-                        GUILayout.EndHorizontal();
+
                         var array = token.Value<IEnumerable<JToken>>();
+
+                        if (array.Count() > 0)
+                        {
+                            EditorGUILayout.BeginVertical();
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Space((EditorGUI.indentLevel - 1) * 20);
+                            GUILayout.Label("[");
+                            GUILayout.EndHorizontal();
+                        }
+                        else
+                        { 
+
+                            GUILayout.Label("[]");
+                        }
+
                         foreach (var ele in array)
                         {
                             GUILayout.Space(10);
                             RecursiveDrawField(true, ele as JToken);
                         }
-                        GUILayout.BeginHorizontal();
-                        GUILayout.Space((EditorGUI.indentLevel-1) * 20);
-                        GUILayout.Label("]");
-                        GUILayout.EndHorizontal();
-                        EditorGUILayout.EndVertical();
+                        if (array.Count() > 0)
+                        {
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Space((EditorGUI.indentLevel - 1) * 20);
+                            GUILayout.Label("]");
+                            GUILayout.EndHorizontal();
+                            EditorGUILayout.EndVertical();
+                        }
+                        
                         break;
                     default:
                         GUILayout.Label(string.Format("Type '{0}' is not supported. Use text editor instead", token.Type.ToString()), EditorStyles.helpBox);

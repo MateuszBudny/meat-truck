@@ -1,11 +1,10 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Text;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -73,7 +72,7 @@ namespace LowkeyFramework.AttributeSaveSystem
 
             // Dictionary<behaviour's GUID, Dictionary<field's name, field as object>> 
             Dictionary<string, Dictionary<string, object>> saveDictionary;
-            if (appendSaves && LoadDecodeSaveFile(jsonSaveFileName, out string saveJson))
+            if(appendSaves && LoadDecodeSaveFile(jsonSaveFileName, out string saveJson))
             {
                 saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson);
             }
@@ -89,7 +88,7 @@ namespace LowkeyFramework.AttributeSaveSystem
                 },
                 forEachSaveField: (behaviour, _, memberInfo) =>
                 {
-                    if (!saveDictionary.ContainsKey(behaviour.Guid))
+                    if(!saveDictionary.ContainsKey(behaviour.Guid))
                     {
                         saveDictionary.Add(behaviour.Guid, new Dictionary<string, object>());
                         saveDictionary[behaviour.Guid].Add("name", behaviour.name);
@@ -100,16 +99,16 @@ namespace LowkeyFramework.AttributeSaveSystem
 
             string jsonSave = JsonConvert.SerializeObject(saveDictionary, Formatting.Indented);
 
-            if (makeBackUp)
+            if(makeBackUp)
             {
                 FileManager.MoveFile(jsonSaveFileName, jsonSaveFileName + ".bak");
             }
 
             jsonSave = encode ? EncodeString(jsonSave, key) : jsonSave;
 
-            if (FileManager.WriteToFile(jsonSaveFileName, jsonSave))
+            if(FileManager.WriteToFile(jsonSaveFileName, jsonSave))
             {
-                if (Log)
+                if(Log)
                 {
                     Debug.Log("Save successful: " + jsonSaveFileName);
                 }
@@ -130,7 +129,7 @@ namespace LowkeyFramework.AttributeSaveSystem
             OnBeforeLoad?.Invoke();
             string jsonSaveFileName = GetJsonSaveFileName(saveFileName);
 
-            if (LoadDecodeSaveFile(jsonSaveFileName, out string saveJson))
+            if(LoadDecodeSaveFile(jsonSaveFileName, out string saveJson))
             {
                 // Dictionary<behaviour's GUID, Dictionary<field's name, field as object>> 
                 Dictionary<string, Dictionary<string, object>> saveDictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(saveJson);
@@ -138,9 +137,9 @@ namespace LowkeyFramework.AttributeSaveSystem
                 {
                     string guid = behaviour.Guid;
                     string memberName = memberInfo.Name;
-                    if (saveDictionary.TryGetValue(guid, out Dictionary<string, object> savedFieldsDictionary))
+                    if(saveDictionary.TryGetValue(guid, out Dictionary<string, object> savedFieldsDictionary))
                     {
-                        if (savedFieldsDictionary.ContainsKey(memberName))
+                        if(savedFieldsDictionary.ContainsKey(memberName))
                         {
                             object fieldSavedValue = savedFieldsDictionary[memberName];
                             Type underlyingType = GetUnderlyingType(memberInfo);
@@ -153,7 +152,7 @@ namespace LowkeyFramework.AttributeSaveSystem
                             else
                             {
                                 SetMemberValue(memberInfo, null, behaviour);
-                                if (Log)
+                                if(Log)
                                 {
                                     Debug.Log(memberName + " from save '" + jsonSaveFileName + "' has a null value.");
                                 }
@@ -162,7 +161,7 @@ namespace LowkeyFramework.AttributeSaveSystem
                     }
                 });
 
-                if (Log)
+                if(Log)
                 {
                     Debug.Log("Load successful: " + jsonSaveFileName);
                 }
@@ -191,7 +190,7 @@ namespace LowkeyFramework.AttributeSaveSystem
                 allObjectFieldsAndProperties.ForEach(memberInfo =>
                 {
                     SaveFieldAttribute saveField = memberInfo.GetCustomAttribute<SaveFieldAttribute>();
-                    if (saveField != null)
+                    if(saveField != null)
                     {
                         forEachSaveField(behaviour, saveField, memberInfo);
                     }
@@ -243,7 +242,7 @@ namespace LowkeyFramework.AttributeSaveSystem
                 JToken token = JObject.Parse(json);
                 return true;
             }
-            catch (Exception)
+            catch(Exception)
             {
                 return false;
             }
@@ -251,14 +250,15 @@ namespace LowkeyFramework.AttributeSaveSystem
 
         public bool LoadDecodeSaveFile(string filename, out string json)
         {
-            bool fileLoaded = FileManager.LoadFromFile(filename, out string saveJson) ;
+            bool fileLoaded = FileManager.LoadFromFile(filename, out string saveJson);
 
-            if(!fileLoaded){
+            if(!fileLoaded)
+            {
                 json = saveJson;
                 return false;
             }
 
-            if (IsValidJson(saveJson))
+            if(IsValidJson(saveJson))
             {
                 json = saveJson;
                 return true;
@@ -266,7 +266,7 @@ namespace LowkeyFramework.AttributeSaveSystem
 
             string decodedJson = DecodeString(saveJson, key);
 
-            if (IsValidJson(decodedJson))
+            if(IsValidJson(decodedJson))
             {
                 json = decodedJson;
                 return true;
@@ -281,7 +281,7 @@ namespace LowkeyFramework.AttributeSaveSystem
             byte[] textBytes = Encoding.Default.GetBytes(text);
             byte[] xor = new byte[textBytes.Length];
 
-            for (int i = 0; i < textBytes.Length; i++)
+            for(int i = 0; i < textBytes.Length; i++)
             {
                 xor[i] = (byte)(textBytes[i] ^ key[i % key.Length]);
             }
@@ -294,7 +294,7 @@ namespace LowkeyFramework.AttributeSaveSystem
             byte[] textBytes = Convert.FromBase64String(text);
             byte[] xor = new byte[textBytes.Length];
 
-            for (int i = 0; i < textBytes.Length; i++)
+            for(int i = 0; i < textBytes.Length; i++)
             {
                 xor[i] = (byte)(textBytes[i] ^ key[i % key.Length]);
             }
@@ -306,9 +306,7 @@ namespace LowkeyFramework.AttributeSaveSystem
         {
             return memberInfo.MemberType switch
             {
-                MemberTypes.Event => ((EventInfo)memberInfo).EventHandlerType, // is this type interesting for us in any way? if not, then i would vote for deleting this type detection
                 MemberTypes.Field => ((FieldInfo)memberInfo).FieldType,
-                MemberTypes.Method => ((MethodInfo)memberInfo).ReturnType, // is this type interesting for us in any way? if not, then i would vote for deleting this type detection
                 MemberTypes.Property => ((PropertyInfo)memberInfo).PropertyType,
                 _ => throw new ArgumentException("Input MemberInfo must be of Type: EventInfo, FieldInfo, MethodInfo or PropertyInfo."),
             };

@@ -1,67 +1,65 @@
-using UnityEngine;
-using System.Collections;
 using System.Text;
-using System;
-using System.Collections.Generic;
 using UnityEditor;
-using LowkeyFramework.AttributeSaveSystem;
+using UnityEngine;
 
-[CustomEditor(typeof(SaveManager))]
-public class SaveManagerEditor : Editor
+namespace LowkeyFramework.AttributeSaveSystem
 {
-    private string testSaveName = "test1234";
-
-    private SaveManager Target => (SaveManager)target;
-
-    private JSONEditor jsonEditor;
-
-    private void OnEnable()
+    [CustomEditor(typeof(SaveManager))]
+    public class SaveManagerEditor : Editor
     {
-        jsonEditor = ScriptableObject.CreateInstance<JSONEditor>();
-    }
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
+        private SaveManager Target => (SaveManager)target;
 
-        if(GUILayout.Button("Save"))
+        private string testSaveName = "test1234";
+        private JSONEditor jsonEditor;
+
+        private void OnEnable()
         {
-            Target.Save(testSaveName);
+            jsonEditor = CreateInstance<JSONEditor>();
         }
 
-        if(GUILayout.Button("Save Encoded"))
+        public override void OnInspectorGUI()
         {
-            Target.Save(testSaveName, true);
+            DrawDefaultInspector();
+
+            if(GUILayout.Button("Save"))
+            {
+                Target.Save(testSaveName);
+            }
+
+            if(GUILayout.Button("Save Encoded"))
+            {
+                Target.Save(testSaveName, true);
+            }
+
+            if(GUILayout.Button("Load"))
+            {
+                Target.Load(testSaveName);
+                Target.LoadDecodeSaveFile(testSaveName + ".json", out string jsonFile);
+                jsonEditor.rawText = jsonFile;
+            }
+
+            if(GUILayout.Button("Generate random key"))
+            {
+                Target.key = RandomString(16);
+                EditorUtility.SetDirty(Target);
+            }
+
+            jsonEditor.JsonInspectorGUI();
         }
-
-        if(GUILayout.Button("Load"))
-        {
-            Target.Load(testSaveName);
-            Target.LoadDecodeSaveFile(testSaveName + ".json", out string jsonFile);
-            jsonEditor.rawText = jsonFile;
-        }
-
-        if(GUILayout.Button("Generate random key")){
-            Target.key = RandomString(16);
-            EditorUtility.SetDirty(Target);
-        }
-
-        jsonEditor.JsonInspectorGUI();
-
-    }
-
 
         private static string RandomString(int length)
         {
-        const string pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-        var builder = new StringBuilder();
-        var random = new System.Random();
+            const string pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+            StringBuilder builder = new StringBuilder();
+            System.Random random = new System.Random();
 
-        for (var i = 0; i < length; i++)
-        {
-            var c = pool[random.Next(0, pool.Length)];
-            builder.Append(c);
+            for(int i = 0; i < length; i++)
+            {
+                char c = pool[random.Next(0, pool.Length)];
+                builder.Append(c);
+            }
+
+            return builder.ToString();
         }
-
-        return builder.ToString();
     }
 }

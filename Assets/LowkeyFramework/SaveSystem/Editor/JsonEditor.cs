@@ -1,15 +1,11 @@
-﻿using System.IO;
-using System.Linq;
-using System.Globalization;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-using UnityEngine;
-using UnityEditor;
 using System;
 using System.Collections.Generic;
-
+using System.Globalization;
+using System.Linq;
+using UnityEditor;
+using UnityEngine;
 
 // Adds a nice editor to edit JSON files as well as a simple text editor incase
 // the editor doesn't support the types you need. It works with strings, floats
@@ -23,7 +19,7 @@ using System.Collections.Generic;
 [CustomEditor(typeof(TextAsset), true)]
 public class JSONEditor : Editor
 {
-    private bool unableToParse => unableToParseJson();
+    private bool UnableToParse => UnableToParseJson();
 
     private bool isTextMode, wasTextMode;
 
@@ -31,16 +27,16 @@ public class JSONEditor : Editor
     private JObject jsonObject;
     private JProperty propertyToRename;
     private string propertyRename;
-    private Dictionary<string,bool> foldOuts = new Dictionary<string,bool>();
+    private Dictionary<string, bool> foldOuts = new Dictionary<string, bool>();
 
-    private bool unableToParseJson()
+    private bool UnableToParseJson()
     {
         try
         {
             JToken token = JObject.Parse(rawText);
             return false;
         }
-        catch (Exception)
+        catch(Exception)
         {
             return true;
         }
@@ -51,19 +47,18 @@ public class JSONEditor : Editor
         GUI.enabled = true;
         if(jsonObject == null && rawText != null)
         {
-            jsonObject = JsonConvert.DeserializeObject<JObject>(rawText); 
+            jsonObject = JsonConvert.DeserializeObject<JObject>(rawText);
         }
 
         Rect subHeaderRect = EditorGUILayout.GetControlRect(false, EditorGUIUtility.singleLineHeight * 2.5f);
         Rect helpBoxRect = new Rect(subHeaderRect.x, subHeaderRect.y, subHeaderRect.width - subHeaderRect.width / 6 - 5f, subHeaderRect.height);
         Rect rawTextModeButtonRect = new Rect(subHeaderRect.x + subHeaderRect.width / 6 * 5, subHeaderRect.y, subHeaderRect.width / 6, subHeaderRect.height);
         EditorGUI.HelpBox(helpBoxRect, "You edit raw text if the JSON editor isn't enough by clicking the button to the right", MessageType.Info);
-        
 
         GUIStyle wrappedButton = new GUIStyle("Button");
         wrappedButton.wordWrap = true;
         EditorGUI.BeginChangeCheck();
-        GUI.enabled = !unableToParse;
+        GUI.enabled = !UnableToParse;
         isTextMode = GUI.Toggle(rawTextModeButtonRect, isTextMode, "Edit Text", wrappedButton);
         if(EditorGUI.EndChangeCheck())
         {
@@ -71,27 +66,27 @@ public class JSONEditor : Editor
         }
         GUI.enabled = true;
 
-        if (!isTextMode)
+        if(!isTextMode)
         {
-            if (jsonObject != null)
+            if(jsonObject != null)
             {
                 Rect initialRect = new Rect(10, 5 + EditorGUIUtility.singleLineHeight * 20, EditorGUIUtility.currentViewWidth - 20, EditorGUIUtility.singleLineHeight);
 
                 RecursiveDrawField(false, jsonObject);
-                
             }
         }
         else
         {
-
             rawText = EditorGUILayout.TextArea(rawText);
             GUIStyle helpBoxRichText = new GUIStyle(EditorStyles.helpBox);
             Texture errorIcon = EditorGUIUtility.Load("icons/console.erroricon.png") as Texture2D;
 
             helpBoxRichText.richText = true;
 
-            if (unableToParse)
+            if(UnableToParse)
+            {
                 GUILayout.Label(new GUIContent("Unable to parse text into JSON. Make sure there are no mistakes! Are you missing a <b>{</b>, <b>{</b> or <b>,</b>?", errorIcon), helpBoxRichText);
+            }
         }
 
         wasTextMode = isTextMode;
@@ -101,37 +96,37 @@ public class JSONEditor : Editor
     private void RecursiveDrawField(bool indent, JToken container)
     {
         if(indent)
+        {
             EditorGUI.indentLevel++;
-        for (int i = 0; i < container.Count(); i++)
+        }
+
+        for(int i = 0; i < container.Count(); i++)
         {
             JToken token = container.Values<JToken>().ToArray()[i];
 
-            if (token.Type == JTokenType.Property)
+            if(token.Type == JTokenType.Property)
             {
                 JProperty property = token.Value<JProperty>();
 
-                var propertyName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(property.Name.ToLower()) + ":";
+                string propertyName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(property.Name.ToLower()) + ":";
 
-
-                var children = token.Values().ToArray();
+                JToken[] children = token.Values().ToArray();
                 bool hasObjects = children.Any(t => t.Type == JTokenType.Object);
 
                 bool hasProperties = children.Any(t => t.Type == JTokenType.Property);
-                bool hasMoreChildren = children.Count() > 1 || hasObjects ||  hasProperties;
+                bool hasMoreChildren = children.Count() > 1 || hasObjects || hasProperties;
 
-                
-
-                if (hasMoreChildren)
+                if(hasMoreChildren)
                 {
                     GUILayout.BeginVertical();
 
-                    if (!foldOuts.ContainsKey(property.Path))
+                    if(!foldOuts.ContainsKey(property.Path))
                     {
                         foldOuts.Add(property.Path, false);
                     }
                     foldOuts[property.Path] = EditorGUILayout.Foldout(foldOuts[property.Path], propertyName);
 
-                    if (foldOuts[property.Path])
+                    if(foldOuts[property.Path])
                     {
                         RecursiveDrawField(true, token);
                     }
@@ -143,9 +138,7 @@ public class JSONEditor : Editor
                     RecursiveDrawField(true, token);
                 }
 
-
-
-                if (!hasMoreChildren)
+                if(!hasMoreChildren)
                 {
                     GUILayout.FlexibleSpace();
                     GUILayout.EndHorizontal();
@@ -155,55 +148,56 @@ public class JSONEditor : Editor
                     GUILayout.EndVertical();
                 }
             }
-            else if (token.Type == JTokenType.Object)
+            else if(token.Type == JTokenType.Object)
             {
                 RecursiveDrawField(false, token);
-
             }
             else
             {
                 //JProperty parentProperty = token.Parent.Value<JProperty>();
 
-                switch (token.Type)
+                switch(token.Type)
                 {
 
                     case JTokenType.String:
-                        {
-                            var value = token.Value<string>();
-                            value = EditorGUILayout.TextField(value);
-                            token.Replace(value);
-                            break;
-                        }
+                    {
+                        string value = token.Value<string>();
+                        value = EditorGUILayout.TextField(value);
+                        token.Replace(value);
+                        break;
+                    }
                     case JTokenType.Float:
-                        {
-                            var value = token.Value<float>();
-                            value = EditorGUILayout.FloatField(value);
-                            token.Replace(value);
-                            break;
-                        }
+                    {
+                        float value = token.Value<float>();
+                        value = EditorGUILayout.FloatField(value);
+                        token.Replace(value);
+                        break;
+                    }
                     case JTokenType.Integer:
-                        {
-                            var value = token.Value<int>();
-                            value = EditorGUILayout.IntField(value);
-                            token.Replace(value);
-                            break;
-                        }
+                    {
+                        int value = token.Value<int>();
+                        value = EditorGUILayout.IntField(value);
+                        token.Replace(value);
+                        break;
+                    }
                     case JTokenType.Boolean:
-                        {
-                            var value = token.Value<bool>();
-                            value = EditorGUILayout.Toggle(value);
-                            token.Replace(value);
-                            break;
-                        }
+                    {
+                        bool value = token.Value<bool>();
+                        value = EditorGUILayout.Toggle(value);
+                        token.Replace(value);
+                        break;
+                    }
                     case JTokenType.Null:
-                        var textFieldWidth = EditorStyles.helpBox.CalcSize(new GUIContent("Null")).x;
+                    {
+                        float textFieldWidth = EditorStyles.helpBox.CalcSize(new GUIContent("Null")).x;
                         GUILayout.Label("Null", EditorStyles.helpBox);
                         break;
+                    }
                     case JTokenType.Array:
+                    {
+                        IEnumerable<JToken> array = token.Value<IEnumerable<JToken>>();
 
-                        var array = token.Value<IEnumerable<JToken>>();
-
-                        if (array.Count() > 0)
+                        if(array.Count() > 0)
                         {
                             EditorGUILayout.BeginVertical();
                             GUILayout.BeginHorizontal();
@@ -212,17 +206,16 @@ public class JSONEditor : Editor
                             GUILayout.EndHorizontal();
                         }
                         else
-                        { 
-
+                        {
                             GUILayout.Label("[]");
                         }
 
-                        foreach (var ele in array)
+                        foreach(JToken ele in array)
                         {
                             GUILayout.Space(10);
-                            RecursiveDrawField(true, ele as JToken);
+                            RecursiveDrawField(true, ele);
                         }
-                        if (array.Count() > 0)
+                        if(array.Count() > 0)
                         {
                             GUILayout.BeginHorizontal();
                             GUILayout.Space((EditorGUI.indentLevel - 1) * 20);
@@ -230,25 +223,30 @@ public class JSONEditor : Editor
                             GUILayout.EndHorizontal();
                             EditorGUILayout.EndVertical();
                         }
-                        
+
                         break;
+                    }
                     default:
+                    {
                         GUILayout.Label(string.Format("Type '{0}' is not supported. Use text editor instead", token.Type.ToString()), EditorStyles.helpBox);
                         break;
+                    }
                 }
             }
         }
-        if(indent)
-            EditorGUI.indentLevel--;
-    }
 
+        if(indent)
+        {
+            EditorGUI.indentLevel--;
+        }
+    }
 
     private void AddNewProperty<T>(JObject jObject)
     {
         string typeName = typeof(T).Name.ToLower();
         object value = default(T);
 
-        switch (Type.GetTypeCode(typeof(T)))
+        switch(Type.GetTypeCode(typeof(T)))
         {
             case TypeCode.Boolean:
                 break;
@@ -262,8 +260,11 @@ public class JSONEditor : Editor
                 break;
             default:
                 if(typeof(T) == typeof(JObject))
+                {
                     typeName = "empty object";
-                    value = new JObject();
+                }
+
+                value = new JObject();
                 break;
         }
 
@@ -276,10 +277,10 @@ public class JSONEditor : Editor
     {
         string uniqueName = orignalName;
         int suffix = 0;
-        while (jObject[uniqueName] != null && suffix < 100)
+        while(jObject[uniqueName] != null && suffix < 100)
         {
             suffix++;
-            if (suffix >= 100)
+            if(suffix >= 100)
             {
                 Debug.LogError("Stop calling all your fields the same thing! Isn't it confusing?");
             }

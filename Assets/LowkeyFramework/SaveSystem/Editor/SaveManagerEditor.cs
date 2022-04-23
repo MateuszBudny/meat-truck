@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using LowkeyFramework.AttributeSaveSystem;
 
 [CustomEditor(typeof(SaveManager))]
 public class SaveManagerEditor : Editor
@@ -23,8 +24,7 @@ public class SaveManagerEditor : Editor
 
     private SaveManager Target => (SaveManager)target;
 
-        private string testSaveName = "test1234";
-        private JSONEditor jsonEditor;
+    private JSONEditor jsonEditor;
 
         private void OnEnable()
         {

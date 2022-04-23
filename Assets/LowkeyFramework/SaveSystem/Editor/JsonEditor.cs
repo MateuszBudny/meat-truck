@@ -6,8 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -53,8 +52,8 @@ public class JSONEditor : Editor
         Rect subHeaderRect = EditorGUILayout.GetControlRect(false, EditorGUIUtility.singleLineHeight * 2.5f);
         Rect helpBoxRect = new Rect(subHeaderRect.x, subHeaderRect.y, subHeaderRect.width - subHeaderRect.width / 6 - 5f, subHeaderRect.height);
         Rect rawTextModeButtonRect = new Rect(subHeaderRect.x + subHeaderRect.width / 6 * 5, subHeaderRect.y, subHeaderRect.width / 6, subHeaderRect.height);
-        EditorGUI.HelpBox(helpBoxRect,"You edit raw text if the JSON editor isn't enough by clicking the button to the right", MessageType.Info);
-        
+        EditorGUI.HelpBox(helpBoxRect, "You edit raw text if the JSON editor isn't enough by clicking the button to the right", MessageType.Info);
+
 
         GUIStyle wrappedButton = new GUIStyle("Button");
         wrappedButton.wordWrap = true;
@@ -196,8 +195,8 @@ public class JSONEditor : Editor
                     {
                         IEnumerable<JToken> array = token.Value<IEnumerable<JToken>>();
 
-                        if (array.Count() == 0)
-                        { 
+                        if(array.Count() == 0)
+                        {
                             GUILayout.Label("[]");
                         }
                         else
@@ -205,17 +204,17 @@ public class JSONEditor : Editor
                             EditorGUILayout.BeginScrollView(Vector2.zero, EditorStyles.helpBox);
 
                             int count = 0;
-                            foreach (var ele in array)
+                            foreach(var ele in array)
                             {
 
 
-                                if (!foldOuts.ContainsKey(token.Path + count))
+                                if(!foldOuts.ContainsKey(token.Path + count))
                                 {
                                     foldOuts.Add(token.Path + count, false);
                                 }
                                 foldOuts[token.Path + count] = EditorGUILayout.Foldout(foldOuts[token.Path + count], "Entry " + count);
 
-                                if (foldOuts[token.Path + count])
+                                if(foldOuts[token.Path + count])
                                 {
                                     RecursiveDrawField(true, ele as JToken);
                                 }
@@ -234,52 +233,36 @@ public class JSONEditor : Editor
                     {
                         GUILayout.Label(string.Format("Type '{0}' is not supported. Use text editor instead", token.Type.ToString()), EditorStyles.helpBox);
                         break;
+                    }
                 }
             }
-        }
 
-        if(indent)
-        {
-            EditorGUI.indentLevel--;
-        }
-    }
-
-
-    private string GetUniqueName(JObject jObject, string orignalName)
-    {
-        string uniqueName = orignalName;
-        int suffix = 0;
-        while(jObject[uniqueName] != null && suffix < 100)
-        {
-            suffix++;
-            if(suffix >= 100)
+            if(indent)
             {
-                Debug.LogError("Stop calling all your fields the same thing! Isn't it confusing?");
+                EditorGUI.indentLevel--;
             }
-            uniqueName = string.Format("{0} {1}", orignalName, suffix.ToString());
         }
-        return uniqueName;
     }
 
     public void LoadJson(string json)
     {
-            try
-            {
-                jsonObject = JsonConvert.DeserializeObject<JObject>(json);
-            }
-            catch (Exception _)
-            {
-                jsonObject = null;
-            }
+        try
+        {
+            jsonObject = JsonConvert.DeserializeObject<JObject>(json);
+        }
+        catch(Exception _)
+        {
+            jsonObject = null;
+        }
 
-            foldOuts = new Dictionary<string, bool>();
-        
+        foldOuts = new Dictionary<string, bool>();
+
     }
     public void WriteToJson(string fileName)
     {
-        if (jsonObject != null)
+        if(jsonObject != null)
         {
-            if (!wasTextMode)
+            if(!wasTextMode)
                 rawText = jsonObject.ToString();
 
             FileManager.WriteToFile(fileName, rawText);
@@ -291,5 +274,4 @@ public class JSONEditor : Editor
     {
         return jsonObject == null;
     }
-
 }

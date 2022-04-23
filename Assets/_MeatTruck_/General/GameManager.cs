@@ -9,6 +9,7 @@ public class GameManager : DontDestroySingleBehaviour<GameManager>
     [SaveField]
     [SerializeField]
     private Player player;
+
     public Player Player
     {
         get => player;

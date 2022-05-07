@@ -12,7 +12,6 @@ namespace LowkeyFramework.AttributeSaveSystem
 {
     public class SaveManager : SingleBehaviour<SaveManager>
     {
-
         // TODO:
         // is Newtonsoft using serialized fields only? Or is it ignoring Unity serialization? - it looks like it is ignoring serialization, but if field is set as [NonSerialized], then it is not added in json
         // properties also should have possibility to set them as [SaveField]
@@ -25,7 +24,7 @@ namespace LowkeyFramework.AttributeSaveSystem
         private string currentSaveFile = "save.json";
         public string CurrentSaveFile { get => currentSaveFile; set => currentSaveFile = value; }
 
-        [Tooltip("If true, then new save is based on a previous save, so save is updated by new or changed values, but values that were present in a previous save and are not present in a new save, are not deleted from save. If false, then new save is based on an empty save, so all values not present in a new save will be deleted.")]
+        [Tooltip("If true, then new save is based on a previous save, so save is updated by new or changed values, but values that were present in a previous save and are not present in a new save, are not deleted from save. If false, then new save is based on an empty save, so all values not present in a new save are deleted.")]
         [SerializeField]
         private bool appendSaves = true;
         /// <summary>
@@ -146,7 +145,6 @@ namespace LowkeyFramework.AttributeSaveSystem
                             if(fieldSavedValue != null)
                             {
                                 object fieldSavedValueAfterConvertion = (fieldSavedValue as JToken).ToObject(underlyingType);
-
                                 SetMemberValue(memberInfo, fieldSavedValueAfterConvertion, behaviour);
                             }
                             else
@@ -308,7 +306,7 @@ namespace LowkeyFramework.AttributeSaveSystem
             {
                 MemberTypes.Field => ((FieldInfo)memberInfo).FieldType,
                 MemberTypes.Property => ((PropertyInfo)memberInfo).PropertyType,
-                _ => throw new ArgumentException("Input MemberInfo must be of Type: EventInfo, FieldInfo, MethodInfo or PropertyInfo."),
+                _ => throw new ArgumentException("Input MemberInfo must be of Type: FieldInfo or PropertyInfo."),
             };
         }
 

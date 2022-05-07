@@ -128,6 +128,12 @@ namespace Newtonsoft.Json.UnityConverters
             {
                 settings.ContractResolver = new UnityTypeContractResolver();
             }
+            // part of code added for SaveSystem
+            else
+            {
+                settings.ContractResolver = new ScriptableObjectsContractResolver();
+            }
+            // end of additioned code
 
             return settings;
         }

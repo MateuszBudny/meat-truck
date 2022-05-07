@@ -40,20 +40,22 @@ namespace Newtonsoft.Json.UnityConverters
             return lists;
         }
 
-        protected override JsonObjectContract CreateObjectContract(Type objectType)
-        {
-            JsonObjectContract jsonObjectContract = base.CreateObjectContract(objectType);
+        // part of code deleted for SaveSystem
+        //protected override JsonObjectContract CreateObjectContract(Type objectType)
+        //{
+        //    JsonObjectContract jsonObjectContract = base.CreateObjectContract(objectType);
 
-            if (typeof(ScriptableObject).IsAssignableFrom(objectType))
-            {
-                jsonObjectContract.DefaultCreator = () =>
-                {
-                    return ScriptableObject.CreateInstance(objectType);
-                };
-            }
+        //    if (typeof(ScriptableObject).IsAssignableFrom(objectType))
+        //    {
+        //        jsonObjectContract.DefaultCreator = () =>
+        //        {
+        //            return ScriptableObject.CreateInstance(objectType);
+        //        };
+        //    }
 
-            return jsonObjectContract;
-        }
+        //    return jsonObjectContract;
+        //}
+        // end of deletion
 
         private static IEnumerable<MemberInfo> GetMissingMembers(Type type, List<MemberInfo> alreadyAdded)
         {

@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,7 +8,10 @@ namespace LowkeyFramework.AttributeSaveSystem
 {
     public class ReferenceableScriptableObjectJsonConverter : JsonConverter<ReferenceableScriptableObject>
     {
-        // Dictionary<GUI, SaveableScriptableObject>
+        /// <summary>
+        /// Key: string GUID<br></br>
+        /// Value: ReferenceableScriptableObject
+        /// </summary>
         private readonly Dictionary<string, ReferenceableScriptableObject> allReferenceableScriptableObjects;
 
         public ReferenceableScriptableObjectJsonConverter() : base()

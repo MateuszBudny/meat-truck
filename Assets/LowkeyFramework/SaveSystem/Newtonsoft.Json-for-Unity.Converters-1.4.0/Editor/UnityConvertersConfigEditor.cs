@@ -85,10 +85,11 @@ namespace Newtonsoft.Json.UnityConverters.Editor
 
             EditorGUILayout.Space();
 
+            // part of code modified for SaveSystem
             ToggleLeft(_useUnityContractResolver, "Custom 'Newtonsoft.Json.Serialization.IContractResolver' defined to" +
-                " properly handle the 'UnityEngine.SerializeFieldAttribute' attribute and correctly creates" +
-                " 'UnityEngine.ScriptableObject' via 'ScriptableObject.Create()' instead of the default" +
-                " 'new ScriptableObject()'.");
+                " properly handle the 'UnityEngine.SerializeFieldAttribute' attribute. 'UnityEngine.ScriptableObjects'" +
+                " are correctly created via 'ScriptableObject.Create()' instead of the 'new ScriptableObject()' by default.");
+            // end of modification
 
             EditorGUILayout.Space();
 

@@ -30,7 +30,7 @@ Open/Close shop - south button (A)<br>
 Gather - east button (B)<br>
 Restart - start button
 
-#### In garage, mouse and keyboard, gamepad (Xbox)
+#### In garage, gamepad (Xbox)
 Throw/Exit garage if nothing to throw - south button (A)<br>
 Change type of meat - D-Pad left/right<br>
 Accept type of meat - south button (A)
